@@ -55,3 +55,9 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Frontend (Vue / Vite)
+node_modules/
+dist/
+.vite/
+*.local
