@@ -1,6 +1,7 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/auth'
 import { useReferenceDataStore } from '@/stores/referenceData'
 import { useLocalizedField } from '@/composables/useLocalizedField'
 
@@ -13,47 +14,52 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  submitting: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['submit', 'cancel'])
 
 const { t } = useI18n()
+const authStore = useAuthStore()
 const refStore = useReferenceDataStore()
 const { locale } = useLocalizedField()
 
 const formRef = ref(null)
 
 const form = reactive({
-  personnelCode: props.initialValue?.personnelCode || '',
-  professionalTitleTh: props.initialValue?.professionalTitleTh || 'ดร.ภก.',
-  professionalTitleEn: props.initialValue?.professionalTitleEn || 'Dr. Pharm.',
-  firstNameTh: props.initialValue?.firstNameTh || '',
-  lastNameTh: props.initialValue?.lastNameTh || '',
-  firstNameEn: props.initialValue?.firstNameEn || '',
-  lastNameEn: props.initialValue?.lastNameEn || '',
-  academicPositionExternalId: props.initialValue?.academicPositionExternalId || 'pos-lect',
-  administrativePositionsTh: props.initialValue?.administrativePositionsTh || '',
-  administrativePositionsEn: props.initialValue?.administrativePositionsEn || '',
-  departmentExternalId: props.initialValue?.departmentExternalId || 'dept-pharmacy-practice',
-  email: props.initialValue?.email || '',
-  phoneNumber: props.initialValue?.phoneNumber || '',
-  scopusAuthorId: props.initialValue?.scopusAuthorId || '',
-  orcidId: props.initialValue?.orcidId || '',
-  educations: props.initialValue?.educations?.length
-    ? structuredClone(props.initialValue.educations)
-    : [
-        {
-          degreeTh: '',
-          degreeEn: '',
-          institutionTh: '',
-          institutionEn: '',
-          graduationYear: 2020,
-        },
-      ],
-  publications: props.initialValue?.publications?.length
-    ? structuredClone(props.initialValue.publications)
-    : [],
+  personnelCode: '',
+  professionalTitleTh: 'ดร.ภก.',
+  professionalTitleEn: 'Dr. Pharm.',
+  firstNameTh: '',
+  lastNameTh: '',
+  firstNameEn: '',
+  lastNameEn: '',
+  academicPositionExternalId: null,
+  administrativePositionsTh: '',
+  administrativePositionsEn: '',
+  departmentExternalId: null,
+  email: '',
+  phoneNumber: '',
+  scopusAuthorId: '',
+  orcidId: '',
+  educations: [
+    {
+      degreeTh: '',
+      degreeEn: '',
+      institutionTh: '',
+      institutionEn: '',
+      graduationYear: new Date().getFullYear(),
+    },
+  ],
+  publications: [],
 })
+
+const isDepartmentLocked = computed(
+  () => authStore.isStaff && Boolean(authStore.resolvedDepartmentExternalId),
+)
 
 const departmentItems = computed(() =>
   refStore.departments.map((d) => ({
@@ -68,6 +74,75 @@ const positionItems = computed(() =>
     title: locale.value === 'en' ? p.titleEn : p.titleTh,
   })),
 )
+
+function hydrateForm(value) {
+  if (!value) return
+  form.personnelCode = value.personnelCode || ''
+  form.professionalTitleTh = value.professionalTitleTh || ''
+  form.professionalTitleEn = value.professionalTitleEn || ''
+  form.firstNameTh = value.firstNameTh || ''
+  form.lastNameTh = value.lastNameTh || ''
+  form.firstNameEn = value.firstNameEn || ''
+  form.lastNameEn = value.lastNameEn || ''
+  form.academicPositionExternalId = value.academicPositionExternalId || null
+  form.administrativePositionsTh = value.administrativePositionsTh || ''
+  form.administrativePositionsEn = value.administrativePositionsEn || ''
+  form.departmentExternalId = value.departmentExternalId || null
+  form.email = value.email || ''
+  form.phoneNumber = value.phoneNumber || ''
+  form.scopusAuthorId = value.scopusAuthorId || ''
+  form.orcidId = value.orcidId || ''
+  form.educations = value.educations?.length
+    ? value.educations.map((e) => ({
+        degreeTh: e.degreeTh || '',
+        degreeEn: e.degreeEn || '',
+        institutionTh: e.institutionTh || '',
+        institutionEn: e.institutionEn || '',
+        graduationYear: e.graduationYear || new Date().getFullYear(),
+      }))
+    : [
+        {
+          degreeTh: '',
+          degreeEn: '',
+          institutionTh: '',
+          institutionEn: '',
+          graduationYear: new Date().getFullYear(),
+        },
+      ]
+  form.publications = value.publications?.length
+    ? value.publications.map((p) => ({
+        title: p.title || '',
+        journalOrVenue: p.journalOrVenue || '',
+        publishedYear: p.publishedYear || new Date().getFullYear(),
+        doi: p.doi || '',
+        scopusId: p.scopusId || '',
+      }))
+    : []
+}
+
+function applyDefaultsForCreate() {
+  if (props.isEdit || props.initialValue) return
+  if (!form.academicPositionExternalId && refStore.academicPositions.length > 0) {
+    form.academicPositionExternalId = refStore.academicPositions[0].externalId
+  }
+  if (!form.departmentExternalId) {
+    form.departmentExternalId =
+      authStore.resolvedDepartmentExternalId || refStore.departments[0]?.externalId || null
+  }
+}
+
+watch(
+  () => props.initialValue,
+  (val) => {
+    if (val) hydrateForm(val)
+  },
+  { immediate: true },
+)
+
+onMounted(async () => {
+  await refStore.ensureLoaded()
+  applyDefaultsForCreate()
+})
 
 const requiredRule = (v) => Boolean(v && String(v).trim()) || t('common.required')
 
@@ -101,10 +176,49 @@ function removePublicationRow(index) {
   form.publications.splice(index, 1)
 }
 
+function toNullable(val) {
+  const trimmed = String(val || '').trim()
+  return trimmed || null
+}
+
 async function handleSubmit() {
   const { valid } = await formRef.value.validate()
   if (!valid) return
-  emit('submit', structuredClone(form))
+
+  const payload = {
+    personnelCode: form.personnelCode.trim(),
+    professionalTitleTh: toNullable(form.professionalTitleTh),
+    professionalTitleEn: toNullable(form.professionalTitleEn),
+    firstNameTh: form.firstNameTh.trim(),
+    lastNameTh: form.lastNameTh.trim(),
+    firstNameEn: form.firstNameEn.trim(),
+    lastNameEn: form.lastNameEn.trim(),
+    academicPositionExternalId: form.academicPositionExternalId,
+    administrativePositionsTh: toNullable(form.administrativePositionsTh),
+    administrativePositionsEn: toNullable(form.administrativePositionsEn),
+    departmentExternalId: form.departmentExternalId,
+    email: form.email.trim(),
+    phoneNumber: toNullable(form.phoneNumber),
+    scopusAuthorId: toNullable(form.scopusAuthorId),
+    orcidId: toNullable(form.orcidId),
+    educations: form.educations.map((edu, idx) => ({
+      degreeTh: edu.degreeTh.trim(),
+      degreeEn: toNullable(edu.degreeEn),
+      institutionTh: edu.institutionTh.trim(),
+      institutionEn: toNullable(edu.institutionEn),
+      graduationYear: Number(edu.graduationYear) || new Date().getFullYear(),
+      sortOrder: idx + 1,
+    })),
+    publications: form.publications.map((pub) => ({
+      title: pub.title.trim(),
+      journalOrVenue: toNullable(pub.journalOrVenue),
+      publishedYear: Number(pub.publishedYear) || new Date().getFullYear(),
+      doi: toNullable(pub.doi),
+      scopusId: toNullable(pub.scopusId),
+    })),
+  }
+
+  emit('submit', payload)
 }
 </script>
 
@@ -134,6 +248,7 @@ async function handleSubmit() {
             :items="positionItems"
             :label="t('faculty.academicPosition')"
             :rules="[requiredRule]"
+            :loading="refStore.loading"
           />
         </v-col>
         <v-col cols="12" md="4">
@@ -142,6 +257,8 @@ async function handleSubmit() {
             :items="departmentItems"
             :label="t('common.department')"
             :rules="[requiredRule]"
+            :disabled="isDepartmentLocked"
+            :loading="refStore.loading"
           />
         </v-col>
 
@@ -254,11 +371,14 @@ async function handleSubmit() {
         <v-col cols="12" md="3">
           <v-text-field v-model="edu.degreeTh" :label="`${t('faculty.degree')} (TH)`" :rules="[requiredRule]" />
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="2">
           <v-text-field v-model="edu.degreeEn" :label="`${t('faculty.degree')} (EN)`" />
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="2">
           <v-text-field v-model="edu.institutionTh" :label="`${t('faculty.institution')} (TH)`" :rules="[requiredRule]" />
+        </v-col>
+        <v-col cols="12" md="2">
+          <v-text-field v-model="edu.institutionEn" :label="`${t('faculty.institution')} (EN)`" />
         </v-col>
         <v-col cols="12" md="2">
           <v-text-field v-model.number="edu.graduationYear" :label="t('faculty.gradYear')" type="number" />
@@ -297,7 +417,7 @@ async function handleSubmit() {
         :key="idx"
         class="pa-3 mb-3 rounded-lg bg-surface-variant align-center"
       >
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="4">
           <v-text-field v-model="pub.title" :label="t('faculty.pubTitle')" :rules="[requiredRule]" />
         </v-col>
         <v-col cols="12" md="3">
@@ -307,6 +427,9 @@ async function handleSubmit() {
           <v-text-field v-model.number="pub.publishedYear" :label="t('faculty.pubYear')" type="number" />
         </v-col>
         <v-col cols="12" md="2">
+          <v-text-field v-model="pub.doi" :label="t('faculty.doi')" />
+        </v-col>
+        <v-col cols="12" md="1">
           <v-text-field v-model="pub.scopusId" :label="t('faculty.scopusId')" />
         </v-col>
         <v-col cols="12" md="1" class="text-right">
@@ -316,10 +439,16 @@ async function handleSubmit() {
     </v-card>
 
     <div class="d-flex justify-end ga-3">
-      <v-btn variant="outlined" @click="emit('cancel')">
+      <v-btn variant="outlined" :disabled="submitting" @click="emit('cancel')">
         {{ t('common.cancel') }}
       </v-btn>
-      <v-btn color="primary" type="submit" prepend-icon="mdi-content-save-outline" data-testid="faculty-form-submit">
+      <v-btn
+        color="primary"
+        type="submit"
+        :loading="submitting"
+        prepend-icon="mdi-content-save-outline"
+        data-testid="faculty-form-submit"
+      >
         {{ t('common.save') }}
       </v-btn>
     </div>

@@ -129,6 +129,101 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         IsStaffVerifiedEdit = true;
     }
 
+    /// <summary>
+    /// Detects which sync-managed fields differ between this CU-PFIS student and an incoming external snapshot.
+    /// </summary>
+    public IReadOnlyList<string> GetExternalSyncDifferences(
+        string firstNameTh,
+        string lastNameTh,
+        string firstNameEn,
+        string lastNameEn,
+        int studyYear,
+        int majorId,
+        string? highSchoolTh,
+        string? highSchoolEn)
+    {
+        var diffs = new List<string>();
+        if (!string.Equals(FirstNameTh, firstNameTh.Trim(), StringComparison.Ordinal))
+            diffs.Add(nameof(FirstNameTh));
+        if (!string.Equals(LastNameTh, lastNameTh.Trim(), StringComparison.Ordinal))
+            diffs.Add(nameof(LastNameTh));
+        if (!string.Equals(FirstNameEn, firstNameEn.Trim(), StringComparison.Ordinal))
+            diffs.Add(nameof(FirstNameEn));
+        if (!string.Equals(LastNameEn, lastNameEn.Trim(), StringComparison.Ordinal))
+            diffs.Add(nameof(LastNameEn));
+        if (StudyYear != studyYear)
+            diffs.Add(nameof(StudyYear));
+        if (MajorId != majorId)
+            diffs.Add(nameof(MajorId));
+        if (!string.Equals(HighSchoolTh, NormalizeOptional(highSchoolTh), StringComparison.Ordinal))
+            diffs.Add(nameof(HighSchoolTh));
+        if (!string.Equals(HighSchoolEn, NormalizeOptional(highSchoolEn), StringComparison.Ordinal))
+            diffs.Add(nameof(HighSchoolEn));
+
+        return diffs;
+    }
+
+    /// <summary>
+    /// Applies an external sync update (e.g. from CUPPEP) ONLY if staff has not verified/edited this record (P01).
+    /// </summary>
+    public void ApplyExternalSyncUpdate(
+        string firstNameTh,
+        string lastNameTh,
+        string firstNameEn,
+        string lastNameEn,
+        int studyYear,
+        int majorId,
+        string? highSchoolTh,
+        string? highSchoolEn,
+        string sourceRecordId,
+        DateTimeOffset importedAt)
+    {
+        if (IsStaffVerifiedEdit)
+        {
+            throw new DomainException(
+                $"Cannot silently overwrite staff-verified student '{StudentCode}' from external sync. Route to DataConflictQueue.");
+        }
+
+        FirstNameTh = Guard.Against.NullOrWhiteSpace(firstNameTh, nameof(firstNameTh)).Trim();
+        LastNameTh = Guard.Against.NullOrWhiteSpace(lastNameTh, nameof(lastNameTh)).Trim();
+        FirstNameEn = Guard.Against.NullOrWhiteSpace(firstNameEn, nameof(firstNameEn)).Trim();
+        LastNameEn = Guard.Against.NullOrWhiteSpace(lastNameEn, nameof(lastNameEn)).Trim();
+        StudyYear = Guard.Against.OutOfRange(studyYear, nameof(studyYear), 1, 8);
+        MajorId = Guard.Against.NegativeOrZero(majorId, nameof(majorId));
+        HighSchoolTh = NormalizeOptional(highSchoolTh);
+        HighSchoolEn = NormalizeOptional(highSchoolEn);
+        SourceRecordId = NormalizeOptional(sourceRecordId) ?? SourceRecordId;
+        ImportedAt = importedAt;
+    }
+
+    /// <summary>
+    /// Applies incoming external values ONLY after staff explicitly accepts the conflict resolution in DataConflictQueue.
+    /// </summary>
+    public void ApplyConflictResolutionAcceptExternal(
+        string firstNameTh,
+        string lastNameTh,
+        string firstNameEn,
+        string lastNameEn,
+        int studyYear,
+        int majorId,
+        string? highSchoolTh,
+        string? highSchoolEn,
+        string sourceRecordId,
+        DateTimeOffset importedAt)
+    {
+        FirstNameTh = Guard.Against.NullOrWhiteSpace(firstNameTh, nameof(firstNameTh)).Trim();
+        LastNameTh = Guard.Against.NullOrWhiteSpace(lastNameTh, nameof(lastNameTh)).Trim();
+        FirstNameEn = Guard.Against.NullOrWhiteSpace(firstNameEn, nameof(firstNameEn)).Trim();
+        LastNameEn = Guard.Against.NullOrWhiteSpace(lastNameEn, nameof(lastNameEn)).Trim();
+        StudyYear = Guard.Against.OutOfRange(studyYear, nameof(studyYear), 1, 8);
+        MajorId = Guard.Against.NegativeOrZero(majorId, nameof(majorId));
+        HighSchoolTh = NormalizeOptional(highSchoolTh);
+        HighSchoolEn = NormalizeOptional(highSchoolEn);
+        SourceRecordId = NormalizeOptional(sourceRecordId) ?? SourceRecordId;
+        ImportedAt = importedAt;
+        IsStaffVerifiedEdit = true;
+    }
+
     public StudentInternship AddInternship(
         string siteTh,
         string rotationTypeTh,

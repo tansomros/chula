@@ -3,11 +3,12 @@
     "acronym": "CU-PFIS",
     "fullName": "Chula Pharmacy Faculty Information System",
     "faculty": "Faculty of Pharmaceutical Sciences, Chulalongkorn University",
-    "phaseBadge": "Phase 1 — UX/UI Preview",
+    "phaseBadge": "Phase 1 — Live API",
     "switchLanguage": "Switch Language",
-    "demoPersona": "Preview Role",
+    "demoPersona": "Dev Auth Role",
     "resetPdpa": "Re-test PDPA Consent Screen",
-    "pdpaAccepted": "PDPA Accepted"
+    "pdpaAccepted": "PDPA Accepted",
+    "pdpaPending": "PDPA Pending"
   },
   "nav": {
     "overview": "Overview",
@@ -55,7 +56,13 @@
     "rechecked": "Rechecked & Confirmed",
     "academicYear": "Academic Year",
     "department": "Department / Unit",
-    "major": "Major / Track"
+    "major": "Major / Track",
+    "loading": "Loading...",
+    "apiError": "Unable to reach CU-PFIS API. Please ensure the Backend API is running at https://localhost:7001.",
+    "retry": "Retry",
+    "status": "Status",
+    "staffVerified": "Staff Verified",
+    "unverifiedSync": "Synced"
   },
   "home": {
     "welcome": "Welcome to CU-PFIS",
@@ -142,7 +149,8 @@
     "firstNameTh": "First Name (Thai)",
     "lastNameTh": "Last Name (Thai)",
     "firstNameEn": "First Name (English)",
-    "lastNameEn": "Last Name (English)"
+    "lastNameEn": "Last Name (English)",
+    "phase2TrainingNote": "Approved training history will populate automatically once Phase 2 (Training Module) is active."
   },
   "student": {
     "title": "Student Directory & Student CV",
@@ -183,6 +191,33 @@
     "evalComment": "Employer Feedback",
     "projectSsotNote": "Linked directly from Senior Projects module (Single Source of Truth)",
     "licensedStatus": "Licensed (All Criteria Met)",
-    "inProgressLicense": "In Progress"
+    "inProgressLicense": "In Progress",
+    "phase3PendingNote": "This section will populate automatically once Phase 3–4 modules are active.",
+    "advisorSelect": "Academic Advisor",
+    "departmentSelect": "Department / Unit",
+    "syncFromCuppep": "Sync from CUPPEP",
+    "syncPageTitle": "CUPPEP Student Sync & Conflict Queue",
+    "syncPageSubtitle": "One-way incremental pull from CU-PPEP WebAPI with non-destructive protection for staff-verified records (D11 / P01).",
+    "cuppepApiStatus": "CU-PPEP WebAPI Connection",
+    "cuppepOnline": "Connected & Healthy",
+    "cuppepOffline": "CU-PPEP WebAPI Unreachable",
+    "syncMaxRecords": "Max records per pull (leave empty for all)",
+    "runSyncNow": "Sync from CUPPEP Now",
+    "syncCompleted": "Sync completed: {pulled} pulled ({created} created, {updated} updated, {skipped} unchanged, {conflicts} conflict(s))",
+    "conflictQueueTitle": "Pending Data Conflict Queue",
+    "conflictQueueHint": "These student records were verified/edited by Staff in CU-PFIS, so CUPPEP sync never overwrites them silently (P01). Choose whether to keep CU-PFIS values or accept incoming CUPPEP values.",
+    "noConflicts": "No pending data conflicts",
+    "keepCuPfis": "Keep CU-PFIS",
+    "acceptCuppep": "Accept CUPPEP",
+    "changedFields": "Changed Fields",
+    "currentValues": "Current in CU-PFIS",
+    "incomingValues": "Incoming from CUPPEP",
+    "importHistory": "Recent Sync History (Import Batches)",
+    "batchStatus": "Status",
+    "batchPulled": "Pulled",
+    "batchCreated": "Created",
+    "batchUpdated": "Updated",
+    "batchSkipped": "Unchanged",
+    "batchConflicts": "Conflicts"
   }
 }

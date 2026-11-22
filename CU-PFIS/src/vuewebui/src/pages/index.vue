@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAbility } from '@casl/vue'
 import { useAuthStore } from '@/stores/auth'
@@ -14,15 +14,25 @@ const facultyStore = useFacultyMembersStore()
 const studentsStore = useStudentsStore()
 const refStore = useReferenceDataStore()
 
-const visibleFacultyCount = computed(() =>
-  facultyStore.items.filter((f) => authStore.canAccessFaculty(f.externalId, f.departmentExternalId)).length,
-)
-
 const canViewStudents = computed(() => can('view', 'students-cv'))
+const isLoading = computed(() => facultyStore.loading || studentsStore.loading || refStore.loading)
+
+async function loadDashboard() {
+  const tasks = [refStore.ensureLoaded(), facultyStore.fetchList()]
+  if (canViewStudents.value) {
+    tasks.push(studentsStore.fetchList())
+  }
+  await Promise.all(tasks)
+}
+
+onMounted(loadDashboard)
+watch(() => authStore.personaKey, loadDashboard)
 </script>
 
 <template>
   <div>
+    <v-progress-linear v-if="isLoading" indeterminate color="primary" class="mb-4" />
+
     <!-- Hero Banner -->
     <v-card class="pa-6 mb-6" style="background: linear-gradient(135deg, #fff5f8 0%, #f1f8f6 100%)">
       <div class="d-flex flex-wrap align-center justify-space-between ga-4">
@@ -60,7 +70,7 @@ const canViewStudents = computed(() => can('view', 'students-cv'))
       <v-col cols="12" sm="6" md="3">
         <v-card class="pa-5">
           <div class="text-caption cu-muted">{{ t('home.kpiFaculty') }}</div>
-          <div class="text-h4 font-weight-bold text-primary mt-1">{{ visibleFacultyCount }}</div>
+          <div class="text-h4 font-weight-bold text-primary mt-1">{{ facultyStore.items.length }}</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="6" md="3">
@@ -81,9 +91,17 @@ const canViewStudents = computed(() => can('view', 'students-cv'))
         <v-card class="pa-5">
           <div class="text-caption cu-muted">{{ t('home.kpiPdpaStatus') }}</div>
           <div class="d-flex align-center ga-2 mt-2">
-            <v-chip color="success" variant="tonal" size="small">
-              <v-icon start icon="mdi-shield-check" size="16" />
-              {{ t('app.pdpaAccepted') }}
+            <v-chip
+              :color="authStore.hasAcceptedPdpa ? 'success' : 'warning'"
+              variant="tonal"
+              size="small"
+            >
+              <v-icon
+                start
+                :icon="authStore.hasAcceptedPdpa ? 'mdi-shield-check' : 'mdi-shield-alert-outline'"
+                size="16"
+              />
+              {{ authStore.hasAcceptedPdpa ? t('app.pdpaAccepted') : t('app.pdpaPending') }}
             </v-chip>
           </div>
         </v-card>

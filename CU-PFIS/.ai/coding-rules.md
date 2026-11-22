@@ -56,5 +56,5 @@ These are binding conventions for **CU-PFIS** (**Chula Pharmacy Faculty Informat
 - A handler-level unit test and a functional test are **merge-blocking** for any change touching training budget calculations/ledger, approval/verification workflows, external data reconciliation (CUPPEP / Chula Final), or access control.
 - Domain entity unit tests must cover constructor/guard-clause invariants and state transition methods for every required field and business rule.
 - Test files mirror the source path 1:1.
-- **Functional/integration tests use a local, dedicated PostgreSQL database (`chula-test`) — never Testcontainers/Docker.**
+- **Functional/integration tests use a local, dedicated PostgreSQL database (`cupharm-test`) — never Testcontainers/Docker.**
 - **Frontend e2e tests use Playwright**, under `src/vuewebui/e2e/`, using `data-testid="{feature}-{element}"` attributes.

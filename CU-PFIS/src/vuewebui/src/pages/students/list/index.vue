@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
 import { useStudentsStore } from '@/stores/students'
@@ -18,6 +18,7 @@ const search = ref('')
 const selectedCohort = ref(null)
 const selectedMajor = ref(null)
 const selectedParentRound = ref(null)
+let searchTimer = null
 
 const cohortOptions = computed(() => [
   { value: null, title: t('common.all') },
@@ -43,47 +44,31 @@ const parentRoundOptions = computed(() => [
   })),
 ])
 
-const filteredItems = computed(() => {
-  const q = search.value.trim().toLowerCase()
-  return studentsStore.items.filter((item) => {
-    if (
-      authStore.isStaff &&
-      authStore.currentUser.departmentExternalId &&
-      item.departmentExternalId !== authStore.currentUser.departmentExternalId
-    ) {
-      return false
-    }
-    if (selectedCohort.value && item.cohortAcademicYearBe !== selectedCohort.value) {
-      return false
-    }
-    if (selectedMajor.value && item.majorExternalId !== selectedMajor.value) {
-      return false
-    }
-    if (selectedParentRound.value) {
-      const round = refStore.admissionRounds.find((r) => r.externalId === item.admissionRoundExternalId)
-      const matchesParent =
-        round &&
-        (round.externalId === selectedParentRound.value ||
-          round.parentExternalId === selectedParentRound.value)
-      if (!matchesParent) return false
-    }
-    if (!q) return true
-    const haystack = [
-      item.studentCode,
-      item.firstNameTh,
-      item.lastNameTh,
-      item.firstNameEn,
-      item.lastNameEn,
-    ]
-      .join(' ')
-      .toLowerCase()
-    return haystack.includes(q)
+async function loadList() {
+  await studentsStore.fetchList({
+    search: search.value.trim() || undefined,
+    cohortYearBe: selectedCohort.value || undefined,
+    majorExternalId: selectedMajor.value || undefined,
+    admissionRoundExternalId: selectedParentRound.value || undefined,
   })
+}
+
+onMounted(async () => {
+  await Promise.all([refStore.ensureLoaded(), loadList()])
 })
 
-function majorLabel(majorId) {
-  const m = refStore.getMajorById(majorId)
-  return m ? pick(m.nameTh, m.nameEn) : '-'
+watch([() => authStore.personaKey, selectedCohort, selectedMajor, selectedParentRound], loadList)
+
+watch(search, () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(loadList, 250)
+})
+
+function admissionLabel(item) {
+  if (item.admissionRoundExternalId && refStore.admissionRounds.length > 0) {
+    return refStore.getAdmissionRoundLabel(item.admissionRoundExternalId, locale.value)
+  }
+  return pick(item.admissionRoundNameTh, item.admissionRoundNameEn) || '-'
 }
 
 function resetFilters() {
@@ -103,6 +88,14 @@ function resetFilters() {
       </div>
 
       <div class="d-flex flex-wrap ga-2 no-print">
+        <v-btn
+          color="secondary"
+          prepend-icon="mdi-cloud-sync-outline"
+          to="/students/sync"
+          data-testid="students-sync-btn"
+        >
+          {{ t('student.syncFromCuppep') }}
+        </v-btn>
         <v-btn variant="outlined" prepend-icon="mdi-file-pdf-box" @click="printCurrentView">
           {{ t('common.exportAllPdf') }}
         </v-btn>
@@ -131,6 +124,10 @@ function resetFilters() {
     >
       {{ t('common.departmentScopeNotice') }} —
       <strong>{{ pick(authStore.currentUser.departmentNameTh, authStore.currentUser.departmentNameEn) }}</strong>
+    </v-alert>
+
+    <v-alert v-if="studentsStore.error" type="error" variant="tonal" density="compact" class="mb-4">
+      {{ studentsStore.error }}
     </v-alert>
 
     <!-- Filters -->
@@ -176,6 +173,7 @@ function resetFilters() {
 
     <!-- Data Table -->
     <v-card>
+      <v-progress-linear v-if="studentsStore.loading" indeterminate color="secondary" />
       <v-table hover data-testid="students-table">
         <thead>
           <tr>
@@ -184,15 +182,15 @@ function resetFilters() {
             <th class="text-center">{{ t('student.cohortYear') }}</th>
             <th>{{ t('common.major') }}</th>
             <th>{{ t('student.admissionRound') }}</th>
-            <th class="text-center">{{ t('student.sec9License') }}</th>
+            <th class="text-center">{{ t('common.status') }}</th>
             <th class="text-right no-print">{{ t('common.actions') }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-if="filteredItems.length === 0">
+          <tr v-if="!studentsStore.loading && studentsStore.items.length === 0">
             <td colspan="7" class="text-center py-8 cu-muted">{{ t('common.noData') }}</td>
           </tr>
-          <tr v-for="item in filteredItems" :key="item.externalId">
+          <tr v-for="item in studentsStore.items" :key="item.externalId">
             <td>
               <div class="font-weight-bold">{{ item.studentCode }}</div>
               <v-chip size="x-small" color="secondary" variant="tonal" class="mt-1">
@@ -205,21 +203,21 @@ function resetFilters() {
                 {{ t('student.studyYear') }} {{ item.studyYear }}
               </div>
             </td>
-            <td class="text-center">{{ item.cohortAcademicYearBe }}</td>
-            <td>{{ majorLabel(item.majorExternalId) }}</td>
-            <td>{{ refStore.getAdmissionRoundLabel(item.admissionRoundExternalId, locale) }}</td>
+            <td class="text-center">{{ item.cohortYearBe }}</td>
+            <td>{{ pick(item.majorNameTh, item.majorNameEn) }}</td>
+            <td>{{ admissionLabel(item) }}</td>
             <td class="text-center">
               <v-chip
                 size="small"
-                :color="item.license.isLicensed ? 'success' : 'warning'"
+                :color="item.isStaffVerifiedEdit ? 'success' : 'info'"
                 variant="tonal"
               >
                 <v-icon
                   start
-                  :icon="item.license.isLicensed ? 'mdi-check-circle' : 'mdi-clock-outline'"
+                  :icon="item.isStaffVerifiedEdit ? 'mdi-shield-check' : 'mdi-sync'"
                   size="14"
                 />
-                {{ item.license.isLicensed ? t('student.licensedStatus') : t('student.inProgressLicense') }}
+                {{ item.isStaffVerifiedEdit ? t('common.staffVerified') : t('common.unverifiedSync') }}
               </v-chip>
             </td>
             <td class="text-right no-print">

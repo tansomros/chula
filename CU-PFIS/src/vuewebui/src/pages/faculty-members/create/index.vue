@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useFacultyMembersStore } from '@/stores/facultyMembers'
@@ -8,9 +9,20 @@ const { t } = useI18n()
 const router = useRouter()
 const facultyStore = useFacultyMembersStore()
 
-function handleSubmit(payload) {
-  const created = facultyStore.createMember(payload)
-  router.push(`/faculty-members/view/${created.externalId}`)
+const submitting = ref(false)
+const errorMessage = ref('')
+
+async function handleSubmit(payload) {
+  submitting.value = true
+  errorMessage.value = ''
+  try {
+    const createdExternalId = await facultyStore.createMember(payload)
+    await router.push(`/faculty-members/view/${createdExternalId}`)
+  } catch (err) {
+    errorMessage.value = err.message || t('common.apiError')
+  } finally {
+    submitting.value = false
+  }
 }
 </script>
 
@@ -23,6 +35,14 @@ function handleSubmit(payload) {
       </div>
     </div>
 
-    <FacultyForm @submit="handleSubmit" @cancel="router.push('/faculty-members/list')" />
+    <v-alert v-if="errorMessage" type="error" variant="tonal" class="mb-4">
+      {{ errorMessage }}
+    </v-alert>
+
+    <FacultyForm
+      :submitting="submitting"
+      @submit="handleSubmit"
+      @cancel="router.push('/faculty-members/list')"
+    />
   </div>
 </template>

@@ -3,11 +3,12 @@
     "acronym": "CU-PFIS",
     "fullName": "ระบบสารสนเทศคณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
     "faculty": "คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
-    "phaseBadge": "Phase 1 — UX/UI Preview",
+    "phaseBadge": "Phase 1 — เชื่อมต่อ API จริง",
     "switchLanguage": "เปลี่ยนภาษา",
-    "demoPersona": "สลับบทบาททดสอบ (Preview)",
+    "demoPersona": "สลับบทบาททดสอบ (Dev Auth)",
     "resetPdpa": "ทดสอบหน้าจอ PDPA อีกครั้ง",
-    "pdpaAccepted": "ยอมรับ PDPA แล้ว"
+    "pdpaAccepted": "ยอมรับ PDPA แล้ว",
+    "pdpaPending": "รอการยอมรับ PDPA"
   },
   "nav": {
     "overview": "ภาพรวมระบบ",
@@ -55,7 +56,13 @@
     "rechecked": "ตรวจสอบเทียบข้อมูลแล้ว",
     "academicYear": "ปีการศึกษา",
     "department": "ภาควิชา / สังกัด",
-    "major": "สาขาวิชา"
+    "major": "สาขาวิชา",
+    "loading": "กำลังโหลดข้อมูล...",
+    "apiError": "ไม่สามารถเชื่อมต่อ CU-PFIS API ได้ กรุณาตรวจสอบว่า Backend API กำลังทำงานอยู่ที่ https://localhost:7001",
+    "retry": "ลองใหม่",
+    "status": "สถานะ",
+    "staffVerified": "เจ้าหน้าที่ยืนยันแล้ว",
+    "unverifiedSync": "ซิงก์ต้นทาง"
   },
   "home": {
     "welcome": "ยินดีต้อนรับสู่ระบบ CU-PFIS",
@@ -142,7 +149,8 @@
     "firstNameTh": "ชื่อ (ภาษาไทย)",
     "lastNameTh": "นามสกุล (ภาษาไทย)",
     "firstNameEn": "ชื่อ (ภาษาอังกฤษ)",
-    "lastNameEn": "นามสกุล (ภาษาอังกฤษ)"
+    "lastNameEn": "นามสกุล (ภาษาอังกฤษ)",
+    "phase2TrainingNote": "โมดูลการอบรมและงบประมาณจะเชื่อมข้อมูลอัตโนมัติใน Phase 2"
   },
   "student": {
     "title": "ทะเบียนข้อมูลนิสิตและ CV นิสิต (Student CV)",
@@ -183,6 +191,33 @@
     "evalComment": "ข้อเสนอแนะจากผู้ใช้บัณฑิต",
     "projectSsotNote": "เชื่อมโยงโดยตรงจากโมดูล Senior Project (Single Source of Truth)",
     "licensedStatus": "ได้รับใบประกอบวิชาชีพครบเกณฑ์",
-    "inProgressLicense": "อยู่ระหว่างสอบให้ครบเกณฑ์"
+    "inProgressLicense": "อยู่ระหว่างสอบให้ครบเกณฑ์",
+    "phase3PendingNote": "ข้อมูลส่วนนี้จะเชื่อมอัตโนมัติเมื่อเปิดใช้งานโมดูลใน Phase 3–4",
+    "advisorSelect": "อาจารย์ที่ปรึกษา",
+    "departmentSelect": "ภาควิชา / สังกัด",
+    "syncFromCuppep": "ซิงก์ข้อมูลจาก CUPPEP",
+    "syncPageTitle": "ซิงก์ข้อมูลนิสิตจากระบบ CUPPEP (Non-destructive Sync)",
+    "syncPageSubtitle": "ดึงข้อมูลนิสิตแบบ One-Way Pull จาก CU-PPEP WebAPI พร้อมป้องกันการเขียนทับข้อมูลที่เจ้าหน้าที่ยืนยันแล้ว (D11 / P01)",
+    "cuppepApiStatus": "สถานะการเชื่อมต่อ CU-PPEP WebAPI",
+    "cuppepOnline": "เชื่อมต่อพร้อมใช้งาน",
+    "cuppepOffline": "ไม่สามารถเชื่อมต่อ CU-PPEP WebAPI ได้",
+    "syncMaxRecords": "จำนวนสูงสุดต่อรอบ (เว้นว่าง = ดึงทั้งหมด)",
+    "runSyncNow": "เริ่มซิงก์จาก CUPPEP ทันที",
+    "syncCompleted": "ซิงก์สำเร็จ: ดึง {pulled} รายการ (เพิ่มใหม่ {created}, อัปเดต {updated}, ไม่เปลี่ยนแปลง {skipped}, รอตรวจสอบความขัดแย้ง {conflicts})",
+    "conflictQueueTitle": "รายการรอตรวจสอบความขัดแย้ง (Data Conflict Queue)",
+    "conflictQueueHint": "ข้อมูลเหล่านี้ถูกเจ้าหน้าที่แก้ไข/ยืนยันไว้ใน CU-PFIS แล้ว ระบบจึงไม่เขียนทับอัตโนมัติ (P01) กรุณาเลือกเก็บค่าเดิมหรือรับค่าใหม่จาก CUPPEP",
+    "noConflicts": "ไม่มีรายการความขัดแย้งค้างอยู่",
+    "keepCuPfis": "เก็บค่าใน CU-PFIS",
+    "acceptCuppep": "รับค่าใหม่จาก CUPPEP",
+    "changedFields": "ฟิลด์ที่แตกต่าง",
+    "currentValues": "ค่าปัจจุบันใน CU-PFIS",
+    "incomingValues": "ค่าใหม่จาก CUPPEP",
+    "importHistory": "ประวัติการซิงก์ล่าสุด (Import Batches)",
+    "batchStatus": "สถานะ",
+    "batchPulled": "ดึงทั้งหมด",
+    "batchCreated": "เพิ่มใหม่",
+    "batchUpdated": "อัปเดต",
+    "batchSkipped": "คงเดิม",
+    "batchConflicts": "ขัดแย้ง"
   }
 }

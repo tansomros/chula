@@ -8,9 +8,14 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 })
 
-// A18: First-login PDPA Consent gate before accessing any CU-PFIS module
-router.beforeEach((to) => {
+// A18: First-login PDPA Consent gate checked against live CU-PFIS API (/api/pdpa-consents/me)
+router.beforeEach(async (to) => {
   const authStore = useAuthStore()
+
+  if (!authStore.pdpaLoaded) {
+    await authStore.resolveLiveScopeIds()
+    await authStore.fetchPdpaStatus()
+  }
 
   if (!authStore.hasAcceptedPdpa && to.path !== '/pdpa-consent') {
     return {

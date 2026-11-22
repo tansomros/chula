@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useAbility } from '@casl/vue'
 import { DEMO_PERSONAS, useAuthStore } from '@/stores/auth'
+import { useReferenceDataStore } from '@/stores/referenceData'
 import { useLocalizedField } from '@/composables/useLocalizedField'
 
 const { t, locale } = useI18n()
@@ -11,9 +12,11 @@ const route = useRoute()
 const router = useRouter()
 const { can } = useAbility()
 const authStore = useAuthStore()
+const refStore = useReferenceDataStore()
 const { pick } = useLocalizedField()
 
 const drawer = ref(true)
+const switchingPersona = ref(false)
 
 const personaOptions = computed(() =>
   Object.values(DEMO_PERSONAS).map((persona) => ({
@@ -24,6 +27,7 @@ const personaOptions = computed(() =>
 )
 
 const canViewStudents = computed(() => can('view', 'students-cv'))
+const globalApiError = computed(() => authStore.apiError || refStore.error)
 
 function toggleLocale(nextLocale) {
   locale.value = nextLocale
@@ -31,16 +35,30 @@ function toggleLocale(nextLocale) {
   document.documentElement.lang = nextLocale
 }
 
-function handlePersonaChange(nextPersona) {
-  authStore.setPersona(nextPersona)
-  if (nextPersona === 'faculty' && route.path.startsWith('/students')) {
-    router.push('/faculty-members/list')
+async function handlePersonaChange(nextPersona) {
+  switchingPersona.value = true
+  try {
+    await authStore.setPersona(nextPersona)
+    if (!authStore.hasAcceptedPdpa && route.path !== '/pdpa-consent') {
+      await router.push({ path: '/pdpa-consent', query: { redirect: route.fullPath } })
+      return
+    }
+    if (nextPersona === 'faculty' && route.path.startsWith('/students')) {
+      await router.push('/faculty-members/list')
+    }
+  } finally {
+    switchingPersona.value = false
   }
 }
 
 function handleResetPdpa() {
-  authStore.resetPdpa()
+  authStore.resetPdpaLocalPreview()
   router.push('/pdpa-consent')
+}
+
+async function retryApiConnection() {
+  await authStore.resolveLiveScopeIds()
+  await Promise.all([authStore.fetchPdpaStatus(), refStore.ensureLoaded(true)])
 }
 </script>
 
@@ -61,7 +79,7 @@ function handleResetPdpa() {
         </div>
       </div>
       <v-chip size="x-small" color="secondary" variant="tonal" class="mt-3">
-        <v-icon start icon="mdi-rocket-launch-outline" size="12" />
+        <v-icon start icon="mdi-api" size="12" />
         {{ t('app.phaseBadge') }}
       </v-chip>
     </div>
@@ -182,9 +200,17 @@ function handleResetPdpa() {
     <template #append>
       <div class="pa-3 border-t bg-surface-variant">
         <div class="d-flex align-center justify-space-between mb-2">
-          <v-chip size="x-small" color="success" variant="flat">
-            <v-icon start icon="mdi-check-circle" size="12" />
-            {{ t('app.pdpaAccepted') }}
+          <v-chip
+            size="x-small"
+            :color="authStore.hasAcceptedPdpa ? 'success' : 'warning'"
+            variant="flat"
+          >
+            <v-icon
+              start
+              :icon="authStore.hasAcceptedPdpa ? 'mdi-check-circle' : 'mdi-alert-circle-outline'"
+              size="12"
+            />
+            {{ authStore.hasAcceptedPdpa ? t('app.pdpaAccepted') : t('app.pdpaPending') }}
           </v-chip>
           <v-btn
             size="x-small"
@@ -215,12 +241,13 @@ function handleResetPdpa() {
 
     <v-spacer />
 
-    <!-- Role preview switcher to demonstrate A03 department-scoped staff & own-CV faculty access -->
+    <!-- Role preview switcher mapped to DevelopmentHeaderAuthMiddleware (X-Dev-*) -->
     <div class="mr-3" style="width: 280px">
       <v-select
         :model-value="authStore.personaKey"
         :items="personaOptions"
         :label="t('app.demoPersona')"
+        :loading="switchingPersona"
         density="compact"
         hide-details
         prepend-inner-icon="mdi-account-switch-outline"
@@ -247,6 +274,24 @@ function handleResetPdpa() {
 
   <v-main class="bg-background">
     <v-container fluid class="pa-6" style="max-width: 1400px">
+      <v-alert
+        v-if="globalApiError"
+        type="error"
+        variant="tonal"
+        class="mb-4 no-print"
+        icon="mdi-lan-disconnect"
+      >
+        <div class="d-flex flex-wrap align-center justify-space-between ga-2">
+          <div>
+            <div class="font-weight-bold">{{ t('common.apiError') }}</div>
+            <div class="text-caption">{{ globalApiError }}</div>
+          </div>
+          <v-btn size="small" color="error" variant="outlined" @click="retryApiConnection">
+            {{ t('common.retry') }}
+          </v-btn>
+        </div>
+      </v-alert>
+
       <slot />
     </v-container>
   </v-main>

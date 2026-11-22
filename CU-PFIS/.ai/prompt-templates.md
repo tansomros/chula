@@ -139,7 +139,7 @@ reporting done.
 ```text
 Write Application.FunctionalTests coverage for {UseCase} ({EntityName}).
 
-This runs against the real local chula-test PostgreSQL database (not
+This runs against the real local cupharm-test PostgreSQL database (not
 Testcontainers — see .ai/coding-rules.md) via WebApplicationFactory. Cover:
 - The successful path (including audit/history/ledger side effects if applicable).
 - Validation failure (missing required field or business rule violation).

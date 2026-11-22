@@ -54,7 +54,7 @@ UnhandledExceptionBehaviour → AuthorizationBehaviour → ValidationBehaviour
 4. **dotnet-ef CLI** (`dotnet tool install --global dotnet-ef`)
 5. **nvm + Node.js LTS** (`node --version`)
 6. **pnpm** (`corepack enable && corepack prepare pnpm@latest --activate`)
-7. **PostgreSQL 16+** (ติดตั้งลงเครื่องสำหรับฐานข้อมูล `chula` และ `chula-test` — ไม่ใช้ Docker/Testcontainers ในการรันเทสประจำวัน)
+7. **PostgreSQL 16+** (ติดตั้งลงเครื่องสำหรับฐานข้อมูล `cupharm` และ `cupharm-test` — ไม่ใช้ Docker/Testcontainers ในการรันเทสประจำวัน)
 8. **Cursor / VS Code / Visual Studio 2026**
 
 ---
@@ -82,8 +82,8 @@ UnhandledExceptionBehaviour → AuthorizationBehaviour → ValidationBehaviour
 
 ```bash
 # 1. สร้างฐานข้อมูลบน PostgreSQL local
-# CREATE DATABASE chula;
-# CREATE DATABASE "chula-test";
+# CREATE DATABASE cupharm;
+# CREATE DATABASE "cupharm-test";
 
 # 2. รัน Backend API
 dotnet run --project src/API

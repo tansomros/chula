@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAbility } from '@casl/vue'
 import { useAuthStore } from '@/stores/auth'
@@ -19,9 +19,9 @@ const { printCurrentView } = usePdfPrint()
 const search = ref('')
 const selectedDepartment = ref(null)
 const selectedPosition = ref(null)
-const sortBy = ref('name')
 const snackbar = ref(false)
 const snackbarMessage = ref('')
+let searchTimer = null
 
 const canCreateOrNotify = computed(() => can('edit-all', 'faculty-cv'))
 const canExportAll = computed(() => can('export-all', 'faculty-cv'))
@@ -42,59 +42,29 @@ const positionOptions = computed(() => [
   })),
 ])
 
-const filteredItems = computed(() => {
-  const q = search.value.trim().toLowerCase()
-  const list = facultyStore.items.filter((item) => {
-    if (!authStore.canAccessFaculty(item.externalId, item.departmentExternalId)) {
-      return false
-    }
-    if (selectedDepartment.value && item.departmentExternalId !== selectedDepartment.value) {
-      return false
-    }
-    if (selectedPosition.value && item.academicPositionExternalId !== selectedPosition.value) {
-      return false
-    }
-    if (!q) return true
-    const haystack = [
-      item.personnelCode,
-      item.firstNameTh,
-      item.lastNameTh,
-      item.firstNameEn,
-      item.lastNameEn,
-      item.email,
-      item.scopusAuthorId,
-    ]
-      .join(' ')
-      .toLowerCase()
-    return haystack.includes(q)
+async function loadList() {
+  await facultyStore.fetchList({
+    search: search.value.trim() || undefined,
+    departmentExternalId: selectedDepartment.value || undefined,
+    academicPositionExternalId: selectedPosition.value || undefined,
   })
+}
 
-  return [...list].sort((a, b) => {
-    if (sortBy.value === 'publications') {
-      return b.publications.length - a.publications.length
-    }
-    if (sortBy.value === 'updated') {
-      return b.lastUpdatedAt.localeCompare(a.lastUpdatedAt)
-    }
-    return formatFullName(a).localeCompare(formatFullName(b))
-  })
+onMounted(async () => {
+  await Promise.all([refStore.ensureLoaded(), loadList()])
 })
 
-function departmentLabel(deptId) {
-  const dept = refStore.getDepartmentById(deptId)
-  return dept ? pick(dept.nameTh, dept.nameEn) : '-'
-}
+watch([() => authStore.personaKey, selectedDepartment, selectedPosition], loadList)
 
-function positionLabel(posId) {
-  const pos = refStore.getAcademicPositionById(posId)
-  return pos ? pick(pos.titleTh, pos.titleEn) : '-'
-}
+watch(search, () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(loadList, 250)
+})
 
 function resetFilters() {
   search.value = ''
   selectedDepartment.value = null
   selectedPosition.value = null
-  sortBy.value = 'name'
 }
 
 function handleNotifyAll() {
@@ -166,6 +136,10 @@ function handleNotifyAll() {
       {{ t('common.ownCvOnlyNotice') }}
     </v-alert>
 
+    <v-alert v-if="facultyStore.error" type="error" variant="tonal" density="compact" class="mb-4">
+      {{ facultyStore.error }}
+    </v-alert>
+
     <!-- Filters -->
     <v-card class="pa-4 mb-5 no-print">
       <v-row align="center">
@@ -183,6 +157,7 @@ function handleNotifyAll() {
             v-model="selectedDepartment"
             :items="departmentOptions"
             :label="t('common.department')"
+            :disabled="authStore.isStaff || authStore.isFaculty"
           />
         </v-col>
         <v-col cols="12" md="3">
@@ -202,6 +177,7 @@ function handleNotifyAll() {
 
     <!-- Data Table -->
     <v-card>
+      <v-progress-linear v-if="facultyStore.loading" indeterminate color="primary" />
       <v-table hover data-testid="faculty-table">
         <thead>
           <tr>
@@ -215,25 +191,25 @@ function handleNotifyAll() {
           </tr>
         </thead>
         <tbody>
-          <tr v-if="filteredItems.length === 0">
+          <tr v-if="!facultyStore.loading && facultyStore.items.length === 0">
             <td colspan="7" class="text-center py-8 cu-muted">{{ t('common.noData') }}</td>
           </tr>
-          <tr v-for="item in filteredItems" :key="item.externalId">
+          <tr v-for="item in facultyStore.items" :key="item.externalId">
             <td class="font-weight-medium">{{ item.personnelCode }}</td>
             <td>
               <div class="font-weight-bold">{{ formatFullName(item, true) }}</div>
               <div class="text-caption cu-muted">{{ item.email }}</div>
             </td>
-            <td>{{ positionLabel(item.academicPositionExternalId) }}</td>
-            <td>{{ departmentLabel(item.departmentExternalId) }}</td>
+            <td>{{ pick(item.academicPositionTitleTh, item.academicPositionTitleEn) }}</td>
+            <td>{{ pick(item.departmentNameTh, item.departmentNameEn) }}</td>
             <td class="text-center">
               <v-chip size="small" color="primary" variant="tonal">
-                {{ item.publications.length }}
+                {{ item.publicationsCount ?? 0 }}
               </v-chip>
             </td>
             <td class="text-center">
               <v-chip size="small" color="secondary" variant="tonal">
-                {{ item.approvedTrainings.length }}
+                P2
               </v-chip>
             </td>
             <td class="text-right no-print">

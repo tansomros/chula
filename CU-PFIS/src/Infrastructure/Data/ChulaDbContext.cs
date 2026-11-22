@@ -2,6 +2,7 @@ using System.Reflection;
 using Chula.Application.Common.Interfaces;
 using Chula.Domain.Common;
 using Chula.Domain.Entities.Faculty;
+using Chula.Domain.Entities.Integration;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Security;
 using Chula.Domain.Entities.Students;
@@ -43,6 +44,10 @@ public sealed class ChulaDbContext : DbContext, IChulaDbContext
     public DbSet<Student> Students => Set<Student>();
 
     public DbSet<StudentInternship> StudentInternships => Set<StudentInternship>();
+
+    public DbSet<ImportBatch> ImportBatches => Set<ImportBatch>();
+
+    public DbSet<DataConflictQueueItem> DataConflictQueueItems => Set<DataConflictQueueItem>();
 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 

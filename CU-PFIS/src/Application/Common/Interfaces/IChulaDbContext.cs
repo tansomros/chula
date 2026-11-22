@@ -1,5 +1,6 @@
 using Chula.Domain.Common;
 using Chula.Domain.Entities.Faculty;
+using Chula.Domain.Entities.Integration;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Security;
 using Chula.Domain.Entities.Students;
@@ -36,6 +37,10 @@ public interface IChulaDbContext
     DbSet<Student> Students { get; }
 
     DbSet<StudentInternship> StudentInternships { get; }
+
+    DbSet<ImportBatch> ImportBatches { get; }
+
+    DbSet<DataConflictQueueItem> DataConflictQueueItems { get; }
 
     DbSet<AuditLog> AuditLogs { get; }
 

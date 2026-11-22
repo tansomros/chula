@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { PDPA_POLICY_VERSION, useAuthStore } from '@/stores/auth'
@@ -10,17 +10,34 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const agreed = ref(authStore.hasAcceptedPdpa)
+const submitting = ref(false)
+const errorMessage = ref('')
+
+onMounted(async () => {
+  if (!authStore.pdpaLoaded) {
+    await authStore.fetchPdpaStatus()
+  }
+  agreed.value = authStore.hasAcceptedPdpa
+})
 
 function toggleLocale(nextLocale) {
   locale.value = nextLocale
   localStorage.setItem('cu-pfis-locale', nextLocale)
 }
 
-function handleAccept() {
+async function handleAccept() {
   if (!agreed.value) return
-  authStore.acceptPdpa()
-  const redirectTarget = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
-  router.push(redirectTarget)
+  submitting.value = true
+  errorMessage.value = ''
+  try {
+    await authStore.acceptPdpa()
+    const redirectTarget = typeof route.query.redirect === 'string' ? route.query.redirect : '/'
+    await router.push(redirectTarget)
+  } catch (err) {
+    errorMessage.value = err.message || t('common.apiError')
+  } finally {
+    submitting.value = false
+  }
 }
 </script>
 
@@ -56,6 +73,10 @@ function handleAccept() {
         </v-btn-toggle>
       </div>
 
+      <v-alert v-if="errorMessage || authStore.apiError" type="error" variant="tonal" class="mb-4">
+        {{ errorMessage || authStore.apiError }}
+      </v-alert>
+
       <v-alert
         v-if="!authStore.hasAcceptedPdpa"
         type="info"
@@ -74,8 +95,10 @@ function handleAccept() {
         icon="mdi-check-circle-outline"
       >
         {{ t('pdpa.alreadyAccepted') }}
-        <strong>{{ new Date(authStore.pdpaRecord.acceptedAt).toLocaleString() }}</strong>
-        ({{ t('pdpa.versionLabel') }} {{ authStore.pdpaRecord.policyVersion }})
+        <strong v-if="authStore.pdpaRecord?.acceptedAt">
+          {{ new Date(authStore.pdpaRecord.acceptedAt).toLocaleString() }}
+        </strong>
+        ({{ t('pdpa.versionLabel') }} {{ authStore.pdpaRecord?.policyVersion || PDPA_POLICY_VERSION }})
       </v-alert>
 
       <v-sheet
@@ -129,6 +152,7 @@ function handleAccept() {
             color="primary"
             size="large"
             :disabled="!agreed"
+            :loading="submitting"
             prepend-icon="mdi-check-decagram-outline"
             data-testid="pdpa-accept-btn"
             @click="handleAccept"

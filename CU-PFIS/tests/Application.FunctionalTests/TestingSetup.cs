@@ -16,13 +16,42 @@ public sealed class TestingSetup
 {
     public static string ResolveTestConnectionString()
     {
-        return Environment.GetEnvironmentVariable("CHULA_TEST_CONNECTION_STRING")
-            ?? "Host=localhost;Port=5432;Database=chula-test;Username=postgres;Password=postgres";
+        var fromEnv = Environment.GetEnvironmentVariable("CHULA_TEST_CONNECTION_STRING");
+        if (!string.IsNullOrWhiteSpace(fromEnv))
+        {
+            return fromEnv;
+        }
+
+        // Reuse local developer PostgreSQL credentials from src/API/appsettings.Development.json if present,
+        // always targeting the isolated "cupharm-test" database.
+        var devSettingsPath = Path.GetFullPath(
+            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "src", "API", "appsettings.Development.json"));
+
+        if (File.Exists(devSettingsPath))
+        {
+            var devConfig = new ConfigurationBuilder()
+                .AddJsonFile(devSettingsPath, optional: true)
+                .Build();
+
+            var devConn = devConfig.GetConnectionString("Database");
+            if (!string.IsNullOrWhiteSpace(devConn))
+            {
+                var builder = new NpgsqlConnectionStringBuilder(devConn)
+                {
+                    Database = "cupharm-test"
+                };
+                return builder.ConnectionString;
+            }
+        }
+
+        return "Host=localhost;Port=5432;Database=cupharm-test;Username=postgres;Password=postgres";
     }
 
     internal static IServiceScopeFactory ScopeFactory { get; private set; } = null!;
 
     internal static TestCurrentUserService CurrentUser { get; } = new();
+
+    internal static FakeCuppepDataSource CuppepDataSource { get; } = new();
 
     [OneTimeSetUp]
     public async Task OneTimeSetUpAsync()
@@ -42,6 +71,7 @@ public sealed class TestingSetup
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
         services.AddSingleton<ICurrentUserService>(CurrentUser);
+        services.AddSingleton<ICuppepDataSource>(CuppepDataSource);
 
         var provider = services.BuildServiceProvider();
         ScopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
@@ -65,7 +95,7 @@ public sealed class TestingSetup
         await conn.OpenAsync();
 
         await using var checkCmd = new NpgsqlCommand("SELECT 1 FROM pg_database WHERE datname = @db;", conn);
-        checkCmd.Parameters.AddWithValue("db", targetDb ?? "chula-test");
+        checkCmd.Parameters.AddWithValue("db", targetDb ?? "cupharm-test");
         var exists = await checkCmd.ExecuteScalarAsync();
         if (exists is null)
         {
@@ -79,10 +109,13 @@ public abstract class FunctionalTestBase
 {
     protected TestCurrentUserService CurrentUser => TestingSetup.CurrentUser;
 
+    protected FakeCuppepDataSource CuppepDataSource => TestingSetup.CuppepDataSource;
+
     [SetUp]
     public void ResetUser()
     {
         CurrentUser.RunAsAdmin();
+        CuppepDataSource.Reset();
     }
 
     protected static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)

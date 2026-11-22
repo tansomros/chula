@@ -420,6 +420,240 @@ namespace Chula.Infrastructure.Data.Migrations
                     b.ToTable("faculty_publications", (string)null);
                 });
 
+            modelBuilder.Entity("Chula.Domain.Entities.Integration.DataConflictQueueItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessKey")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("business_key");
+
+                    b.Property<string>("ChangedFieldsSummary")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("changed_fields_summary");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("CurrentValuesJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("current_values_json");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("entity_type");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<int>("ImportBatchId")
+                        .HasColumnType("integer")
+                        .HasColumnName("import_batch_id");
+
+                    b.Property<string>("IncomingValuesJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("incoming_values_json");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<string>("ResolutionNote")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("resolution_note");
+
+                    b.Property<DateTimeOffset?>("ResolvedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("resolved_at");
+
+                    b.Property<string>("ResolvedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("resolved_by");
+
+                    b.Property<string>("SourceRecordId")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("source_record_id");
+
+                    b.Property<string>("SourceSystem")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("source_system");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("TargetExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("target_external_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_data_conflict_queue_items");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_data_conflict_queue_items_external_id");
+
+                    b.HasIndex("ImportBatchId")
+                        .HasDatabaseName("ix_data_conflict_queue_items_import_batch_id");
+
+                    b.HasIndex("TargetExternalId")
+                        .HasDatabaseName("ix_data_conflict_queue_items_target_external_id");
+
+                    b.HasIndex("EntityType", "Status")
+                        .HasDatabaseName("ix_data_conflict_queue_items_entity_type_status");
+
+                    b.ToTable("data_conflict_queue_items", (string)null);
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Integration.ImportBatch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("completed_at");
+
+                    b.Property<int>("ConflictCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("conflict_count");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<int>("CreatedCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("created_count");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("entity_type");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("error_message");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<int>("SkippedUnchangedCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("skipped_unchanged_count");
+
+                    b.Property<string>("SourceSystem")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("source_system");
+
+                    b.Property<DateTimeOffset>("StartedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("status");
+
+                    b.Property<int>("TotalPulledCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_pulled_count");
+
+                    b.Property<string>("TriggeredBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("triggered_by");
+
+                    b.Property<int>("UpdatedCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("updated_count");
+
+                    b.Property<DateTimeOffset?>("UpdatedSinceUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_since_utc");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_import_batches");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_import_batches_external_id");
+
+                    b.HasIndex("SourceSystem", "EntityType", "StartedAt")
+                        .HasDatabaseName("ix_import_batches_source_system_entity_type_started_at");
+
+                    b.ToTable("import_batches", (string)null);
+                });
+
             modelBuilder.Entity("Chula.Domain.Entities.ReferenceData.AcademicPosition", b =>
                 {
                     b.Property<int>("Id")
@@ -1595,6 +1829,18 @@ namespace Chula.Infrastructure.Data.Migrations
                     b.Navigation("FacultyMember");
                 });
 
+            modelBuilder.Entity("Chula.Domain.Entities.Integration.DataConflictQueueItem", b =>
+                {
+                    b.HasOne("Chula.Domain.Entities.Integration.ImportBatch", "ImportBatch")
+                        .WithMany("Conflicts")
+                        .HasForeignKey("ImportBatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_data_conflict_queue_items_import_batches_import_batch_id");
+
+                    b.Navigation("ImportBatch");
+                });
+
             modelBuilder.Entity("Chula.Domain.Entities.ReferenceData.AdmissionRound", b =>
                 {
                     b.HasOne("Chula.Domain.Entities.ReferenceData.AdmissionRound", "ParentRound")
@@ -1680,6 +1926,11 @@ namespace Chula.Infrastructure.Data.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Publications");
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Integration.ImportBatch", b =>
+                {
+                    b.Navigation("Conflicts");
                 });
 
             modelBuilder.Entity("Chula.Domain.Entities.ReferenceData.AdmissionRound", b =>

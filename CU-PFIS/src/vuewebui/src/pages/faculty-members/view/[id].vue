@@ -1,43 +1,50 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import { useFacultyMembersStore } from '@/stores/facultyMembers'
-import { useReferenceDataStore } from '@/stores/referenceData'
 import { useLocalizedField } from '@/composables/useLocalizedField'
 import { usePdfPrint } from '@/composables/usePdfPrint'
 
 const { t } = useI18n()
 const route = useRoute()
+const authStore = useAuthStore()
 const facultyStore = useFacultyMembersStore()
-const refStore = useReferenceDataStore()
 const { pick, formatFullName } = useLocalizedField()
 const { printCurrentView } = usePdfPrint()
 
 const fileInputRef = ref(null)
 const snackbar = ref(false)
 const snackbarText = ref('')
+const snackbarColor = ref('success')
 
-const member = computed(() => facultyStore.getByExternalId(route.params.id))
+const member = computed(() => facultyStore.currentDetail)
 
-const department = computed(() =>
-  member.value ? refStore.getDepartmentById(member.value.departmentExternalId) : null,
-)
-const academicPosition = computed(() =>
-  member.value ? refStore.getAcademicPositionById(member.value.academicPositionExternalId) : null,
-)
+const formattedLastUpdated = computed(() => {
+  if (!member.value?.lastUpdatedAt) return '-'
+  return new Date(member.value.lastUpdatedAt).toLocaleString()
+})
+
+async function loadMember() {
+  if (!route.params.id) return
+  await facultyStore.fetchByExternalId(route.params.id)
+}
+
+onMounted(loadMember)
+watch([() => route.params.id, () => authStore.personaKey], loadMember)
 
 function triggerCsvUpload() {
   fileInputRef.value?.click()
 }
 
-// A16 Phase 1 CSV Import demo (parses Scopus CSV columns: Title, Year, Source title, DOI, EID)
+// A16 Phase 1 CSV Import (parses Scopus CSV columns: Title, Year, Source title, DOI, EID)
 function handleScopusCsvFile(event) {
   const file = event.target.files?.[0]
   if (!file || !member.value) return
 
   const reader = new FileReader()
-  reader.onload = () => {
+  reader.onload = async () => {
     const text = String(reader.result || '')
     const lines = text.split(/\r?\n/).filter((l) => l.trim())
     const parsed = []
@@ -49,21 +56,38 @@ function handleScopusCsvFile(event) {
         title: cols[0],
         publishedYear: Number(cols[1]) || new Date().getFullYear(),
         journalOrVenue: cols[2] || 'Scopus Imported',
-        doi: cols[3] || '',
-        scopusId: cols[4] || '',
+        doi: cols[3] || null,
+        scopusId: cols[4] || null,
       })
     }
 
-    const result = facultyStore.importScopusPublications(member.value.externalId, parsed)
-    snackbarText.value = t('faculty.scopusImported', result)
-    snackbar.value = true
-    event.target.value = ''
+    try {
+      const result = await facultyStore.importScopusPublications(member.value.externalId, parsed)
+      snackbarColor.value = 'success'
+      snackbarText.value = t('faculty.scopusImported', {
+        added: result.addedCount,
+        skipped: result.skippedDuplicateCount,
+      })
+      snackbar.value = true
+    } catch (err) {
+      snackbarColor.value = 'error'
+      snackbarText.value = err.message || t('common.apiError')
+      snackbar.value = true
+    } finally {
+      event.target.value = ''
+    }
   }
   reader.readAsText(file)
 }
 </script>
 
 <template>
+  <v-progress-linear v-if="facultyStore.loading" indeterminate color="primary" class="mb-4" />
+
+  <v-alert v-if="facultyStore.error" type="error" variant="tonal" class="mb-4">
+    {{ facultyStore.error }}
+  </v-alert>
+
   <div v-if="member">
     <div class="cu-page-header no-print">
       <div class="d-flex align-center ga-3">
@@ -71,7 +95,7 @@ function handleScopusCsvFile(event) {
         <div>
           <h1 class="text-h5 font-weight-bold">{{ t('faculty.viewTitle') }}</h1>
           <div class="text-caption cu-muted">
-            {{ member.personnelCode }} · {{ t('faculty.lastUpdated') }}: {{ member.lastUpdatedAt }}
+            {{ member.personnelCode }} · {{ t('faculty.lastUpdated') }}: {{ formattedLastUpdated }}
           </div>
         </div>
       </div>
@@ -88,6 +112,7 @@ function handleScopusCsvFile(event) {
           variant="outlined"
           color="secondary"
           prepend-icon="mdi-database-import-outline"
+          :loading="facultyStore.loading"
           @click="triggerCsvUpload"
         >
           {{ t('faculty.importScopus') }}
@@ -125,10 +150,10 @@ function handleScopusCsvFile(event) {
         </div>
         <div class="text-md-right mt-3 mt-md-0">
           <v-chip color="primary" variant="tonal" class="mb-2">
-            {{ academicPosition ? pick(academicPosition.titleTh, academicPosition.titleEn) : '-' }}
+            {{ pick(member.academicPositionTitleTh, member.academicPositionTitleEn) }}
           </v-chip>
           <div class="text-body-2">
-            {{ department ? pick(department.nameTh, department.nameEn) : '-' }}
+            {{ pick(member.departmentNameTh, member.departmentNameEn) }}
           </div>
         </div>
       </div>
@@ -138,7 +163,7 @@ function handleScopusCsvFile(event) {
         <v-col cols="12" md="6">
           <div class="text-caption cu-muted">{{ t('faculty.sec3Admin') }}</div>
           <div class="text-body-1 font-weight-medium mb-3">
-            {{ pick(member.administrativePositionsTh, member.administrativePositionsEn) }}
+            {{ pick(member.administrativePositionsTh, member.administrativePositionsEn) || '-' }}
           </div>
           <div class="text-caption cu-muted">{{ t('faculty.sec4Email') }}</div>
           <div class="text-body-1 mb-3">{{ member.email }}</div>
@@ -173,7 +198,10 @@ function handleScopusCsvFile(event) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(edu, idx) in member.educations" :key="idx">
+            <tr v-if="!member.educations?.length">
+              <td colspan="3" class="text-center cu-muted py-4">{{ t('common.none') }}</td>
+            </tr>
+            <tr v-for="edu in member.educations" :key="edu.externalId">
               <td class="font-weight-medium">{{ pick(edu.degreeTh, edu.degreeEn) }}</td>
               <td>{{ pick(edu.institutionTh, edu.institutionEn) }}</td>
               <td class="text-center">{{ edu.graduationYear }}</td>
@@ -202,12 +230,12 @@ function handleScopusCsvFile(event) {
             </tr>
           </thead>
           <tbody>
-            <tr v-if="member.publications.length === 0">
+            <tr v-if="!member.publications?.length">
               <td colspan="4" class="text-center cu-muted py-4">{{ t('common.none') }}</td>
             </tr>
-            <tr v-for="(pub, idx) in member.publications" :key="idx">
+            <tr v-for="pub in member.publications" :key="pub.externalId">
               <td class="font-weight-medium">{{ pub.title }}</td>
-              <td>{{ pub.journalOrVenue }}</td>
+              <td>{{ pub.journalOrVenue || '-' }}</td>
               <td class="text-center">{{ pub.publishedYear }}</td>
               <td>
                 <div v-if="pub.scopusId" class="text-caption">EID: {{ pub.scopusId }}</div>
@@ -218,14 +246,14 @@ function handleScopusCsvFile(event) {
         </v-table>
       </div>
 
-      <!-- Section 8: Auto-linked Training History -->
+      <!-- Section 8: Auto-linked Training History (Phase 2) -->
       <div>
         <div class="cu-section-title mb-2">
           <v-icon icon="mdi-calendar-check-outline" color="secondary" />
           {{ t('faculty.sec8Training') }}
         </div>
         <v-alert type="info" variant="tonal" density="compact" class="mb-3 no-print">
-          {{ t('faculty.autoLinkedTrainingNote') }}
+          {{ t('faculty.autoLinkedTrainingNote') }} — {{ t('faculty.phase2TrainingNote') }}
         </v-alert>
 
         <v-table density="comfortable" class="border rounded-lg">
@@ -238,30 +266,20 @@ function handleScopusCsvFile(event) {
             </tr>
           </thead>
           <tbody>
-            <tr v-if="member.approvedTrainings.length === 0">
-              <td colspan="4" class="text-center cu-muted py-4">{{ t('common.none') }}</td>
-            </tr>
-            <tr v-for="(tr, idx) in member.approvedTrainings" :key="idx">
-              <td class="font-weight-medium">{{ pick(tr.titleTh, tr.titleEn) }}</td>
-              <td>{{ pick(tr.workTypeTh, tr.workTypeEn) }}</td>
-              <td>
-                <v-chip size="x-small" color="secondary" variant="tonal">
-                  {{ pick(tr.categoryTh, tr.categoryEn) }}
-                </v-chip>
-              </td>
-              <td>{{ tr.dateRange }}</td>
+            <tr>
+              <td colspan="4" class="text-center cu-muted py-4">{{ t('faculty.phase2TrainingNote') }}</td>
             </tr>
           </tbody>
         </v-table>
       </div>
     </div>
 
-    <v-snackbar v-model="snackbar" color="success" timeout="4000">
+    <v-snackbar v-model="snackbar" :color="snackbarColor" timeout="4000">
       {{ snackbarText }}
     </v-snackbar>
   </div>
 
-  <v-alert v-else type="warning" variant="tonal">
+  <v-alert v-else-if="!facultyStore.loading" type="warning" variant="tonal">
     {{ t('common.noData') }}
   </v-alert>
 </template>

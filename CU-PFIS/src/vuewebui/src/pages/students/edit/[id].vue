@@ -1,50 +1,61 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import { useStudentsStore } from '@/stores/students'
+import { useFacultyMembersStore } from '@/stores/facultyMembers'
 import { useReferenceDataStore } from '@/stores/referenceData'
 import { useLocalizedField } from '@/composables/useLocalizedField'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
 const studentsStore = useStudentsStore()
+const facultyStore = useFacultyMembersStore()
 const refStore = useReferenceDataStore()
-const { locale } = useLocalizedField()
+const { locale, formatFullName } = useLocalizedField()
 
-const student = computed(() => studentsStore.getByExternalId(route.params.id))
-
+const student = computed(() => studentsStore.currentDetail)
 const formRef = ref(null)
-
-function resolveInitialParentRound(roundId) {
-  const found = refStore.admissionRounds.find((r) => r.externalId === roundId)
-  if (!found) return null
-  return found.parentExternalId || found.externalId
-}
-
-function resolveInitialChildRound(roundId) {
-  const found = refStore.admissionRounds.find((r) => r.externalId === roundId)
-  if (!found || !found.parentExternalId) return null
-  return found.externalId
-}
+const submitting = ref(false)
+const errorMessage = ref('')
+const isHydrating = ref(false)
 
 const form = reactive({
-  firstNameTh: student.value?.firstNameTh || '',
-  lastNameTh: student.value?.lastNameTh || '',
-  firstNameEn: student.value?.firstNameEn || '',
-  lastNameEn: student.value?.lastNameEn || '',
-  majorExternalId: student.value?.majorExternalId || 'major-pc',
-  parentAdmissionRoundId: resolveInitialParentRound(student.value?.admissionRoundExternalId),
-  childAdmissionRoundId: resolveInitialChildRound(student.value?.admissionRoundExternalId),
-  highSchoolTh: student.value?.highSchoolTh || '',
-  highSchoolEn: student.value?.highSchoolEn || '',
+  firstNameTh: '',
+  lastNameTh: '',
+  firstNameEn: '',
+  lastNameEn: '',
+  studyYear: 1,
+  majorExternalId: null,
+  departmentExternalId: null,
+  academicAdvisorExternalId: null,
+  parentAdmissionRoundId: null,
+  childAdmissionRoundId: null,
+  highSchoolTh: '',
+  highSchoolEn: '',
 })
 
 const majorItems = computed(() =>
   refStore.majors.map((m) => ({
     value: m.externalId,
     title: locale.value === 'en' ? m.nameEn : m.nameTh,
+  })),
+)
+
+const departmentItems = computed(() =>
+  refStore.departments.map((d) => ({
+    value: d.externalId,
+    title: locale.value === 'en' ? d.nameEn : d.nameTh,
+  })),
+)
+
+const advisorItems = computed(() =>
+  facultyStore.items.map((f) => ({
+    value: f.externalId,
+    title: formatFullName(f, true),
   })),
 )
 
@@ -65,15 +76,47 @@ const childRoundItems = computed(() =>
     : [],
 )
 
+function hydrateForm(detail) {
+  if (!detail) return
+  isHydrating.value = true
+  form.firstNameTh = detail.firstNameTh || ''
+  form.lastNameTh = detail.lastNameTh || ''
+  form.firstNameEn = detail.firstNameEn || ''
+  form.lastNameEn = detail.lastNameEn || ''
+  form.studyYear = detail.studyYear || 1
+  form.majorExternalId = detail.majorExternalId || null
+  form.departmentExternalId = detail.departmentExternalId || null
+  form.academicAdvisorExternalId = detail.academicAdvisorExternalId || null
+  form.parentAdmissionRoundId = detail.parentAdmissionRoundExternalId || detail.admissionRoundExternalId || null
+  form.childAdmissionRoundId = detail.parentAdmissionRoundExternalId ? detail.admissionRoundExternalId : null
+  form.highSchoolTh = detail.highSchoolTh || ''
+  form.highSchoolEn = detail.highSchoolEn || ''
+  isHydrating.value = false
+}
+
 watch(
   () => form.parentAdmissionRoundId,
   () => {
+    if (isHydrating.value) return
     const validChildren = childRoundItems.value.map((c) => c.value)
     if (!validChildren.includes(form.childAdmissionRoundId)) {
       form.childAdmissionRoundId = validChildren[0] || null
     }
   },
 )
+
+async function loadData() {
+  if (!route.params.id) return
+  const [, detail] = await Promise.all([
+    refStore.ensureLoaded(),
+    studentsStore.fetchByExternalId(route.params.id),
+    facultyStore.fetchList(),
+  ])
+  hydrateForm(detail)
+}
+
+onMounted(loadData)
+watch(() => route.params.id, loadData)
 
 const requiredRule = (v) => Boolean(v && String(v).trim()) || t('common.required')
 
@@ -84,22 +127,35 @@ async function handleSubmit() {
   const resolvedAdmissionRoundId =
     childRoundItems.value.length > 0 ? form.childAdmissionRoundId : form.parentAdmissionRoundId
 
-  studentsStore.updateStudent(route.params.id, {
-    firstNameTh: form.firstNameTh,
-    lastNameTh: form.lastNameTh,
-    firstNameEn: form.firstNameEn,
-    lastNameEn: form.lastNameEn,
-    majorExternalId: form.majorExternalId,
-    admissionRoundExternalId: resolvedAdmissionRoundId,
-    highSchoolTh: form.highSchoolTh,
-    highSchoolEn: form.highSchoolEn,
-  })
+  submitting.value = true
+  errorMessage.value = ''
+  try {
+    await studentsStore.updateStudent(route.params.id, {
+      firstNameTh: form.firstNameTh.trim(),
+      lastNameTh: form.lastNameTh.trim(),
+      firstNameEn: form.firstNameEn.trim(),
+      lastNameEn: form.lastNameEn.trim(),
+      studyYear: Number(form.studyYear) || 1,
+      majorExternalId: form.majorExternalId,
+      departmentExternalId: form.departmentExternalId || null,
+      admissionRoundExternalId: resolvedAdmissionRoundId || null,
+      academicAdvisorExternalId: form.academicAdvisorExternalId || null,
+      highSchoolTh: form.highSchoolTh.trim() || null,
+      highSchoolEn: form.highSchoolEn.trim() || null,
+    })
 
-  router.push(`/students/view/${route.params.id}`)
+    await router.push(`/students/view/${route.params.id}`)
+  } catch (err) {
+    errorMessage.value = err.message || t('common.apiError')
+  } finally {
+    submitting.value = false
+  }
 }
 </script>
 
 <template>
+  <v-progress-linear v-if="studentsStore.loading && !student" indeterminate color="secondary" class="mb-4" />
+
   <div v-if="student">
     <div class="cu-page-header">
       <div class="d-flex align-center ga-3">
@@ -113,6 +169,10 @@ async function handleSubmit() {
 
     <v-alert type="info" variant="tonal" density="compact" class="mb-5">
       {{ t('student.cuppepSyncBanner') }}
+    </v-alert>
+
+    <v-alert v-if="errorMessage" type="error" variant="tonal" class="mb-4">
+      {{ errorMessage }}
     </v-alert>
 
     <v-form ref="formRef" @submit.prevent="handleSubmit">
@@ -147,7 +207,17 @@ async function handleSubmit() {
             />
           </v-col>
 
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="2">
+            <v-text-field
+              v-model.number="form.studyYear"
+              :label="t('student.studyYear')"
+              type="number"
+              min="1"
+              max="8"
+            />
+          </v-col>
+
+          <v-col cols="12" md="5">
             <v-select
               v-model="form.majorExternalId"
               :items="majorItems"
@@ -156,12 +226,31 @@ async function handleSubmit() {
             />
           </v-col>
 
+          <v-col cols="12" md="5">
+            <v-select
+              v-model="form.departmentExternalId"
+              :items="departmentItems"
+              :label="t('student.departmentSelect')"
+              :disabled="authStore.isStaff"
+              clearable
+            />
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="form.academicAdvisorExternalId"
+              :items="advisorItems"
+              :label="t('student.advisorSelect')"
+              clearable
+            />
+          </v-col>
+
           <v-col cols="12" md="4">
             <v-select
               v-model="form.parentAdmissionRoundId"
               :items="parentRoundItems"
               :label="t('student.admissionCategory')"
-              :rules="[requiredRule]"
+              clearable
               data-testid="student-admission-parent"
             />
           </v-col>
@@ -192,17 +281,22 @@ async function handleSubmit() {
       </v-card>
 
       <div class="d-flex justify-end ga-3">
-        <v-btn variant="outlined" :to="`/students/view/${student.externalId}`">
+        <v-btn variant="outlined" :disabled="submitting" :to="`/students/view/${student.externalId}`">
           {{ t('common.cancel') }}
         </v-btn>
-        <v-btn color="secondary" type="submit" prepend-icon="mdi-content-save-outline">
+        <v-btn
+          color="secondary"
+          type="submit"
+          :loading="submitting"
+          prepend-icon="mdi-content-save-outline"
+        >
           {{ t('common.save') }}
         </v-btn>
       </div>
     </v-form>
   </div>
 
-  <v-alert v-else type="warning" variant="tonal">
-    {{ t('common.noData') }}
+  <v-alert v-else-if="!studentsStore.loading" type="warning" variant="tonal">
+    {{ studentsStore.error || t('common.noData') }}
   </v-alert>
 </template>

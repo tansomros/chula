@@ -6,10 +6,18 @@ namespace Chula.Application.Common.Interfaces;
 /// </summary>
 public interface ICuppepDataSource
 {
+    Task<CuppepHealthStatus> CheckHealthAsync(CancellationToken cancellationToken);
+
     Task<IReadOnlyList<CuppepStudentSnapshot>> PullStudentsAsync(
         DateTimeOffset? updatedSince,
-        CancellationToken cancellationToken);
+        int? maxRecords = null,
+        CancellationToken cancellationToken = default);
 }
+
+public sealed record CuppepHealthStatus(
+    bool IsReachable,
+    string BaseUrl,
+    string? Message = null);
 
 public sealed record CuppepStudentSnapshot(
     string SourceRecordId,
