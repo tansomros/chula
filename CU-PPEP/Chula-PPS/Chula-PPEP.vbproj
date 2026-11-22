@@ -1,0 +1,1474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{E5F841C0-24D0-49E3-BD35-FF4B7F1BD829}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>BigLion.Chula.PPS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <UseIISExpress>true</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Text</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=1.0.11119.42237, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Drawing.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v23.2.Export, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxThemes.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v23.2.Core, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.Resources.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2.Web.WebForms, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2.Web, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="FUA, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\FUA.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FriendlyUrls, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AAA.aspx" />
+    <Content Include="AssesseeComment.aspx" />
+    <Content Include="AlertSetting.aspx" />
+    <Content Include="AssessmentAdmin.aspx" />
+    <Content Include="AssessmentModify.aspx" />
+    <Content Include="AssignSpecify.aspx" />
+    <Content Include="PC2_Report.aspx" />
+    <Content Include="PC2_AssignManual.aspx" />
+    <Content Include="AssignBypass.aspx" />
+    <Content Include="PC2_AssignRandom.aspx" />
+    <Content Include="PC2_Select.aspx" />
+    <Content Include="PC2_StudentRegister.aspx" />
+    <Content Include="PC2_Student.aspx" />
+    <Content Include="EvaluationSubjectCopy.aspx" />
+    <Content Include="GradePreceptorCopy.aspx" />
+    <Content Include="GradeCopy.aspx" />
+    <Content Include="GradeEdit.aspx" />
+    <Content Include="GradeModify.aspx" />
+    <Content Include="AssessmentStudentComment.aspx" />
+    <Content Include="AssesseeStatus.aspx" />
+    <Content Include="AssesseeListAdmin.aspx" />
+    <Content Include="AssessmentGate.aspx" />
+    <Content Include="GradeResult.aspx" />
+    <Content Include="AssessmentResultPreceptor.aspx" />
+    <Content Include="AssessmentResult.aspx" />
+    <Content Include="AssessmentStudent.aspx" />
+    <Content Include="AssesseeList.aspx" />
+    <Content Include="AssesseeEvaluationGroup.aspx" />
+    <Content Include="ChangePassword.aspx" />
+    <Content Include="AssignManual.aspx" />
+    <Content Include="AssessmentSubject.aspx" />
+    <Content Include="ChangeUsername.aspx" />
+    <Content Include="EvaluationFormList.aspx" />
+    <Content Include="EvaluationForm.aspx" />
+    <Content Include="GradePreceptor.aspx" />
+    <Content Include="LocationList.aspx" />
+    <Content Include="LocationMaps.aspx" />
+    <Content Include="LocationOffice.aspx" />
+    <Content Include="LocationWork.aspx" />
+    <Content Include="LocationZone.aspx" />
+    <Content Include="Maps.html" />
+    <Content Include="NewsAll.aspx" />
+    <Content Include="PC2_StudentResult.aspx" />
+    <Content Include="PrivacyPolicy.aspx" />
+    <Content Include="ReportCondition.aspx" />
+    <Content Include="ReportConditionBySubject.aspx" />
+    <Content Include="PC2_Quota.aspx" />
+    <Content Include="ReportConditionByLocationPhase.aspx" />
+    <Content Include="Requirements.aspx" />
+    <Content Include="RequirementList.aspx" />
+    <Content Include="ErrorPage500.aspx" />
+    <Content Include="StudentAsmStatus.aspx" />
+    <Content Include="RoomRecommendModify.aspx" />
+    <Content Include="RecommendModify.aspx" />
+    <Content Include="ReportConditionByLevelClass.aspx" />
+    <Content Include="RoomRecommend.aspx" />
+    <Content Include="Recommend.aspx" />
+    <Content Include="PC2_StudentSelection.aspx" />
+    <Content Include="Student.aspx" />
+    <Content Include="StudentCert.aspx" />
+    <Content Include="StudentPrintCert.aspx" />
+    <Content Include="PC2_Subject.aspx" />
+    <Content Include="SupervisionPlan.aspx" />
+    <Content Include="SupervisorSelect.aspx" />
+    <Content Include="TimelineSetting.aspx" />
+    <Content Include="ucMenuEn.ascx" />
+    <Content Include="UserModify.aspx" />
+    <Content Include="UserPreceptor.aspx" />
+    <Content Include="Grade.aspx" />
+    <Content Include="EvaluationSubject.aspx" />
+    <Content Include="DocumentPrint.aspx" />
+    <Content Include="DocumentConfig.aspx" />
+    <Content Include="Document.aspx" />
+    <Content Include="EvaluationTopic.aspx" />
+    <Content Include="PaymentConfig.aspx" />
+    <Content Include="ReportConditionByYear.aspx" />
+    <Content Include="ReportConditionByCourse.aspx" />
+    <Content Include="DocumentList.aspx" />
+    <Content Include="EvaluationGroup.aspx" />
+    <Content Include="SupervisorSend.aspx" />
+    <Content Include="SupervisionLocation.aspx" />
+    <Content Include="Department.aspx" />
+    <Content Include="Positions.aspx" />
+    <Content Include="ReportAssesmentByStudent.aspx" />
+    <Content Include="ReportServerViewer.aspx" />
+    <Content Include="ReportStudentBioView.aspx" />
+    <Content Include="Prefix.aspx" />
+    <Content Include="SupervisorManage.aspx" />
+    <Content Include="SupervisorLocation.aspx" />
+    <Content Include="News.aspx" />
+    <Content Include="News_List.aspx" />
+    <Content Include="ForgotPassword.aspx" />
+    <Content Include="DataConfigLevel.aspx" />
+    <Content Include="News_Manage.aspx" />
+    <Content Include="StudentNoRegister.aspx" />
+    <Content Include="StudentRegister.aspx" />
+    <Content Include="ReportREQByLocation.aspx" />
+    <Content Include="StudentNoAssessment.aspx" />
+    <Content Include="ReportStudentLocation.aspx" />
+    <Content Include="DataConfig.aspx" />
+    <Content Include="ResultProceptor.aspx" />
+    <Content Include="ResultStudent.aspx" />
+    <Content Include="AssignRandom.aspx" />
+    <Content Include="StudentLocation_Manage.aspx" />
+    <Content Include="LocationDetail.aspx" />
+    <Content Include="StudentLocation.aspx" />
+    <Content Include="Courses_Reg.aspx" />
+    <Content Include="StudentPrintBio.aspx" />
+    <Content Include="CourseLocation.aspx" />
+    <Content Include="CourseStudent.aspx" />
+    <Content Include="CourseCoordinator.aspx" />
+    <Content Include="Courses.aspx" />
+    <Content Include="ReportViewerStudentBio.aspx" />
+    <Content Include="Subjects.aspx" />
+    <Content Include="PreceptorData.aspx" />
+    <Content Include="PreceptorList.aspx" />
+    <Content Include="RequirementSearch.aspx" />
+    <Content Include="RequirementsReg.aspx" />
+    <Content Include="Location.aspx" />
+    <Content Include="TurnPhase.aspx" />
+    <Content Include="TimePhase.aspx" />
+    <Content Include="LocationGroup.aspx" />
+    <Content Include="Provinces.aspx" />
+    <Content Include="Student_Bio.aspx" />
+    <Content Include="Person_Reg.aspx" />
+    <Content Include="PracticeHistory.aspx" />
+    <Content Include="Reports\printStudentBio.aspx" />
+    <Content Include="ResultPage.aspx" />
+    <Content Include="Teacher_Reg.aspx" />
+    <Content Include="Home.aspx" />
+    <Content Include="LogfilesByUser.aspx" />
+    <Content Include="Roles.aspx" />
+    <Content Include="StudentData.aspx" />
+    <Content Include="Student_Reg.aspx" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="TeacherData.aspx" />
+    <Content Include="ucFooter.ascx" />
+    <Content Include="ucMenu.ascx" />
+    <Content Include="UserAdvisor.aspx" />
+    <Content Include="StudentEvaluation.aspx" />
+    <Content Include="UserStudent.aspx" />
+    <Content Include="Users.aspx" />
+    <Content Include="VPN.aspx" />
+    <Content Include="VPNModify.aspx" />
+    <Content Include="VPNList.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AAA.aspx.designer.vb">
+      <DependentUpon>AAA.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AAA.aspx.vb">
+      <DependentUpon>AAA.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="AssesseeComment.aspx.designer.vb">
+      <DependentUpon>AssesseeComment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssesseeComment.aspx.vb">
+      <DependentUpon>AssesseeComment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AlertSetting.aspx.designer.vb">
+      <DependentUpon>AlertSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AlertSetting.aspx.vb">
+      <DependentUpon>AlertSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentAdmin.aspx.designer.vb">
+      <DependentUpon>AssessmentAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentAdmin.aspx.vb">
+      <DependentUpon>AssessmentAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentModify.aspx.designer.vb">
+      <DependentUpon>AssessmentModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentModify.aspx.vb">
+      <DependentUpon>AssessmentModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssignSpecify.aspx.designer.vb">
+      <DependentUpon>AssignSpecify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssignSpecify.aspx.vb">
+      <DependentUpon>AssignSpecify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BasePage.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\PersonInfo.vb" />
+    <Compile Include="PC2_Report.aspx.designer.vb">
+      <DependentUpon>PC2_Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_Report.aspx.vb">
+      <DependentUpon>PC2_Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_AssignManual.aspx.designer.vb">
+      <DependentUpon>PC2_AssignManual.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_AssignManual.aspx.vb">
+      <DependentUpon>PC2_AssignManual.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssignBypass.aspx.designer.vb">
+      <DependentUpon>AssignBypass.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssignBypass.aspx.vb">
+      <DependentUpon>AssignBypass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_AssignRandom.aspx.designer.vb">
+      <DependentUpon>PC2_AssignRandom.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_AssignRandom.aspx.vb">
+      <DependentUpon>PC2_AssignRandom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controllers\PC2Controller.vb" />
+    <Compile Include="PC2_Select.aspx.designer.vb">
+      <DependentUpon>PC2_Select.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_Select.aspx.vb">
+      <DependentUpon>PC2_Select.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="PC2_StudentRegister.aspx.designer.vb">
+      <DependentUpon>PC2_StudentRegister.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_StudentRegister.aspx.vb">
+      <DependentUpon>PC2_StudentRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_Student.aspx.designer.vb">
+      <DependentUpon>PC2_Student.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_Student.aspx.vb">
+      <DependentUpon>PC2_Student.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationSubjectCopy.aspx.designer.vb">
+      <DependentUpon>EvaluationSubjectCopy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationSubjectCopy.aspx.vb">
+      <DependentUpon>EvaluationSubjectCopy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradePreceptorCopy.aspx.designer.vb">
+      <DependentUpon>GradePreceptorCopy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradePreceptorCopy.aspx.vb">
+      <DependentUpon>GradePreceptorCopy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradeCopy.aspx.designer.vb">
+      <DependentUpon>GradeCopy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradeCopy.aspx.vb">
+      <DependentUpon>GradeCopy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradeEdit.aspx.designer.vb">
+      <DependentUpon>GradeEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradeEdit.aspx.vb">
+      <DependentUpon>GradeEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradeModify.aspx.designer.vb">
+      <DependentUpon>GradeModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradeModify.aspx.vb">
+      <DependentUpon>GradeModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentStudentComment.aspx.designer.vb">
+      <DependentUpon>AssessmentStudentComment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentStudentComment.aspx.vb">
+      <DependentUpon>AssessmentStudentComment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssesseeStatus.aspx.designer.vb">
+      <DependentUpon>AssesseeStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssesseeStatus.aspx.vb">
+      <DependentUpon>AssesseeStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssesseeListAdmin.aspx.designer.vb">
+      <DependentUpon>AssesseeListAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssesseeListAdmin.aspx.vb">
+      <DependentUpon>AssesseeListAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentGate.aspx.designer.vb">
+      <DependentUpon>AssessmentGate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentGate.aspx.vb">
+      <DependentUpon>AssessmentGate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controllers\MasterController.vb" />
+    <Compile Include="GradeResult.aspx.designer.vb">
+      <DependentUpon>GradeResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradeResult.aspx.vb">
+      <DependentUpon>GradeResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentResultPreceptor.aspx.designer.vb">
+      <DependentUpon>AssessmentResultPreceptor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentResultPreceptor.aspx.vb">
+      <DependentUpon>AssessmentResultPreceptor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentResult.aspx.designer.vb">
+      <DependentUpon>AssessmentResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentResult.aspx.vb">
+      <DependentUpon>AssessmentResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentStudent.aspx.designer.vb">
+      <DependentUpon>AssessmentStudent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentStudent.aspx.vb">
+      <DependentUpon>AssessmentStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssesseeList.aspx.designer.vb">
+      <DependentUpon>AssesseeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssesseeList.aspx.vb">
+      <DependentUpon>AssesseeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssesseeEvaluationGroup.aspx.designer.vb">
+      <DependentUpon>AssesseeEvaluationGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssesseeEvaluationGroup.aspx.vb">
+      <DependentUpon>AssesseeEvaluationGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.designer.vb">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.vb">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Controllers\AssessmentController.vb" />
+    <Compile Include="Controllers\EducationController.vb" />
+    <Compile Include="Controllers\EventController.vb" />
+    <Compile Include="Controllers\PaymentController.vb" />
+    <Compile Include="Controllers\RecommendController.vb" />
+    <Compile Include="Controllers\ReportServerCredentials.vb" />
+    <Compile Include="Controllers\SupervisionController.vb" />
+    <Compile Include="Controllers\SupervisorController.vb" />
+    <Compile Include="Controllers\NewsController.vb" />
+    <Compile Include="Controllers\SystemConfigController.vb" />
+    <Compile Include="Controllers\RegisterController.vb" />
+    <Compile Include="Controllers\CourseController.vb" />
+    <Compile Include="Controllers\SubjectController.vb" />
+    <Compile Include="Controllers\PersonController.vb" />
+    <Compile Include="Controllers\FacultyController.vb" />
+    <Compile Include="Controllers\LocationController.vb" />
+    <Compile Include="Controllers\CryptographyEngine.vb" />
+    <Compile Include="Controllers\modGlobals.vb" />
+    <Compile Include="Controllers\PreceptorController.vb" />
+    <Compile Include="Controllers\REQcontroller.vb" />
+    <Compile Include="Controllers\RoleController.vb" />
+    <Compile Include="Controllers\StudentController.vb" />
+    <Compile Include="Controllers\TeacherController.vb" />
+    <Compile Include="Controllers\TimePhaseController.vb" />
+    <Compile Include="Controllers\DocumentController.vb" />
+    <Compile Include="Controllers\UserController.vb" />
+    <Compile Include="AssignManual.aspx.designer.vb">
+      <DependentUpon>AssignManual.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssignManual.aspx.vb">
+      <DependentUpon>AssignManual.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssessmentSubject.aspx.designer.vb">
+      <DependentUpon>AssessmentSubject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentSubject.aspx.vb">
+      <DependentUpon>AssessmentSubject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangeUsername.aspx.designer.vb">
+      <DependentUpon>ChangeUsername.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeUsername.aspx.vb">
+      <DependentUpon>ChangeUsername.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationFormList.aspx.designer.vb">
+      <DependentUpon>EvaluationFormList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationFormList.aspx.vb">
+      <DependentUpon>EvaluationFormList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationForm.aspx.designer.vb">
+      <DependentUpon>EvaluationForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationForm.aspx.vb">
+      <DependentUpon>EvaluationForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GradePreceptor.aspx.designer.vb">
+      <DependentUpon>GradePreceptor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GradePreceptor.aspx.vb">
+      <DependentUpon>GradePreceptor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationList.aspx.designer.vb">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationList.aspx.vb">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationMaps.aspx.designer.vb">
+      <DependentUpon>LocationMaps.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationMaps.aspx.vb">
+      <DependentUpon>LocationMaps.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="LocationOffice.aspx.designer.vb">
+      <DependentUpon>LocationOffice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationOffice.aspx.vb">
+      <DependentUpon>LocationOffice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationWork.aspx.designer.vb">
+      <DependentUpon>LocationWork.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationWork.aspx.vb">
+      <DependentUpon>LocationWork.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationZone.aspx.designer.vb">
+      <DependentUpon>LocationZone.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationZone.aspx.vb">
+      <DependentUpon>LocationZone.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewsAll.aspx.designer.vb">
+      <DependentUpon>NewsAll.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewsAll.aspx.vb">
+      <DependentUpon>NewsAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_StudentResult.aspx.designer.vb">
+      <DependentUpon>PC2_StudentResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_StudentResult.aspx.vb">
+      <DependentUpon>PC2_StudentResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PrivacyPolicy.aspx.designer.vb">
+      <DependentUpon>PrivacyPolicy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PrivacyPolicy.aspx.vb">
+      <DependentUpon>PrivacyPolicy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportCondition.aspx.designer.vb">
+      <DependentUpon>ReportCondition.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportCondition.aspx.vb">
+      <DependentUpon>ReportCondition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportConditionBySubject.aspx.designer.vb">
+      <DependentUpon>ReportConditionBySubject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportConditionBySubject.aspx.vb">
+      <DependentUpon>ReportConditionBySubject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_Quota.aspx.designer.vb">
+      <DependentUpon>PC2_Quota.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_Quota.aspx.vb">
+      <DependentUpon>PC2_Quota.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportConditionByLocationPhase.aspx.designer.vb">
+      <DependentUpon>ReportConditionByLocationPhase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportConditionByLocationPhase.aspx.vb">
+      <DependentUpon>ReportConditionByLocationPhase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Requirements.aspx.designer.vb">
+      <DependentUpon>Requirements.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Requirements.aspx.vb">
+      <DependentUpon>Requirements.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequirementList.aspx.designer.vb">
+      <DependentUpon>RequirementList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequirementList.aspx.vb">
+      <DependentUpon>RequirementList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage500.aspx.designer.vb">
+      <DependentUpon>ErrorPage500.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage500.aspx.vb">
+      <DependentUpon>ErrorPage500.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="StudentAsmStatus.aspx.designer.vb">
+      <DependentUpon>StudentAsmStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAsmStatus.aspx.vb">
+      <DependentUpon>StudentAsmStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoomRecommendModify.aspx.designer.vb">
+      <DependentUpon>RoomRecommendModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RoomRecommendModify.aspx.vb">
+      <DependentUpon>RoomRecommendModify.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RecommendModify.aspx.designer.vb">
+      <DependentUpon>RecommendModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RecommendModify.aspx.vb">
+      <DependentUpon>RecommendModify.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ReportConditionByLevelClass.aspx.designer.vb">
+      <DependentUpon>ReportConditionByLevelClass.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportConditionByLevelClass.aspx.vb">
+      <DependentUpon>ReportConditionByLevelClass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoomRecommend.aspx.designer.vb">
+      <DependentUpon>RoomRecommend.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RoomRecommend.aspx.vb">
+      <DependentUpon>RoomRecommend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Recommend.aspx.designer.vb">
+      <DependentUpon>Recommend.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Recommend.aspx.vb">
+      <DependentUpon>Recommend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_StudentSelection.aspx.designer.vb">
+      <DependentUpon>PC2_StudentSelection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_StudentSelection.aspx.vb">
+      <DependentUpon>PC2_StudentSelection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student.aspx.designer.vb">
+      <DependentUpon>Student.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student.aspx.vb">
+      <DependentUpon>Student.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentCert.aspx.designer.vb">
+      <DependentUpon>StudentCert.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentCert.aspx.vb">
+      <DependentUpon>StudentCert.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentPrintCert.aspx.designer.vb">
+      <DependentUpon>StudentPrintCert.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentPrintCert.aspx.vb">
+      <DependentUpon>StudentPrintCert.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PC2_Subject.aspx.designer.vb">
+      <DependentUpon>PC2_Subject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PC2_Subject.aspx.vb">
+      <DependentUpon>PC2_Subject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisionPlan.aspx.designer.vb">
+      <DependentUpon>SupervisionPlan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisionPlan.aspx.vb">
+      <DependentUpon>SupervisionPlan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisorSelect.aspx.designer.vb">
+      <DependentUpon>SupervisorSelect.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisorSelect.aspx.vb">
+      <DependentUpon>SupervisorSelect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TimelineSetting.aspx.designer.vb">
+      <DependentUpon>TimelineSetting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TimelineSetting.aspx.vb">
+      <DependentUpon>TimelineSetting.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ucMenuEn.ascx.designer.vb">
+      <DependentUpon>ucMenuEn.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ucMenuEn.ascx.vb">
+      <DependentUpon>ucMenuEn.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserModify.aspx.designer.vb">
+      <DependentUpon>UserModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserModify.aspx.vb">
+      <DependentUpon>UserModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserPreceptor.aspx.designer.vb">
+      <DependentUpon>UserPreceptor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserPreceptor.aspx.vb">
+      <DependentUpon>UserPreceptor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Grade.aspx.designer.vb">
+      <DependentUpon>Grade.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Grade.aspx.vb">
+      <DependentUpon>Grade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationSubject.aspx.designer.vb">
+      <DependentUpon>EvaluationSubject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationSubject.aspx.vb">
+      <DependentUpon>EvaluationSubject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DocumentPrint.aspx.designer.vb">
+      <DependentUpon>DocumentPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentPrint.aspx.vb">
+      <DependentUpon>DocumentPrint.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="DocumentConfig.aspx.designer.vb">
+      <DependentUpon>DocumentConfig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentConfig.aspx.vb">
+      <DependentUpon>DocumentConfig.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Document.aspx.designer.vb">
+      <DependentUpon>Document.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Document.aspx.vb">
+      <DependentUpon>Document.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationTopic.aspx.designer.vb">
+      <DependentUpon>EvaluationTopic.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationTopic.aspx.vb">
+      <DependentUpon>EvaluationTopic.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentConfig.aspx.designer.vb">
+      <DependentUpon>PaymentConfig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentConfig.aspx.vb">
+      <DependentUpon>PaymentConfig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportConditionByYear.aspx.designer.vb">
+      <DependentUpon>ReportConditionByYear.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportConditionByYear.aspx.vb">
+      <DependentUpon>ReportConditionByYear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportConditionByCourse.aspx.designer.vb">
+      <DependentUpon>ReportConditionByCourse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportConditionByCourse.aspx.vb">
+      <DependentUpon>ReportConditionByCourse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DocumentList.aspx.designer.vb">
+      <DependentUpon>DocumentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentList.aspx.vb">
+      <DependentUpon>DocumentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EvaluationGroup.aspx.designer.vb">
+      <DependentUpon>EvaluationGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EvaluationGroup.aspx.vb">
+      <DependentUpon>EvaluationGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisorSend.aspx.designer.vb">
+      <DependentUpon>SupervisorSend.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisorSend.aspx.vb">
+      <DependentUpon>SupervisorSend.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisionLocation.aspx.designer.vb">
+      <DependentUpon>SupervisionLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisionLocation.aspx.vb">
+      <DependentUpon>SupervisionLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Department.aspx.designer.vb">
+      <DependentUpon>Department.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Department.aspx.vb">
+      <DependentUpon>Department.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Positions.aspx.designer.vb">
+      <DependentUpon>Positions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Positions.aspx.vb">
+      <DependentUpon>Positions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportAssesmentByStudent.aspx.designer.vb">
+      <DependentUpon>ReportAssesmentByStudent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportAssesmentByStudent.aspx.vb">
+      <DependentUpon>ReportAssesmentByStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportServerViewer.aspx.designer.vb">
+      <DependentUpon>ReportServerViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportServerViewer.aspx.vb">
+      <DependentUpon>ReportServerViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportStudentBioView.aspx.designer.vb">
+      <DependentUpon>ReportStudentBioView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportStudentBioView.aspx.vb">
+      <DependentUpon>ReportStudentBioView.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Prefix.aspx.designer.vb">
+      <DependentUpon>Prefix.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Prefix.aspx.vb">
+      <DependentUpon>Prefix.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisorManage.aspx.designer.vb">
+      <DependentUpon>SupervisorManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisorManage.aspx.vb">
+      <DependentUpon>SupervisorManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SupervisorLocation.aspx.designer.vb">
+      <DependentUpon>SupervisorLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SupervisorLocation.aspx.vb">
+      <DependentUpon>SupervisorLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="News.aspx.designer.vb">
+      <DependentUpon>News.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="News.aspx.vb">
+      <DependentUpon>News.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="News_List.aspx.designer.vb">
+      <DependentUpon>News_List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="News_List.aspx.vb">
+      <DependentUpon>News_List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.designer.vb">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.vb">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataConfigLevel.aspx.designer.vb">
+      <DependentUpon>DataConfigLevel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataConfigLevel.aspx.vb">
+      <DependentUpon>DataConfigLevel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="News_Manage.aspx.designer.vb">
+      <DependentUpon>News_Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="News_Manage.aspx.vb">
+      <DependentUpon>News_Manage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="StudentNoRegister.aspx.designer.vb">
+      <DependentUpon>StudentNoRegister.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentNoRegister.aspx.vb">
+      <DependentUpon>StudentNoRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentRegister.aspx.designer.vb">
+      <DependentUpon>StudentRegister.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentRegister.aspx.vb">
+      <DependentUpon>StudentRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportREQByLocation.aspx.designer.vb">
+      <DependentUpon>ReportREQByLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportREQByLocation.aspx.vb">
+      <DependentUpon>ReportREQByLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentNoAssessment.aspx.designer.vb">
+      <DependentUpon>StudentNoAssessment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentNoAssessment.aspx.vb">
+      <DependentUpon>StudentNoAssessment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportStudentLocation.aspx.designer.vb">
+      <DependentUpon>ReportStudentLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportStudentLocation.aspx.vb">
+      <DependentUpon>ReportStudentLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataConfig.aspx.designer.vb">
+      <DependentUpon>DataConfig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataConfig.aspx.vb">
+      <DependentUpon>DataConfig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultProceptor.aspx.designer.vb">
+      <DependentUpon>ResultProceptor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultProceptor.aspx.vb">
+      <DependentUpon>ResultProceptor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultStudent.aspx.designer.vb">
+      <DependentUpon>ResultStudent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultStudent.aspx.vb">
+      <DependentUpon>ResultStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssignRandom.aspx.designer.vb">
+      <DependentUpon>AssignRandom.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AssignRandom.aspx.vb">
+      <DependentUpon>AssignRandom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentLocation_Manage.aspx.designer.vb">
+      <DependentUpon>StudentLocation_Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentLocation_Manage.aspx.vb">
+      <DependentUpon>StudentLocation_Manage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationDetail.aspx.designer.vb">
+      <DependentUpon>LocationDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationDetail.aspx.vb">
+      <DependentUpon>LocationDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentLocation.aspx.designer.vb">
+      <DependentUpon>StudentLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentLocation.aspx.vb">
+      <DependentUpon>StudentLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Courses_Reg.aspx.designer.vb">
+      <DependentUpon>Courses_Reg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Courses_Reg.aspx.vb">
+      <DependentUpon>Courses_Reg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentPrintBio.aspx.designer.vb">
+      <DependentUpon>StudentPrintBio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentPrintBio.aspx.vb">
+      <DependentUpon>StudentPrintBio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CourseLocation.aspx.designer.vb">
+      <DependentUpon>CourseLocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CourseLocation.aspx.vb">
+      <DependentUpon>CourseLocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CourseStudent.aspx.designer.vb">
+      <DependentUpon>CourseStudent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CourseStudent.aspx.vb">
+      <DependentUpon>CourseStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CourseCoordinator.aspx.designer.vb">
+      <DependentUpon>CourseCoordinator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CourseCoordinator.aspx.vb">
+      <DependentUpon>CourseCoordinator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Courses.aspx.designer.vb">
+      <DependentUpon>Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Courses.aspx.vb">
+      <DependentUpon>Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\dsStudentBio.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsStudentBio.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dsStudentBio.vb">
+      <DependentUpon>dsStudentBio.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewerStudentBio.aspx.designer.vb">
+      <DependentUpon>ReportViewerStudentBio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewerStudentBio.aspx.vb">
+      <DependentUpon>ReportViewerStudentBio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Subjects.aspx.designer.vb">
+      <DependentUpon>Subjects.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Subjects.aspx.vb">
+      <DependentUpon>Subjects.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreceptorData.aspx.designer.vb">
+      <DependentUpon>PreceptorData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PreceptorData.aspx.vb">
+      <DependentUpon>PreceptorData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequirementSearch.aspx.designer.vb">
+      <DependentUpon>RequirementSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequirementSearch.aspx.vb">
+      <DependentUpon>RequirementSearch.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RequirementsReg.aspx.designer.vb">
+      <DependentUpon>RequirementsReg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequirementsReg.aspx.vb">
+      <DependentUpon>RequirementsReg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Location.aspx.designer.vb">
+      <DependentUpon>Location.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Location.aspx.vb">
+      <DependentUpon>Location.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\TimePhaseInfo.vb" />
+    <Compile Include="TurnPhase.aspx.designer.vb">
+      <DependentUpon>TurnPhase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TurnPhase.aspx.vb">
+      <DependentUpon>TurnPhase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TimePhase.aspx.designer.vb">
+      <DependentUpon>TimePhase.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TimePhase.aspx.vb">
+      <DependentUpon>TimePhase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LocationGroup.aspx.designer.vb">
+      <DependentUpon>LocationGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LocationGroup.aspx.vb">
+      <DependentUpon>LocationGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Provinces.aspx.designer.vb">
+      <DependentUpon>Provinces.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Provinces.aspx.vb">
+      <DependentUpon>Provinces.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student_Bio.aspx.designer.vb">
+      <DependentUpon>Student_Bio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student_Bio.aspx.vb">
+      <DependentUpon>Student_Bio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Person_Reg.aspx.designer.vb">
+      <DependentUpon>Person_Reg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Person_Reg.aspx.vb">
+      <DependentUpon>Person_Reg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PracticeHistory.aspx.designer.vb">
+      <DependentUpon>PracticeHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PracticeHistory.aspx.vb">
+      <DependentUpon>PracticeHistory.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\printStudentBio.aspx.designer.vb">
+      <DependentUpon>printStudentBio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\printStudentBio.aspx.vb">
+      <DependentUpon>printStudentBio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultPage.aspx.designer.vb">
+      <DependentUpon>ResultPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultPage.aspx.vb">
+      <DependentUpon>ResultPage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Teacher_Reg.aspx.designer.vb">
+      <DependentUpon>Teacher_Reg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Teacher_Reg.aspx.vb">
+      <DependentUpon>Teacher_Reg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.vb">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.designer.vb">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.vb">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogfilesByUser.aspx.designer.vb">
+      <DependentUpon>LogfilesByUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LogfilesByUser.aspx.vb">
+      <DependentUpon>LogfilesByUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\LocationInfo.vb" />
+    <Compile Include="Models\PreceptorInfo.vb" />
+    <Compile Include="Models\TeacherInfo.vb" />
+    <Compile Include="Models\StudentInfo.vb" />
+    <Compile Include="Models\RoleInfo.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Roles.aspx.designer.vb">
+      <DependentUpon>Roles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Roles.aspx.vb">
+      <DependentUpon>Roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentData.aspx.designer.vb">
+      <DependentUpon>StudentData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentData.aspx.vb">
+      <DependentUpon>StudentData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student_Reg.aspx.designer.vb">
+      <DependentUpon>Student_Reg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student_Reg.aspx.vb">
+      <DependentUpon>Student_Reg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TeacherData.aspx.designer.vb">
+      <DependentUpon>TeacherData.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TeacherData.aspx.vb">
+      <DependentUpon>TeacherData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ucFooter.ascx.designer.vb">
+      <DependentUpon>ucFooter.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ucFooter.ascx.vb">
+      <DependentUpon>ucFooter.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ucMenu.ascx.designer.vb">
+      <DependentUpon>ucMenu.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ucMenu.ascx.vb">
+      <DependentUpon>ucMenu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserAdvisor.aspx.designer.vb">
+      <DependentUpon>UserAdvisor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserAdvisor.aspx.vb">
+      <DependentUpon>UserAdvisor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentEvaluation.aspx.designer.vb">
+      <DependentUpon>StudentEvaluation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentEvaluation.aspx.vb">
+      <DependentUpon>StudentEvaluation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserStudent.aspx.designer.vb">
+      <DependentUpon>UserStudent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserStudent.aspx.vb">
+      <DependentUpon>UserStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users.aspx.designer.vb">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users.aspx.vb">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VPN.aspx.designer.vb">
+      <DependentUpon>VPN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VPN.aspx.vb">
+      <DependentUpon>VPN.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="VPNModify.aspx.designer.vb">
+      <DependentUpon>VPNModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VPNModify.aspx.vb">
+      <DependentUpon>VPNModify.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="VPNList.aspx.designer.vb">
+      <DependentUpon>VPNList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VPNList.aspx.vb">
+      <DependentUpon>VPNList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="PreceptorList.aspx.designer.vb">
+      <DependentUpon>PreceptorList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PreceptorList.aspx.vb">
+      <DependentUpon>PreceptorList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ApplicationBaseClass.vb" />
+    <None Include="Models\dsStudentBio.xsc">
+      <DependentUpon>dsStudentBio.xsd</DependentUpon>
+    </None>
+    <None Include="Models\dsStudentBio.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsStudentBio.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Models\dsStudentBio.xss">
+      <DependentUpon>dsStudentBio.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="Site.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

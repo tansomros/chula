@@ -1,0 +1,572 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site.Master.vb" Inherits=".Site" %>
+<%@ Register src="ucMenu.ascx" tagname="ucMenu" tagprefix="uc1" %>
+<%@ Register src="ucMenuEn.ascx" tagname="ucMenuEn" tagprefix="uc2" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server"> 
+ 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Faculty of Pharmacy, Chulalongkorn University</title> 
+      <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta http-equiv="Permissions-Policy" content="unload=(self)" />
+
+  <link rel="stylesheet" type="text/css" href="css/custyles.css?v=3"> 
+  <link rel="stylesheet" type="text/css" href="css/uidialog.css?v=2">
+  <link rel="stylesheet" type="text/css" href="css/pagestyles.css?v=2"> 
+  
+
+  <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css?v=2"> 
+  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css?v=2">
+  <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css?v=2">
+  <link rel="stylesheet" href="css/AdminLTE.min.css?v=2">
+  <link rel="stylesheet" href="css/skins/_all-skins.min.css?v=2">  
+
+    <!-- fullCalendar -->
+  <link rel="stylesheet" href="components/fullcalendar/dist/fullcalendar.min.css?v=2">
+  <link rel="stylesheet" href="components/fullcalendar/dist/fullcalendar.print.min.css?v=2" media="print">
+   
+    <!-- DataTables -->
+<link rel="stylesheet" href="components/datatables.net-bs/css/dataTables.bootstrap.min.css?v=2">
+
+     <!-- Select2 -->
+  <link rel="stylesheet" href="components/select2/dist/css/select2.min.css?v=2">
+
+     <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/iCheck/flat/blue.css?v=2">
+      <link rel="stylesheet" href="plugins/iCheck/all.css?v=2">
+
+
+    <script src="components/jquery/dist/jquery.min.js"></script>
+<script src="components/jquery-ui/jquery-ui.min.js"></script>
+
+   
+
+
+<script language="javascript">
+
+        function AllowOnlyIntegers() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function AllowOnlyDouble() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.returnValue = true;
+            } else if (keyCode == 46) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function AllowOnlyEnglishs() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 58 && keyCode <= 122) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function NotAllowOther() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 128) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+    
+</script>
+ 
+    
+  <!-- Modal  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ 
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+        function openModals(sender, title, message) {
+            $("#spnTitle").text(title);
+            $("#spnMsg").text(message);
+            $('#modalPopUp').modal('show');
+            $('#modalConfirm').modal('show');
+            $('#modal-alert').modal('show');
+            $('#btnConfirm').attr('onclick', "$('#modalPopUp').modal('hide');setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
+            return false;
+        }
+        function openModalWindow(sender, title, message, img1) {
+            $("#spnTitle2").text(title);
+            $("#spnMsg2").text(message);
+            document.getElementById('img1').src = img1;
+            $('#modal-window').modal('show');
+            return false;
+        }
+        function openModalWarningAlert(sender, title, message) {
+            $("#spnTitleW").text(title);
+            $("#spnMsgW").text(message);
+            $('#modal-warningalert').modal('show');
+            $('#btnConfirm').attr('onclick', "$('#modal-warningalert').modal('hide');setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
+            return false;
+        }
+        function openModalWarningInfo(sender, title, message) {
+            $("#spnTitleInfo").text(title);
+            $("#spnMsgInfo").text(message);
+            $('#modal-warninginfo').modal('show');
+            $('#btnConfirm').attr('onclick', "$('#modal-warninginfo').modal('hide');setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
+            return false;
+        }
+        function openModalSuccess(sender, title, message) {
+            $("#spnTitleS").text(title);
+            $("#spnMsgS").text(message);
+            $('#modal-success').modal('show');
+            $('#btnConfirm').attr('onclick', "$('#modal-success').modal('hide');setTimeout(function(){" + $(sender).prop('href') + "}, 50);");
+            return false;
+        }
+
+    </script>
+
+  <!-- End modal  onload ="initMap()" -->
+
+        <!-- Date Picker -->
+<link rel="stylesheet" href="components/bootstrap-datepicker/assets/css/bootstrap-datepicker.min.css?v=2">
+
+
+<!-- datepicker  -->
+<link href="components/datepicker/datepicker.css?v=2" rel="stylesheet" media="screen"/>
+<link href="components/datepicker/prettify.css?v=2" rel="stylesheet"/>
+<script src="components/datepicker/prettify.js?v=1"></script>
+
+<script src="components/datepicker/bootstrap-datepicker.js?v=1"></script>
+<script src="components/datepicker/bootstrap-datepicker-thai.js?v=1"></script>
+<script src="components/datepicker/bootstrap-datepicker.th.js?v=1"></script>
+
+<script>
+    $(function () {
+        var d = new Date();
+        var toDay = d.getDate() + '/' + (d.getMonth() + 1) + '/' + (d.getFullYear() + 543);
+        $("#datepicker-th").datepicker({
+            dateFormat: 'dd/mm/yyyy',
+            isBuddhist: true,
+            defaultDate: toDay,
+            autoclose: true
+        });
+    });
+</script>
+
+
+ <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>     
+</head>
+<body  class="hold-transition skin-blue sidebar-mini">
+<form id="form2" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+<div class="wrapper">
+
+  <header class="main-header">    
+    <a href="Home.aspx" class="logo">
+    <span class="logo-mini"><b>PPEP</b></span>
+    <span class="logo-lg"><b>Chula-</b>PPEP</span>
+    </a>
+    <nav class="navbar navbar-static-top">    
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>   
+        <div class="slk-header" >
+            <span  class="header-full"><asp:Label ID="lblProgramName" runat="server" Text="Pharmacy Professional Experience Practice,"></asp:Label> </span>
+            <span  class="header-mini"><asp:Label ID="lblFacultyName" runat="server" Text="Faculty of Pharmacy, Chulalongkorn University"></asp:Label></span>
+        </div>     
+    </nav>
+  </header>
+
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+            <asp:Image ID="imgUser" runat="server" CssClass="img-circle" ImageUrl="images/unpic.jpg" Height="45px" Width="50px" /> 
+        </div>
+        <div class="pull-left info">
+          <p><asp:HyperLink ID="hlnkUserName" runat="server"></asp:HyperLink></p>   
+<asp:Label ID="lblLocationName" runat="server" CssClass="user_mmnu"></asp:Label>
+        </div>
+     <div class="pull-left info2">
+<i class="fa fa-info-circle text-info"></i> <asp:LinkButton ID="lnkAccount" runat="server" CssClass="user_mmnu"> User Info.</asp:LinkButton>
+ 
+            <i class="fa fa-key text-warning"></i> <asp:LinkButton ID="lnkChangePass" runat="server" CssClass="user_mmnu">Reset Pwd.</asp:LinkButton>
+         <span class='label label-danger'><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="Default.aspx?logout=YES">Logout</asp:HyperLink></span>
+ 
+         </div>
+                
+      </div>
+    
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+        <% If Request.Cookies("LANG").Value.ToLower() = "en" Then %>
+            <uc2:ucMenuEn runat="server" id="ucMenuEn" />
+        <% Else %>
+            <uc1:ucMenu runat="server" id="ucMenu" />
+        <% End If %>
+
+         </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <div class="content-wrapper">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+</div>
+
+     <footer class="main-footer">
+       <div class="pull-right hidden-xs">
+       <strong>Copyright &copy; 2018-2020 <a href="http://www.tansomros.com">tansomros</a>.</strong> All rights
+    reserved.
+       <br />     <b>Version</b> <asp:Label ID="Label1" runat="server" Text="2.0.0"></asp:Label>&nbsp;&nbsp;<b>Release</b> 2018.10.01
+    </div>
+       
+
+      <b>
+          <asp:Label ID="lblFooterName" runat="server" Text="Office of Professional Experience Program, Faculty of Pharmacy, Chulalongkorn University"></asp:Label> </b>
+        <br />
+         <asp:Label ID="lblAddress" runat="server" Text="254 Phaya Thai Road, Pathumwan District, Bangkok 10330 Tel. 02-218-8450-1 Fax. 02-218-8450"></asp:Label>
+    
+  </footer>
+
+
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+       
+        <!-- Modal HTML -->
+        <div id="modal-alert" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><span id="spnTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><span id="spnMsg"></span>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modal-success" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons check_circle">&#xe86c;</i>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h4><span id="spnTitleS"></span></h4>
+                        <p><span id="spnMsgS"></span></p>
+                        <button class="btn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modal-warningalert" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-warningalert">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons cancel">&#xe5c9;</i>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h4><span id="spnTitleW"></span></h4>
+                        <p><span id="spnMsgW"></span></p>
+                        <button class="btn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-warninginfo" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-warninginfo">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons warning">&#xe002;</i>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h4><span id="spnTitleInfo"></span></h4>
+                        <p><span id="spnMsgInfo"></span></p>
+                        <button class="btn btn-success" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--- End Modal --->
+
+ </form>
+ 
+
+
+<script src="components/bootstrap/dist/js/bootstrap.min.js"></script>       
+<script src="js/adminlte.min.js"></script>
+    <!-- fullCalendar -->
+<script src="components/moment/moment.js"></script>
+<script src="components/fullcalendar/dist/fullcalendar.min.js"></script>
+
+<!-- Select2 -->
+<script src="components/select2/dist/js/select2.full.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+
+    	<!-- DataTables -->
+	<script src="components/datatables.net/js/jquery.dataTables.min.js?v=001"></script>
+	<script src="components/datatables.net-bs/js/dataTables.bootstrap.min.js?v=001"></script>
+
+
+<script>
+    $(function () {
+
+        $('.select2').select2()
+
+    //Enable iCheck plugin for checkboxes
+    //iCheck for checkbox and radio inputs
+    $('.mailbox-messages input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass   : 'iradio_minimal-blue'
+    })
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass   : 'iradio_minimal-red'
+    })
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass   : 'iradio_flat-green'
+    })
+
+
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    });
+
+    //Handle starring for glyphicon and font awesome
+    $(".mailbox-star").click(function (e) {
+      e.preventDefault();
+      //detect type
+      var $this = $(this).find("a > i");
+      var glyph = $this.hasClass("glyphicon");
+      var fa = $this.hasClass("fa");
+
+      //Switch states
+      if (glyph) {
+        $this.toggleClass("glyphicon-star");
+        $this.toggleClass("glyphicon-star-empty");
+      }
+
+      if (fa) {
+        $this.toggleClass("fa-star");
+        $this.toggleClass("fa-star-o");
+      }
+    });
+  });
+</script>
+       <!-- Page specific script -->
+<script>
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    function init_events(ele) {
+      ele.each(function () {
+
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        }
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject)
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex        : 1070,
+          revert        : true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        })
+
+      })
+    }
+
+    init_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+      var date = new Date()
+    var d    = date.getDate(),
+        m    = date.getMonth(),
+        y    = date.getFullYear()
+    $('#calendar').fullCalendar({
+      header    : {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'month,agendaWeek,agendaDay'
+      },
+      buttonText: {
+        today: 'today',
+        month: 'month',
+        week : 'week',
+        day  : 'day'
+      },
+      //Random default events
+      events    : <%=json %>,
+      editable  : true,
+      droppable : true, // this allows things to be dropped onto the calendar !!!
+      drop      : function (date, allDay) { // this function is called when something is dropped
+
+        // retrieve the dropped element's stored Event Object
+        var originalEventObject = $(this).data('eventObject')
+
+        // we need to copy it, so that multiple events don't have a reference to the same object
+        var copiedEventObject = $.extend({}, originalEventObject)
+
+        // assign it the date that was reported
+        copiedEventObject.start           = date
+        copiedEventObject.allDay          = allDay
+        copiedEventObject.backgroundColor = $(this).css('background-color')
+        copiedEventObject.borderColor     = $(this).css('border-color')
+
+        // render the event on the calendar
+        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+
+        // is the "remove after drop" checkbox checked?
+        if ($('#drop-remove').is(':checked')) {
+          // if so, remove the element from the "Draggable Events" list
+          $(this).remove()
+        }
+
+      }
+    })
+
+    /* ADDING EVENTS */
+    var currColor = '#3c8dbc' //Red by default
+    //Color chooser button
+    var colorChooser = $('#color-chooser-btn')
+    $('#color-chooser > li > a').click(function (e) {
+      e.preventDefault()
+      //Save color
+      currColor = $(this).css('color')
+      //Add color effect to button
+      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
+    })
+    $('#add-new-event').click(function (e) {
+      e.preventDefault()
+      //Get value and make sure it is not null
+      var val = $('#new-event').val()
+      if (val.length == 0) {
+        return
+      }
+
+      //Create events
+      var event = $('<div />')
+      event.css({
+        'background-color': currColor,
+        'border-color'    : currColor,
+        'color'           : '#fff'
+      }).addClass('external-event')
+      event.html(val)
+      $('#external-events').prepend(event)
+
+      //Add draggable funtionality
+      init_events(event)
+
+      //Remove event from text input
+      $('#new-event').val('')
+    })
+  })
+</script> 
+    <script>
+        $(function () {
+            $('#tbdata').DataTable()
+            $('#tbdata2').DataTable()
+            $('#grdData2').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+            $('#tbuser').DataTable({
+                "order": [[7, "desc"]],
+                "columnDefs": [
+                    { "type": "date", "targets": [7] }
+                ]
+            })
+            $('#tbeval').DataTable({
+                "order": [[7, "desc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": [8] }
+                ]
+            })
+            $('#tbpreceptor').DataTable({
+                "order": [[12, "desc"]],
+                "columnDefs": [
+                    { "type": "date", "targets": [12] }
+                ]
+            })
+            $('#tbmail').DataTable({
+                "order": [[0, "asc"]],
+                "columnDefs": [
+                    { "type": "date", "targets": [6] }
+                ]
+            })
+            $('#tbpractice').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                'pageLength': 25
+            })
+        })
+    </script>
+</body>
+</html>

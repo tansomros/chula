@@ -1,0 +1,403 @@
+.royalSlider {
+    /*width: 600px; height: 400px; */
+    position: relative;
+    direction: ltr;
+}
+
+.royalSlider>* {
+    float: left;
+}
+
+.rsWebkit3d .rsSlide {
+    -webkit-transform: translateZ(0);
+}
+
+.royalSlider>.rsContent {
+    visibility: hidden;
+}
+
+.royalSlider>.rsSlideRoot {
+    visibility: hidden;
+}
+
+.rsWebkit3d .rsSlide {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsContainer {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsThumbs {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsPreloader {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d img {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsOverflow {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsBtnCenterer {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsAbsoluteEl {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsABlock {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsLink {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsContent {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsWebkit3d .rsBtnCenterer {
+    -webkit-backface-visibility: hidden;
+}
+
+.rsFade.rsWebkit3d .rsSlide {
+    -webkit-transform: none;
+}
+
+.rsFade.rsWebkit3d .rsContent {
+    -webkit-transform: none;
+}
+
+.rsFade.rsWebkit3d img {
+    -webkit-transform: none;
+}
+
+.rsFade.rsWebkit3d .rsContainer {
+    -webkit-transform: none;
+}
+
+.rsOverflow {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.rsVisibleNearbyWrap {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.rsVisibleNearbyWrap .rsOverflow {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+}
+
+.rsContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.rsArrow {
+    cursor: pointer;
+}
+
+.rsThumbsArrow {
+    cursor: pointer;
+}
+
+.rsThumb {
+    float: left;
+    position: relative;
+}
+
+.rsArrow {
+    transition: opacity 0.3s linear;
+    opacity: 1;
+    -webkit-transition: opacity 0.3s linear;
+    -o-transition: opacity 0.3s linear;
+    -moz-transition: opacity 0.3s linear;
+}
+
+.rsNav {
+    transition: opacity 0.3s linear;
+    opacity: 1;
+    -webkit-transition: opacity 0.3s linear;
+    -o-transition: opacity 0.3s linear;
+    -moz-transition: opacity 0.3s linear;
+}
+
+.rsThumbsArrow {
+    transition: opacity 0.3s linear;
+    opacity: 1;
+    -webkit-transition: opacity 0.3s linear;
+    -o-transition: opacity 0.3s linear;
+    -moz-transition: opacity 0.3s linear;
+}
+
+.rsHidden {
+    transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+    -o-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+    -moz-transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+}
+
+.rsGCaption {
+    width: 100%;
+    text-align: center;
+    float: left;
+    z-index: 90;
+}
+
+.royalSlider.rsFullscreen {
+    margin: 0px !important;
+    padding: 0px !important;
+    left: 0px !important;
+    top: 0px !important;
+    width: auto !important;
+    height: auto !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    position: fixed !important;
+    z-index: 2147483647 !important;
+}
+
+.royalSlider .rsSlide.rsFakePreloader {
+    transition: all;
+    display: none;
+    opacity: 1 !important;
+    -webkit-transition: 0s;
+    -o-transition: 0s;
+    -moz-transition: 0s;
+}
+
+.rsSlide {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+}
+
+.royalSlider.rsAutoHeight {
+    height: auto !important;
+}
+
+.rsAutoHeight .rsSlide {
+    height: auto !important;
+}
+
+.rsContent {
+    left: 0px;
+    top: 0px;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.rsAutoHeight .rsContent {
+    height: auto;
+    position: relative;
+}
+
+.rsPreloader {
+    position: absolute;
+    z-index: 0;
+}
+
+.rsNav {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    user-select: none;
+}
+
+.rsNav {
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+}
+
+.rsNavItem {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
+}
+
+.rsThumbs {
+    overflow: hidden;
+    float: left;
+    position: relative;
+    z-index: 22;
+    cursor: pointer;
+}
+
+.rsTabs {
+    background: none !important;
+    float: left;
+}
+
+.rsTabs {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.rsThumbs {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.rsVideoContainer {
+    width: auto;
+    height: auto;
+    line-height: 0;
+    position: relative;
+}
+
+.rsVideoFrameHolder {
+    background: rgb(20, 20, 20);
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    opacity: 0;
+    -webkit-transition: .3s;
+}
+
+.rsVideoFrameHolder.rsVideoActive {
+    opacity: 1;
+}
+
+.rsVideoContainer iframe {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+}
+
+.rsVideoContainer video {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+}
+
+.rsVideoContainer embed {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+}
+
+.rsVideoContainer .rsVideoObj {
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 50;
+}
+
+.rsVideoContainer.rsIOSVideo iframe {
+    padding-right: 44px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.rsVideoContainer.rsIOSVideo video {
+    padding-right: 44px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.rsVideoContainer.rsIOSVideo embed {
+    padding-right: 44px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.rsABlock {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 15;
+}
+
+.rsSBlock {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 15;
+}
+
+img.rsImg {
+    max-width: none;
+}
+
+.grab-cursor {}
+
+.grabbing-cursor {}
+
+.rsNoDrag {
+    cursor: auto;
+}
+
+a.rsLink {
+    /*background: url("../imageSlide/blank.jpg");*/
+    margin: 0px;
+    padding: 0px;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    text-indent: 100%;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 20;
+    -webkit-backface-visibility: hidden;
+}
+
+.abBlackBox {
+    background: rgba(0, 0, 0, 0.75);
+    padding: 15px;
+    color: rgb(255, 255, 255);
+}
+
+.abWhiteBox {
+    background: rgba(255, 255, 255, 0.75);
+    padding: 15px;
+    color: rgb(0, 0, 0);
+}
+
+.abTextAlignCenter {
+    text-align: center;
+}

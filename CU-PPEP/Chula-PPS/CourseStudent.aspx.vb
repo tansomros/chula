@@ -1,0 +1,357 @@
+﻿
+Public Class CourseStudent
+    Inherits System.Web.UI.Page
+    Dim dt As New DataTable
+    Dim ctlCs As New courseController
+    Dim acc As New UserController
+
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Request.Cookies("Username").Value Is Nothing Then
+            Response.Redirect("Default.aspx?logout=YES")
+        End If
+        If Not IsPostBack Then
+            lblNotic.Visible = False
+
+            LoadYearToDDL()
+            LoadCourseToDDL()
+
+            LoadMajorToDDL()
+            LoadStudentInCourseToGrid()
+            LoadStudentNotCourseToGrid()
+
+        End If
+    End Sub
+    Private Sub LoadYearToDDL()
+        Dim y As Integer = StrNull2Zero(DisplayYear(ctlCs.GET_DATE_SERVER))
+        Dim LastRow As Integer
+        dt = ctlCs.Courses_GetYear
+        LastRow = dt.Rows.Count - 1
+
+        If dt.Rows.Count > 0 Then
+            With ddlYear
+                .Enabled = True
+                .DataSource = dt
+                .DataTextField = "YearText"
+                .DataValueField = "YearValue"
+                .DataBind()
+
+                If dt.Rows(LastRow)(0) = y Then
+                    ddlYear.Items.Add(y + 1)
+                    ddlYear.Items(LastRow + 1).Value = y + 1
+                ElseIf dt.Rows(LastRow)(0) > y Then
+                    'ddlYear.Items.Add(y + 2)
+                    'ddlYear.Items(LastRow + 1).Value = y + 2
+                ElseIf dt.Rows(LastRow)(0) < y Then
+                    ddlYear.Items.Add(y)
+                    ddlYear.Items(LastRow + 1).Value = y
+                    ddlYear.Items.Add(y + 1)
+                    ddlYear.Items(LastRow + 2).Value = y + 1
+                End If
+                .SelectedIndex = 0
+            End With
+        Else
+            ddlYear.Items.Add(y)
+            ddlYear.Items(0).Value = y
+            ddlYear.Items.Add(y + 1)
+            ddlYear.Items(1).Value = y + 1
+            ddlYear.SelectedIndex = 0
+        End If
+        ddlYear.SelectedValue = Request.Cookies("EDUYEAR").Value
+        dt = Nothing
+    End Sub
+    Private Sub LoadMajorToDDL()
+        Dim ctlFct As New FacultyController
+        dt = ctlFct.GetMajor
+        If dt.Rows.Count > 0 Then
+            With ddlMajoradd
+                .Enabled = True
+                .DataSource = dt
+                .DataTextField = "MajorName"
+                .DataValueField = "MajorID"
+                .DataBind()
+                .SelectedIndex = 0
+            End With
+
+            With ddlMajordel
+                .Enabled = True
+                .DataSource = dt
+                .DataTextField = "MajorName"
+                .DataValueField = "MajorID"
+                .DataBind()
+                .SelectedIndex = 0
+            End With
+
+            With ddlMajorSearch
+                .Enabled = True
+                .DataSource = dt
+                .DataTextField = "MajorName"
+                .DataValueField = "MajorID"
+                .DataBind()
+                .SelectedIndex = 0
+            End With
+
+        Else
+
+        End If
+        dt = Nothing
+    End Sub
+
+    Private Sub LoadStudentNotCourseToGrid()
+        If StrNull2Zero(ddlCourse.SelectedValue) <> 0 Then
+            dt = ctlCs.CourseStudent_GetStudentNoCourse(StrNull2Zero(ddlYear.SelectedValue), StrNull2Zero(ddlCourse.SelectedValue), StrNull2Zero(ddlMajorSearch.SelectedValue), StrNull2Zero(ddlLevelSearch.SelectedValue), Trim(txtSearch.Text))
+            If dt.Rows.Count > 0 Then
+
+                With grdData
+                    .Visible = True
+                    .DataSource = dt
+                    .DataBind()
+                End With
+                lblNotic.Visible = False
+            Else
+                grdData.Visible = False
+                lblNotic.Visible = True
+            End If
+        Else
+            grdData.Visible = False
+        End If
+
+    End Sub
+
+    Private Sub LoadStudentInCourseToGrid()
+
+        If StrNull2Zero(ddlCourse.SelectedValue) <> 0 Then
+            dt = ctlCs.CourseStudent_GetStudentInCourse(StrNull2Zero(ddlYear.SelectedValue), StrNull2Zero(ddlCourse.SelectedValue), Trim(txtSearchStd.Text))
+
+
+            If dt.Rows.Count > 0 Then
+                lblCount.Text = dt.Rows.Count
+                lblNo.Visible = False
+                With grdStudent
+                    .Visible = True
+                    .DataSource = dt
+                    .DataBind()
+                End With
+            Else
+                lblCount.Text = 0
+                lblNo.Visible = True
+                grdStudent.Visible = False
+            End If
+        Else
+            lblCount.Text = 0
+            lblNo.Visible = True
+            grdStudent.Visible = False
+        End If
+    End Sub
+
+    Private Sub LoadCourseToDDL()
+        ddlCourse.Items.Clear()
+
+        If Request.Cookies("ROLE_ADM").Value = True Then
+            dt = ctlCs.Courses_GetByYear(ddlYear.SelectedValue)
+        Else
+            If Request.Cookies("ROLE_ADV").Value = True Then
+                dt = ctlCs.Courses_GetByCoordinator(ddlYear.SelectedValue, DBNull2Zero(Request.Cookies("ProfileID").Value))
+            Else
+                Exit Sub
+            End If
+        End If
+
+        If dt.Rows.Count > 0 Then
+            ddlCourse.Items.Clear()
+            For i = 0 To dt.Rows.Count - 1
+                With ddlCourse
+                    .Items.Add("" & dt.Rows(i)("SubjectCode") & " : " & dt.Rows(i)("NameTH"))
+                    .Items(i).Value = dt.Rows(i)("CourseID")
+                End With
+            Next
+            Panel1.Visible = True
+            lblNot.Visible = False
+        Else
+            ddlCourse.Items.Clear()
+            Panel1.Visible = False
+            lblNot.Visible = True
+        End If
+
+    End Sub
+
+    Private Sub grdData_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles grdData.PageIndexChanging
+        grdData.PageIndex = e.NewPageIndex
+        LoadStudentNotCourseToGrid()
+    End Sub
+    Private Sub grdData_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles grdData.RowDataBound
+
+
+        If e.Row.RowType = DataControlRowType.DataRow Then
+            e.Row.Attributes.Add("onmouseover", "this.originalcolor=this.style.backgroundColor;" + " this.style.backgroundColor='#ffdfef';")
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=this.originalcolor;")
+
+        End If
+
+
+    End Sub
+    Private Sub AddStudentToCourse()
+
+        Dim item As Integer
+
+        For i = 0 To grdData.Rows.Count - 1
+            With grdData
+                Dim chkS As CheckBox = .Rows(i).Cells(0).FindControl("chkSelect")
+                If chkS.Checked Then
+                    item = ctlCs.CourseStudent_Add(ddlCourse.SelectedValue, .Rows(i).Cells(1).Text, Request.Cookies("Username").Value)
+                    acc.User_GenLogfile(Request.Cookies("Username").Value, ACTTYPE_ADD, "CourseStudent", "เพิ่ม นิสิตในรายวิชาฝึก:" & ddlCourse.SelectedValue & ">>" & .Rows(i).Cells(1).Text, "")
+
+                End If
+
+
+            End With
+        Next
+        LoadStudentInCourseToGrid()
+        LoadStudentNotCourseToGrid()
+        ScriptManager.RegisterStartupScript(Me.Page, Me.GetType(), "MessageAlert", "openModalSuccess(this,'Success','บันทึกข้อมูลเรียบร้อย');", True)
+    End Sub
+
+    Private Sub grdStudent_PageIndexChanging(sender As Object, e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles grdStudent.PageIndexChanging
+        grdStudent.PageIndex = e.NewPageIndex
+        LoadStudentInCourseToGrid()
+    End Sub
+
+    Private Sub grdCourse_RowCommand(sender As Object, e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles grdStudent.RowCommand
+        If TypeOf e.CommandSource Is WebControls.ImageButton Then
+            Dim ButtonPressed As WebControls.ImageButton = e.CommandSource
+            Select Case ButtonPressed.ID
+                Case "imgDel"
+                    If ctlCs.CourseStudent_Delete(e.CommandArgument) Then
+
+                        acc.User_GenLogfile(Request.Cookies("Username").Value, ACTTYPE_DEL, "CourseStudent_DeleteByUID", "ลบ นิสิตในรายวิชาฝึก:" & ddlCourse.SelectedValue & ">>" & e.CommandArgument, "")
+                        ScriptManager.RegisterStartupScript(Me.Page, Me.GetType(), "MessageAlert", "openModalSuccess(this,'Success','ลบข้อมูลเรียบร้อย');", True)
+                        LoadStudentInCourseToGrid()
+                        LoadStudentNotCourseToGrid()
+                    Else
+                        ScriptManager.RegisterStartupScript(Me.Page, Me.GetType(), "MessageAlert", "openModalWarningAlert(this,'Warning!!','ไม่สามารถลบข้อมูลได้ กรุณาตรวจสอบและลองใหม่อีกครั้ง');", True)
+                    End If
+
+
+            End Select
+
+
+        End If
+    End Sub
+
+    Private Sub grdCourse_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles grdStudent.RowDataBound
+        If e.Row.RowType = ListItemType.AlternatingItem Or e.Row.RowType = ListItemType.Item Then
+
+            Dim scriptString As String = "javascript:return confirm(""ต้องการลบ ข้อมูลนี้ ?"");"
+            Dim imgD As Image = e.Row.Cells(6).FindControl("imgDel")
+            imgD.Attributes.Add("onClick", scriptString)
+
+        End If
+
+        If e.Row.RowType = DataControlRowType.DataRow Then
+            e.Row.Attributes.Add("onmouseover", "this.originalcolor=this.style.backgroundColor;" + " this.style.backgroundColor='#ffdfef';")
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=this.originalcolor;")
+
+        End If
+
+    End Sub
+
+    Protected Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
+        AddStudentToCourse()
+    End Sub
+
+    Protected Sub cmdClear_Click(sender As Object, e As EventArgs) Handles cmdClear.Click
+        For i = 0 To grdData.Rows.Count - 1
+            With grdData
+                Dim chkS As CheckBox = .Rows(i).Cells(0).FindControl("chkSelect")
+                chkS.Checked = False
+            End With
+        Next
+    End Sub
+
+    Protected Sub ddlYear_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlYear.SelectedIndexChanged
+
+        grdStudent.PageIndex = 0
+        grdData.PageIndex = 0
+        LoadCourseToDDL()
+        LoadStudentInCourseToGrid()
+        LoadStudentNotCourseToGrid()
+    End Sub
+
+    Protected Sub ddlCourse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlCourse.SelectedIndexChanged
+
+        grdStudent.PageIndex = 0
+        grdData.PageIndex = 0
+        LoadStudentInCourseToGrid()
+        LoadStudentNotCourseToGrid()
+    End Sub
+
+    Protected Sub cmdFindStd_Click(sender As Object, e As EventArgs) Handles cmdFindStd.Click
+        grdStudent.PageIndex = 0
+        LoadStudentInCourseToGrid()
+    End Sub
+
+    Protected Sub cmdFind_Click(sender As Object, e As EventArgs) Handles cmdFind.Click
+        grdData.PageIndex = 0
+        LoadStudentNotCourseToGrid()
+    End Sub
+
+    Protected Sub lnkSubmitDel_Click(sender As Object, e As EventArgs) Handles lnkSubmitDel.Click
+        ctlCs.CourseStudent_DeleteByMajorAndLevel(ddlMajorDel.SelectedValue, ddlCourse.SelectedValue, ddlLevelDel.SelectedValue)
+
+        grdStudent.PageIndex = 0
+        grdData.PageIndex = 0
+        LoadStudentInCourseToGrid()
+        LoadStudentNotCourseToGrid()
+        DisplayMessage(Me.Page, "ลบเรียบร้อย")
+    End Sub
+
+    Protected Sub lnkSubmitAdd_Click(sender As Object, e As EventArgs) Handles lnkSubmitAdd.Click
+        Dim ctlStd As New StudentController
+        dt = ctlStd.GetStudent_ByMajorAndLevel(ddlMajorAdd.SelectedValue, ddlLevelAdd.SelectedValue)
+        If dt.Rows.Count > 0 Then
+            For i = 0 To dt.Rows.Count - 1
+                ctlCs.CourseStudent_Add(ddlCourse.SelectedValue, dt.Rows(i)("Student_Code"), Request.Cookies("Username").Value)
+            Next
+        End If
+
+        acc.User_GenLogfile(Request.Cookies("Username").Value, ACTTYPE_ADD, "CourseStudent", "เพิ่ม นิสิตในรายวิชาฝึกทั้งสาขาวิชา:" & ddlMajorAdd.SelectedValue & ">>" & ddlCourse.SelectedItem.Text, "")
+
+        grdStudent.PageIndex = 0
+        grdData.PageIndex = 0
+        LoadStudentInCourseToGrid()
+        LoadStudentNotCourseToGrid()
+
+        DisplayMessage(Me.Page, "บันทึกเรียบร้อย")
+    End Sub
+
+    'Protected Sub lnkLevelDel_Click(sender As Object, e As EventArgs) Handles lnkLevelDel.Click
+    '    ctlCs.CourseStudent_DeleteByLevel(ddlLevelDel.SelectedValue, ddlCourse.SelectedValue)
+
+    '    grdStudent.PageIndex = 0
+    '    grdData.PageIndex = 0
+    '    LoadStudentInCourseToGrid()
+    '    LoadStudentNotCourseToGrid()
+    '    DisplayMessage(Me.Page, "ลบเรียบร้อย")
+
+    'End Sub
+
+    'Protected Sub lnkLevelAdd_Click(sender As Object, e As EventArgs) Handles lnkLevelAdd.Click
+    '    Dim ctlStd As New StudentController
+    '    dt = ctlStd.GetStudent_ByLevelClass(ddlLevelAdd.SelectedValue)
+    '    If dt.Rows.Count > 0 Then
+    '        For i = 0 To dt.Rows.Count - 1
+    '            ctlCs.CourseStudent_Add(ddlCourse.SelectedValue, dt.Rows(i)("Student_Code"), Request.Cookies("Username").Value)
+    '        Next
+    '    End If
+
+    '    acc.User_GenLogfile(Request.Cookies("Username").Value, ACTTYPE_ADD, "CourseStudent", "เพิ่ม นิสิตในรายวิชาฝึกทั้งระดับชั้นปีที่:" & ddlLevelAdd.SelectedValue & ">>" & ddlCourse.SelectedItem.Text, "")
+
+    '    grdStudent.PageIndex = 0
+    '    grdData.PageIndex = 0
+    '    LoadStudentInCourseToGrid()
+    '    LoadStudentNotCourseToGrid()
+
+    '    DisplayMessage(Me.Page, "บันทึกเรียบร้อย")
+    'End Sub
+End Class
+

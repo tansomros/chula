@@ -1,0 +1,157 @@
+.content {
+	max-width: 800px; background-color: #FFF;	
+}
+#content {
+        padding-top: 30px;
+        min-height: 600px;
+        background-color: #fff;
+        padding: 30px 30px 10px;
+    }
+    
+li {
+	list-style: none;
+}
+img {
+	height: auto; max-width: 100%;
+}
+body {
+	-webkit-font-smoothing: antialiased; 
+	-moz-osx-font-smoothing: grayscale; 
+	text-rendering: optimizeLegibility; 
+	-moz-font-feature-settings: "liga", "kern";
+	font: 14px 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif; 
+	font-size-adjust: none; 
+	font-stretch: normal; 
+	background-size: cover !important; -webkit-backface-visibility: hidden;
+}
+b {
+	font-family: font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+	font-weight: normal !important;
+}
+strong {
+	font-family: font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+	font-weight: 500;
+	
+}
+th {
+	font-family: font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+	font-weight: normal !important;
+}
+a {
+	color: #005e12; text-decoration: none !important;
+}
+a:hover {
+	color: #06851e;
+}
+a:active {
+	color: #045413;
+}
+h1 {
+	font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+}
+h2 {
+	font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+}
+h3 {
+	font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+}
+h4 {
+	font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif;
+}
+ul {
+	padding: 0px;
+}
+h1 {
+	font-size: 26px;font-weight: 700;
+}
+h2 {
+	font-size: 24px;font-weight: 400;
+}
+h3 {
+	font-size: 18px;font-weight: 500;
+}
+.btn-default {
+	border-width: medium medium 2px; border-style: none none solid; border-color: #006400 currentColor currentColor; padding: 6px 12px 3px; border-radius: 3px; border-image: none; color: #fff; font-family: 'Pridi',Geneva, Arial, Helvetica,Tahama, sans-serif; font-size: 14px; background-color: #228b22;
+}
+.btn-default:hover {
+	color: #fff; border-bottom-color: #006400; border-bottom-width: 2px; border-bottom-style: solid; background-color: #23a524;
+}
+.btn-default:active {
+	border-width: 1px medium; border-style: solid none; border-color: #005301 currentColor; border-image: none; color: rgb(233, 222, 225); background-color: #006400;
+}
+.btn-all-event {
+	float: right;
+}
+#page {
+	max-width: 800px; background-color: #FFF;	
+}
+
+.logo{
+	width: 150px;
+	height: 194px;
+}
+#logo h2{color: #06851e;}
+ 
+.textnotic {
+  color: #00c0ef !important;
+  font: italic 12px Geneva, Arial, Helvetica,Tahama, sans-serif;  
+}
+
+.txtlogin:hover{ 
+font-size: 1.5em;
+padding: 5px 0 2px 0;
+font-style: normal; 
+border:1px solid #666;
+background-color: #fafbd4;
+height: 30px;
+color:#666;
+text-align: center; 
+-webkit-box-shadow: -1px 0px 5px #fff;
+-moz-box-shadow:    -1px 0px 5px #fff;
+box-shadow:         -1px 0px 5px #fff;
+ 
+}
+
+.buttonlink {   
+    padding: 5px 5px 5px 5px;
+    margin: 10px 5px 5px 5px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    background: #06851e;
+    border: none;
+    text-align: center;
+}
+a:hover.buttonlink  {   
+    padding: 5px 5px 5px 5px;
+    margin: 10px 5px 5px 5px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    background: #ff3300;
+    border: none;
+     text-align: center;
+}
+.buttonlink:hover  {   
+    padding: 5px 5px 5px 5px;
+    margin: 10px 5px 5px 5px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    background: #ff3300;
+    border: none;
+     text-align: center;
+}
+.login{	
+	padding: 0em 1em 1em 1em;
+	margin: 0.5em auto;
+	position: relative;
+}
+.login-text{
+	font-size: 1em;
+	font-family: 'Kanit', sans-serif;
+	text-align: center;	
+	color: #06851e;
+	margin: 5px 0px 0px 0px;
+	width: 50%;
+}

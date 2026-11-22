@@ -1,0 +1,593 @@
+@import 'https://fonts.googleapis.com/css?family=K2D:100,200,300,400,500,700&subset=thai';
+
+Body{
+	background: #fff;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font-family: 'K2D',Geneva, Arial, Helvetica, sans-serif;	
+	color: #555;
+	font-size: 13px;
+	line-height: 25px;	
+} 
+.buttonLogin:hover,active{
+	font-size: 14px;
+	height: 30px;
+	padding: 2px 5px 2px 5px;
+	margin: 2px 2px 2px 2px;	
+	color: #34495e;
+	font-weight: bold;
+	cursor:pointer;
+	  border: 1px solid #fcdf7a;
+	  background-color: #fcdf7a;
+	-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background: -moz-linear-gradient(top, #fcdf7a 1%, #ffd700 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#fcdf7a), color-stop(100%,#ffd700));
+	background: -webkit-linear-gradient(top, #fcdf7a 1%,#ffd700 100%);
+	background: -o-linear-gradient(top, #fcdf7a 1%,#ffd700 100%);
+	background: -ms-linear-gradient(top, #fcdf7a 1%,#ffd700 100%);
+	background: linear-gradient(top, #fcdf7a 1%,#ffd700 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcdf7a', endColorstr='#ffd700',GradientType=0 );
+	
+}
+.buttonLogin{
+ font-size: 14px;
+	font-weight: bold;
+height: 30px;
+	padding: 2px 5px 2px 5px;	
+	margin: 2px 2px 2px 2px;
+	color: #fff;
+	cursor:pointer;	
+		border: 1px solid #00bb64;
+		-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background-color: #00a65a;
+background: -moz-linear-gradient(top, #00bb64 1%, #00a65a 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#00bb64), color-stop(100%,#00a65a));
+	background: -webkit-linear-gradient(top, #00bb64 1%,#00a65a 100%);
+	background: -o-linear-gradient(top, #00bb64 1%,#00a65a 100%);
+	background: -ms-linear-gradient(top, #00bb64 1%,#00a65a 100%);
+	background: linear-gradient(top, #00bb64 1%,#00a65a 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00bb64', endColorstr='#00a65a',GradientType=0 );
+	
+} 
+
+.linkdowload {
+
+		font-family:Helvetica,Arial,sans-serif;
+font-weight: normal;
+font-size:12px;
+	color: #34495e;	
+	vertical-align: middle;
+	
+}
+
+.linkdowload a, 
+.linkdowload a:link,
+.linkdowload a:visited  {
+	font-size: 12px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #fff;
+}
+
+.linkdowload a:active, 
+.linkdowload a:hover,
+.linkdowload a:visited:hover
+{
+   font-size: 12px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #fff;
+}
+
+.ui-dialog
+{
+    z-index: 101;
+	 background-color: black;
+}
+ #login_Sheet{
+ 	background-color: #ff89be;
+	height: 100%;
+ }
+ .userlogged{
+ 	font-size: 11px;
+	color:#ff50b2;
+ }
+  #main_Sheet{
+ 	background-color: #fff;
+	height: 600px;
+ }
+ 
+ .sub-menu {
+ 	background-color: #f2f2f2;
+	height: 40px;
+ }
+img,img a{
+	border: 0;
+}
+img a:hover
+{
+opacity:1.0;
+filter:alpha(opacity=40); /* For IE8 and earlier */
+}
+#clearboth {
+   clear:both;
+	height: 10px;
+}
+.header {
+	background-color: #ff50b2;
+	
+}
+
+
+
+
+#line_gray{
+	background-color: #ddd;
+	height: 2px;
+	line-height: 2px;
+}
+
+#line_pink {
+	background-color: #ff50b2;
+	height: 3px;
+	line-height: 3px;
+}
+
+
+
+#Login_Block{
+		background-color: #ff89be;
+		font-family:Helvetica,Arial,sans-serif;
+font-weight: normal;
+font-size:13px;
+	 border-bottom-radius: 10px;
+	  border-bottom-radius: 10px;
+    -moz-border-radius: 10px;
+	 -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	
+	color: #fff;
+	float: right;
+	vertical-align: middle;
+	padding: 5px 5px 5px 5px;
+}
+
+
+
+#menutop-lang {
+		background-color: #ff50b2;
+		font-family: 'Pridi',serif;
+font-weight: normal;
+font-size:13px;
+	 border-bottom-left-radius: 10px;
+	  border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+	 -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	height: 25px; 
+	width: 250px;
+	color: #fff;
+	float: right;
+	vertical-align: middle;
+	padding: 5px 5px 5px 5px;
+}
+
+#menutop-lang a, 
+#menutop-lang a:link,
+#menutop-lang a:visited  {
+	font-size: 13px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #fff;
+}
+
+#menutop-lang a:active, 
+#menutop-lang a:hover,
+#menutop-lang a:visited:hover
+{
+   font-size: 13px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #fff;
+}
+
+
+#linemenutop {
+	background-color: #ddd;
+	height: 1px;
+	line-height: 1px;
+}
+
+.lang {
+	 font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+.lang a, 
+.lang a:link,
+.lang a:visited  {
+	font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+
+.lang a:active, 
+.lang a:hover,
+.lang a:visited:hover
+{
+   font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #002664;
+}
+
+
+.block_module{
+	border: 1px solid #aaa;
+	padding: 10px 10px 0px 10px;
+	margin: 0 0 0 0;
+}
+
+.block_menu{
+	border: 1px solid #aaa;
+	padding: 5px 5px 5px 5px;
+	margin: 0 0 0 0;
+
+}
+.topichead{
+	font-size: 13px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #000;
+}
+
+
+h1{
+	font-size: 20px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #ff50b2;
+	margin: 0 0 0 0;
+	padding: 5px 0 5px 0;
+	
+}
+h4{
+	 
+	font-size: 16px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	color: #002664;
+	margin: 0 0 0 0;
+	padding: 3px 0 3px 0;
+ 
+}
+h5{
+	font-size: 14px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	color: #000;
+	margin: 0 0 0 0;
+	padding: 3px 0 3px 0;
+}
+h6{
+	font-size: 14px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	color: #002664;
+	margin: 0 0 0 0;
+	padding: 3px 0 3px 0;
+}
+
+.NewsUpdate {
+	font-size: 11px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	color: #666;
+}
+ 
+ .big_slide{
+ 
+	border-bottom: 4px solid #ff50b2;
+	width: 100%;
+	height: 300px;
+	background-position: Top right;
+	background-repeat: no-repeat;
+	vertical-align: bottom;
+	background: #ececec;
+ }
+  
+.BannerBorderWhite {
+		background-color: #fff;
+		 border-radius: 10px;
+	  border-radius: 10px;
+    -moz-border-radius: 10px;
+	 -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	-webkit-border-radius: 10px; 
+	vertical-align: middle;
+	padding: 10px 10px 10px 10px;
+}
+
+#footer_forgot {
+	 
+    position: fixed;  
+    left:0px;  
+    bottom:0px;  
+    width:100%;  
+    z-index: 99;  	 
+	font-size: 12px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;	 
+	color: #fff;
+	background: #ff50b2;
+	height: 25px; 
+	padding: 4px 0 0 0;
+	 
+}
+ 
+.txtlogin[type=login],.txtlogin[type=Password]{
+
+		font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+border:1px solid #8D9AA3;
+background-color: #fff;
+height: 35px;
+color:#8d9aa3;
+text-align: center;
+padding:2px 0 2px 0;
+ border--radius: 5px;
+	  border--radius: 5px;
+    -moz-border-radius: 5px;
+	 -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+}
+
+.txtlogin{
+	 
+		font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+border:1px solid #8D9AA3;
+background-color: #fff;
+height: 35px;
+color:#8d9aa3;
+text-align: center;
+padding:2px 0 2px 0;
+cursor: text;
+
+ border--radius: 5px;
+	  border--radius: 5px;
+    -moz-border-radius: 5px;
+	 -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+}
+
+.txtlogin:focus,active,hover{
+font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+border:1px solid #8D9AA3;
+background-color: #fafbd4;
+height: 35px;
+color:#8d9aa3;
+text-align: center;
+padding: 2px 0 2px 0;
+
+-webkit-box-shadow: -1px 0px 5px #fff;
+-moz-box-shadow:    -1px 0px 5px #fff;
+box-shadow:         -1px 0px 5px #fff;
+}
+
+.txtlogin:hover{
+font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+border:1px solid #8D9AA3;
+background-color: #fafbd4;
+height: 35px;
+color:#8d9aa3;
+text-align: center;
+padding:2px 0 2px 0;
+-webkit-box-shadow: -1px 0px 5px #fff;
+-moz-box-shadow:    -1px 0px 5px #fff;
+box-shadow:         -1px 0px 5px #fff;
+ 
+}
+
+ 
+
+
+input[type=text]{
+	
+		font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 14px;
+font-style: normal;
+font-weight: bold;
+border:1px solid #8D9AA3;
+background-color: #fff;
+height: 35px;
+color:#8d9aa3;
+text-align: center;
+padding:2px 0 2px 0;
+cursor: text;
+ border--radius: 5px;
+	  border--radius: 5px;
+    -moz-border-radius: 5px;
+	 -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+}
+
+
+.Objcontrol{
+	border:1px solid #8D9AA3;
+background-color: #fff;
+height: 30px;
+font-size: 13px;
+	color:#555;
+}
+/* ----------------from STH ---------*/
+
+	
+.widthfull {
+	WIDTH: 100% !important;
+	BACKGROUND-COLOR: #fff; 
+	MARGIN: 0px auto; ; 
+	OVERFLOW: hidden;
+}
+
+.menu_Header{
+font-size: 12px;
+font-style: normal;
+font-weight: bold;
+text-align: left;
+text-decoration: underline;
+  color: #e3088a;  
+  font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+	padding: 0px 5px;
+
+}
+
+
+.Page_Header{
+font-size: 20px;
+font-style: normal;
+text-align: left;
+  color: #e3088a;  
+  font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+	padding: 5px 0px 5px 0px;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+	border-bottom: 1px solid #eee;
+	
+}
+
+.navigation { float:right;  color:#e3088a; 
+ font: bold 12px "Lucida Grande", Arial, Helvetica;; bold 12px; bold;
+}
+
+a.navigation:link { color:#e3088a;}
+a.navigation:active {color:#e3088a;  }
+a.navigation:hover {color:#545454;  }
+a.navigation:visited {color:#e3088a;}
+a.navigation:hover:visited {color:#545454; }
+
+
+.shell { width:100%; margin:0 auto; }
+
+#top {  background: #e3088a; vertical-align: middle;  height:33px; }
+#header {  	
+	background: url(../images/header_03.png) repeat-x top left; 
+	width:100%; }
+
+.textblack {
+	  COLOR: #000000;
+}
+
+
+#main { width:100%;}
+
+#content { padding-top:0px; }
+
+
+/* Start images */
+a img
+{
+	border: 0;
+}
+
+
+.input_control
+{
+font-family: "Lucida Grande", Arial, Helvetica;
+font-size: 12px;
+font-style: normal;
+font-weight: normal;
+border:1px solid #8D9AA3;
+background-color: #fde0ef;
+
+} 
+.News_Headline{
+	BACKGROUND-COLOR: #f7f7f7;
+		border-bottom-style:dotted;
+	border-bottom-color: #e3088a;
+	border-bottom-width:1px;
+		color:#e3088a;
+	FONT-SIZE: 14px; FONT-WEIGHT: bold;
+	padding : 5px 0px 5px 0px;
+}
+
+
+.clear_float{clear:both; line-height:0; font-size:0; height:0;}
+.MenuSt{
+	BACKGROUND-COLOR: #f5f5f7;
+		border-bottom-style:dotted;
+	border-bottom-color: #e3088a;
+	border-bottom-width:1px;
+		color:#e3088a;
+	FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.txtunderline{
+	border-bottom-style:dotted;
+	border-bottom-color: #696969;
+	border-bottom-width:1px;	
+	color: #696969;
+	FONT-SIZE: 11pt; 
+}
+.HeadtopReg{
+	BACKGROUND-COLOR: #e3088a;
+		border-bottom-style:dotted;
+	border-bottom-color: #e3088a;
+	border-bottom-width:1px;
+	
+	color:#FFFFFF;
+	FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.skin_input{
+	BACKGROUND-COLOR: #f5f5f7;
+		border-bottom-style:dotted;
+	border-bottom-color: #e3088a;
+	border-bottom-width:1px;
+
+	color:#e3088a;
+	FONT-SIZE: 10pt;
+}
+
+.TextDataUnderline
+{
+	font-size:13px;
+	font-weight:normal;
+	color:Black;
+	border-bottom-style: dotted;
+	border-bottom-width: 1px ;
+	border-bottom-color:Black;
+	height: 20px;
+
+}
+
+.text_Caution {
+	FONT-FAMILY: "Lucida Grande", Helvetica,Tahoma, "MS Sans Serif", Arial; COLOR: #cc0000; FONT-SIZE: 14px; FONT-WEIGHT: bold
+}
+
+
+.Normal, .normal, #LoginInfo, #QuickLinks, #LoginInfo p.LoginNotes, .nci-PostContent .SubHead, .nci-PostContent .Normal, .SubHead, .WizardText, .SkinObject
+{
+font-family: "Lucida Grande", Helvetica,Tahoma, "MS Sans Serif", Arial;
+font-size: 13px;
+color: #696969;
+}
+
+
+.NormalBold
+{
+font-family: "Lucida Grande", Helvetica,Tahoma, "MS Sans Serif", Arial;
+font-size: 13px;
+color: #696969;
+font-weight: bold;
+}

@@ -1,0 +1,421 @@
+﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="ucMenu.ascx.vb" Inherits=".ucMenu" %>
+
+<script type="text/javascript" src="css/modernizr.custom.29473.js"></script>
+ <link rel="stylesheet" href="css/menu.css" type="text/css" media="screen">  
+                 <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css">
+<div class="container">
+	<section class="ac-container">
+    
+    <% If Session("ROLE_STD") = True Then%>
+		<div>
+          	<% If Request("m") = "1" Then%>
+				  <input id="ac-1" name="accordion-1" type="radio" checked />
+			<%Else%>
+			    <input id="ac-1" name="accordion-1" type="radio" />
+			<%End If%>
+            
+			<label for="ac-1">ระเบียนประวัติ</label>
+			<article class="ac-max"> 
+                  
+ <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+   		<td>
+           <% If Request("p") = "101" Then%>
+              <a class="menu2" href="Student_Reg.aspx?m=1&p=101">แก้ไขข้อมูลประวัติ</a>
+           <%Else%>
+              <a class="menu" href="Student_Reg.aspx?m=1&p=101">แก้ไขข้อมูลประวัติ</a>
+			<%End If%>
+        </td>
+ 	</tr>
+  	<tr>
+    	<td> 
+			<% If Request.QueryString("p") = "103" Then%>
+                <% Response.Write("<a class='menu2'  target='_blank' href='Reports/printStudentBio.aspx?m=10&p=103&id=" & Session("ProfileID") & "'>พิมพ์ประวัติ</a>")%>
+       	 <% Else%>
+                 <% Response.Write("<a class='menu'  target='_blank' href='Reports/printStudentBio.aspx?m=10&p=103&id=" & Session("ProfileID") & "'>พิมพ์ประวัติ</a>")%>
+         <% End If%>
+        </td>
+    </tr>
+  
+</table>                          
+		</article>
+	</div>
+                
+ 	<div>
+        <% If Request("m") = "2" Then%>
+				 <input id="ac-2" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   <input id="ac-2" name="accordion-1" type="radio" />
+<%End If%>
+
+
+					<label for="ac-2">ข้อมูลแหล่งฝึก</label>
+				  <article class="ac-small">
+   					    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          
+ 
+  <tr>
+    <td> <% If Request.QueryString("p") = "1" Then%>
+   					   
+   		<a class="menu2" href="?m=2&amp;p=1">แหล่งฝึกงาน</a>
+        <% Else%>
+        <a  class="menu"  href="?m=2&p=1">แหล่งฝึกงาน</a>
+    <% End If%>  </td>
+  </tr>
+  <tr>
+    <td> <% If Request.QueryString("p") = "2" Then%>
+   					   
+   		<a class="menu2" href="?m=2&amp;p=2">เลือกแหล่งฝึกงาน</a>
+        <% Else%>
+        <a  class="menu"  href="?m=2&p=2">เลือกแหล่งฝึกงาน</a>
+    <% End If%>  </td>
+  </tr>
+  
+   
+</table>
+		</article>
+		</div>
+        
+        <div>
+                <% If Request("m") = "3" Then%>
+				  	<input id="ac-3" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-3" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-3">ผลการคัดเลือก</label>
+					<article class="ac-small">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+   <tr>
+    <td> <% If Request.QueryString("p") = "3" Then%>
+   					   
+   		<a class="menu2" href="EditList.aspx?m=3&amp;p=301">ผลการคัดเลือก</a>
+        <% Else%>
+        <a  class="menu"  href="EditList.aspx?m=3&p=301">ผลการคัดเลือก</a>
+    <% End If%>  </td>
+  </tr>
+ 
+ 
+</table>
+				  </article>
+				</div>
+               
+  <div>
+                <% If Request("m") = "4" Then%>
+				  	<input id="ac-4" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-4" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-4">การประเมิน</label>
+					<article class="ac-small">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+   <tr>
+    <td> <% If Request.QueryString("p") = "401" Then%>
+   					   
+   		<a class="menu2" href="EditList.aspx?m=4&amp;p=401">ผลการประเมิน</a>
+        <% Else%>
+        <a  class="menu"  href="EditList.aspx?m=4&p=401">ผลการประเมิน</a>
+    <% End If%>  </td>
+  </tr>
+ 
+   
+</table>
+				  </article>
+				</div>            
+ <% End If%>
+ 
+  <% If Session("ROLE_ADM") = True Then%>
+				 
+				<div>
+                <% If Request("m") = "5" Then%>
+				  <input id="ac-5" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   <input id="ac-5" name="accordion-1" type="radio" />
+<%End If%>
+
+					
+					<label for="ac-5">ข้อมูลนิสิต</label>
+					<article class="ac-max">
+                    
+                      					
+					    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  						 
+
+                            <tr>
+    <td>  <% If Request.QueryString("p") = "bc10" Then%>
+        
+   		 <a class="menu2" href="BizCategory10.aspx?m=5&p=bc10">บันทึกข้อมูลนิสิต</a>     
+        <% Else%>
+      <a class="menu" href="BizCategory10.aspx?m=5&p=bc10">บันทึกข้อมูลนิสิต</a>     
+    <% End If%></td>
+  </tr>
+    <tr>
+    <td>  <% If Request.QueryString("p") = "bt10" Then%>
+        
+   		 <a class="menu2" href="BizType10.aspx?m=5&p=bt10">ค้นหานิสิต</a>     
+        <% Else%>
+      <a class="menu" href="BizType10.aspx?m=5&p=bt10">ค้นหานิสิต</a>     
+    <% End If%></td>
+  </tr>
+    <tr>
+    <td>  <% If Request.QueryString("p") = "bp10" Then%>
+        
+   		 <a class="menu2" href="BizPower10.aspx?m=5&p=bp10">นิสิตที่ยังไม่ได้เลือกแหล่งฝึกงาน</a>     
+        <% Else%>
+      <a class="menu" href="BizPower10.aspx?m=5&p=bp10">นิสิตที่ยังไม่ได้เลือกแหล่งฝึกงาน</a>     
+    <% End If%></td>
+  </tr>  
+ 
+</table>   		 
+				  </article>
+				</div>
+              
+				
+                <div>
+                <% If Request("m") = "6" Then%>
+				  	<input id="ac-6" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-6" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-6">อาจารย์</label>
+					<article class="ac-large">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+  
+   <tr>
+    <td> <% If Request.QueryString("p") = "news" Then%>
+   					   
+   		<a class="menu2" href="newsmanage.aspx?m=6&amp;p=news">บันทึกข้อมูลอาจารย์</a>
+        <% Else%>
+        <a  class="menu"  href="newsmanage.aspx?m=6&p=news">บันทึกข้อมูลอาจารย์</a>
+    <% End If%>  </td>
+  </tr>
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">ค้นหาอาจารย์</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">ค้นหาอาจารย์</a>
+    <% End If%>  </td>
+  </tr>
+ 
+</table>
+				  </article>
+				</div>
+                
+                
+   <div>
+                <% If Request("m") = "7" Then%>
+				  	<input id="ac-7" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-7" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-7">ข้อมูลรายวิชา</label>
+					<article class="ac-large">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+  
+   <tr>
+    <td> <% If Request.QueryString("p") = "news" Then%>
+   					   
+   		<a class="menu2" href="newsmanage.aspx?m=sys&amp;p=news">บันทึกข้อมูลรายวิชา</a>
+        <% Else%>
+        <a  class="menu"  href="newsmanage.aspx?m=sys&p=news">บันทึกข้อมูลรายวิชา</a>
+    <% End If%>  </td>
+  </tr>
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">กำหนดรายวิชาที่เปิดฝึกงาน</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">กำหนดรายวิชาที่เปิดฝึกงาน</a>
+    <% End If%>  </td>
+  </tr>
+  
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">กำหนดอาจารย์ประจำวิชา</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">กำหนดอาจารย์ประจำวิชา</a>
+    <% End If%>  </td>
+  </tr>
+  
+ 
+</table>
+				  </article>
+				</div>               
+                
+          
+   <div>
+                <% If Request("m") = "8" Then%>
+				  	<input id="ac-8" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-8" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-8">ข้อมูลแหล่งฝึก</label>
+					<article class="ac-large">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+  
+   <tr>
+    <td> <% If Request.QueryString("p") = "news" Then%>
+   					   
+   		<a class="menu2" href="newsmanage.aspx?m=sys&amp;p=news">ประเภทแหล่งฝึก</a>
+        <% Else%>
+        <a  class="menu"  href="newsmanage.aspx?m=sys&p=news">ประเภทแหล่งฝึก</a>
+    <% End If%>  </td>
+  </tr>
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">แหล่งฝึก</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">แหล่งฝึก</a>
+    <% End If%>  </td>
+  </tr>
+  
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">ผลัดฝึก</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">ผลัดฝึก</a>
+    <% End If%>  </td>
+  </tr>
+  
+   <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="UserAccount.aspx?m=sys&amp;p=ua">ความต้องการของแหล่งฝึก</a>
+        <% Else%>
+        <a  class="menu"  href="UserAccount.aspx?m=sys&p=ua">ความต้องการของแหล่งฝึก</a>
+    <% End If%>  </td>
+  </tr>
+  
+  
+</table>
+				  </article>
+				</div>                             
+                
+                
+ 
+   <div>
+                <% If Request("m") = "9" Then%>
+				  	<input id="ac-9" name="accordion-1" type="radio" checked="checked" />
+<%Else%>
+			   	<input id="ac-9" name="accordion-1" type="radio" />
+<%End If%>
+				
+					<label for="ac-9">จัดการผู้ใช้งาน</label>
+					<article class="ac-large">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+ 
+  
+   <tr>
+    <td> <% If Request.QueryString("p") = "news" Then%>
+   					   
+   		<a class="menu2" href="Roles.aspx?m=9&amp;p=news">กำหนดสิทธิ์ (Role)</a>
+        <% Else%>
+        <a  class="menu"  href="Roles.aspx?m=9&p=news">กำหนดสิทธิ์ (Role)</a>
+    <% End If%>  </td>
+  </tr>
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="Users.aspx?m=9&amp;p=ua">เพิ่มผู้ใช้งาน (User)</a>
+        <% Else%>
+        <a  class="menu"  href="Users.aspx?m=9&p=ua">เพิ่มผู้ใช้งาน (User)</a>
+    <% End If%>  </td>
+  </tr>
+  
+  <tr>
+    <td> <% If Request.QueryString("p") = "ua" Then%>
+   					   
+   		<a class="menu2" href="LogfilesByUser.aspx?m=sys&amp;p=ua">ประวัติการใช้งานระบบของ user</a>
+        <% Else%>
+        <a  class="menu"  href="LogfilesByUser.aspx?m=sys&p=ua">ประวัติการใช้งานระบบของ user</a>
+    <% End If%>  </td>
+  </tr>
+  
+  
+</table>
+				  </article>
+				</div>                              
+                
+<div>
+                <% If Request("m") = "rpt" Then%>
+					<input id="ac-10" name="accordion-1" type="radio" checked="checked" />
+                 <% else %>
+                 	<input id="ac-10" name="accordion-1" type="radio" />
+                 <% end if %>
+					<label for="ac-10">รายงาน</label>
+					<article class="ac-medium">					
+									  				
+						    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  							 
+
+                            <tr>
+   			 			<td>
+                       
+                        <% If Request.QueryString("p") = "r1" Then%>
+   					   
+   		<a class="menu2" href="rptPermitList.aspx?m=rpt&p=r1">พิมพ์ผลการประเมิน</a>
+        <% Else%>
+        <a  class="menu"  href="rptPermitList.aspx?m=rpt&p=r1">พิมพ์ผลการประเมิน</a>
+    <% End If%>                           </td>
+ 					 </tr> 
+
+  						 	                              
+  							<tr>
+  							  <td> <% If Request.QueryString("p") = "r2" Then%>
+   					   
+   		<a class="menu2" href="rptPermitLisByCondition.aspx?m=rpt&p=r2">xxxxxxxxxxxxxxxxxxxx</a>
+        <% Else%>
+        <a  class="menu"  href="rptPermitLisByCondition.aspx?m=rpt&p=r2">xxxxxxxxxxxxxxxxxxx</a>
+    <% End If%>     </td>
+							  </tr>
+                        
+  							<tr>
+  							  <td> <% If Request.QueryString("p") = "r3" Then%>
+   					   
+   		<a class="menu2" href="rptPermitListByMonth.aspx?m=rpt&p=r3">xxxxxxxxxxxxxxxxxxxx </a>
+        <% Else%>
+        <a  class="menu"  href="rptPermitListByMonth.aspx?m=rpt&p=r3">xxxxxxxxxxxxxxxxxxxx</a>
+    <% End If%>     </td>
+							  </tr>   
+
+  							<tr>
+  							  <td> <% If Request.QueryString("p") = "r5" Then%>
+   					   
+   		<a class="menu2" href="rptKPI.aspx?m=rpt&p=r5">xxxxxxxxxxxxxxxxxxxx</a>
+        <% Else%>
+        <a  class="menu"  href="rptKPI.aspx?m=rpt&p=r5">xxxxxxxxxxxxxxxxxxxx </a>
+    <% End If%>     </td>
+							  </tr>  
+                               
+  							
+</table>
+				  </article>
+				</div>                
+                
+                
+                
+                
+<% End If%>
+
+			</section>
+        </div>
+         

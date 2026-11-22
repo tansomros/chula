@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%: Page.Title %> - หลักสูตรเภสัชกรประจำบ้าน
+    </title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+
+    <!-- <meta name="viewport" content="width=1160"> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="Ionicons/css/ionicons.min.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
+    <link title="สำนักวิชาแพทยศาสตร์ RSS Feed" href="http://im.sut.ac.th/feed" rel="alternate"
+        type="application/rss+xml">
+    <link href="css/owl.carousel.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.theme.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/sutstyle.css">
+
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- 
+<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+
+<link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">  
+ -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+    <STYLE type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </STYLE>
+    <link href="css/inofontresizer.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/front.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/style(1).css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/style(2).css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/magnific-popup.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/flexslider.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/owl.carousel(1).css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/owl.theme.default.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/royalslider.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/rs-minimal-white.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/style(3).css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/default.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/shiftnav.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/light.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/counterize.css.css" rel="stylesheet" type="text/css" media="all">
+
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="js/jquery.fontsize.js" type="text/javascript"></script>
+    <script src="js/plugin.js" type="text/javascript"></script>
+    <script src="js/counterize.js.js" type="text/javascript"></script>
+
+
+    <!-- ShiftNav CSS 
+	================================================================ -->
+
+    <STYLE id="shiftnav-dynamic-css" type="text/css">
+        #shiftnav-toggle-main {
+            background: #06851e;
+            color: #ffffff;
+        }
+
+        @media only screen and (min-width:767px) {
+            #shiftnav-toggle-main {
+                display: none;
+            }
+
+            .shiftnav-wrap {
+                padding-top: 0 !important;
+            }
+        }
+
+        @media only screen and (max-width:766px) {
+            #menu-main {
+                display: none !important;
+            }
+        }
+    </STYLE>
+    <!-- end ShiftNav CSS -->
+    <STYLE id="custom-background-css" type="text/css">
+        body.custom-background {
+            background-image: url("images/sutmedbg.jpg");
+            background-position: left top;
+            background-size: auto;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </STYLE>
+
+    <script src="js/owl.carousel.min.js"></script>
+
+
+
+</head>
+
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see
+                    https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                    <%--Framework Scripts--%>
+                        <asp:ScriptReference Name="MsAjaxBundle" />
+                        <asp:ScriptReference Name="jquery" />
+                        <asp:ScriptReference Name="bootstrap" />
+                        <asp:ScriptReference Name="WebForms.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/WebForms.js" />
+                        <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/WebUIValidation.js" />
+                        <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/MenuStandards.js" />
+                        <asp:ScriptReference Name="GridView.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/GridView.js" />
+                        <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/DetailsView.js" />
+                        <asp:ScriptReference Name="TreeView.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/TreeView.js" />
+                        <asp:ScriptReference Name="WebParts.js" Assembly="System.Web"
+                            Path="~/Scripts/WebForms/WebParts.js" />
+                        <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                        <asp:ScriptReference Name="WebFormsBundle" />
+                        <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+        <!--
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">Application name</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/">หน้าแรก</a></li>
+                        <li><a runat="server" href="~/About">เกี่ยวกับองค์กร</a></li>
+                        <li><a runat="server" href="~/">แนะนำหลักสูตร </a></li>
+                        <li><a runat="server" href="~/">ข่าวประชาสัมพันธ์</a></li>
+                        <li><a runat="server" href="~/">บริการวิชาการ</a></li>
+                        <li><a runat="server" href="~/">บุคลากร</a></li>
+                        <li><a runat="server" href="~/">งานวิจัย</a></li>
+                        <li><a runat="server" href="~/">ดาวน์โหลด</a></li>
+                        <li><a runat="server" href="~/">ติดต่อสอบถาม</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    -->
+        <header class="l-header" role="banner">
+
+
+            <div class="header-navigation ">
+
+                <div id="skip" class="skip-menu assistive-text">
+                    <p>
+                        <span class="_main">
+                            <a href="##article">Skip to the content of this page</a>,
+                        </span>
+                        <a class="_primary-menu" href="##menu-main">the main menu</a>,
+
+
+
+                        <a class="_search" href="##search">the site search form</a>,
+
+                        <a class="_home" href="#">the site home page</a>.
+                    </p>
+                </div>
+
+                <div class="eyebrow-mobile-wrapper js-eyebrow-mobile">
+                    <div class="eyebrow-mobile">
+                        <a href="https://www.uic.edu/"><svg class="large-brand-mark" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 358.3167 68.6566">
+                                <title>University of Illinois Chicago</title>
+                                <g id="full-rgb">
+                                    <g id="type">
+                                        <path id="type_PathItem_" data-name="type &lt;PathItem&gt;"
+                                            d="M92.7856,19.8163a4.11,4.11,0,0,1-.2419,1.8878l-.0015.0035a2.5166,2.5166,0,0,1-4.1817-.0035,4.1121,4.1121,0,0,1-.2418-1.8878V13.0625H85.9158V19.85a5.8717,5.8717,0,0,0,.6027,3.2111,5.1431,5.1431,0,0,0,7.8682-.0015,5.87,5.87,0,0,0,.6022-3.21V13.0625H92.7856Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_PathItem_2" data-name="type &lt;PathItem&gt;"
+                                            d="M109.3292,16.9944c0,1.0914.0154,2.4014.0254,3.2684.0019.1761.0034.3329.0049.4633-.2055-.3329-.4982-.8-.6833-1.083l-4.3509-6.5353-.03-.0453h-2.0381V24.6888H104.46V20.7739c0-1.61-.012-3.1012-.0254-3.8632l.0119.02c.1379.23.326.5449.5152.8416l4.5017,6.87.03.0463h2.0386V13.0625h-2.2028Z"
+                                            style="fill: #001e62"></path>
+                                        <rect id="type_PathItem_3" data-name="type &lt;PathItem&gt;" x="118.8786"
+                                            y="13.0625" width="2.2197" height="11.6263" style="fill: #001e62"></rect>
+                                        <path id="type_PathItem_4" data-name="type &lt;PathItem&gt;"
+                                            d="M132.7558,20.83l-.3225,1.1154c-.0777-.337-.1951-.7988-.2877-1.1159l-2.3407-7.7666h-2.33L131.06,24.6171l.0224.0717H133.7l3.7616-11.6263h-2.2983Z"
+                                            style="fill: #001e62"></path>
+                                        <polygon id="type_PathItem_5" data-name="type &lt;PathItem&gt;"
+                                            points="145.767 19.683 151.193 19.683 151.193 17.682 145.767 17.682 145.767 15.064 151.747 15.064 151.747 13.063 143.547 13.063 143.547 24.689 152.167 24.689 152.167 22.688 145.767 22.688 145.767 19.683"
+                                            style="fill: #001e62"></polygon>
+                                        <path id="type_CompoundPathItem_" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M166.1337,19.4978a3.3559,3.3559,0,0,0,1.5573-2.89,3.2638,3.2638,0,0,0-1.6808-3.011,5.7594,5.7594,0,0,0-2.923-.5346h-4.2847V24.6888h2.22V20.12h1.9052l2.6542,4.5689h2.64l-2.8847-4.82A4.8207,4.8207,0,0,0,166.1337,19.4978Zm-5.1114-4.45h2.0649a3.9609,3.9609,0,0,1,1.5718.21,1.3748,1.3748,0,0,1,.745,1.301,1.4382,1.4382,0,0,1-.7445,1.3338,3.9589,3.9589,0,0,1-1.5723.21h-2.0649Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_PathItem_6" data-name="type &lt;PathItem&gt;"
+                                            d="M179.5681,17.9027,178.191,17.6c-1.3548-.2987-1.7679-.6127-1.7679-1.3448,0-.8665.7839-1.4264,1.9978-1.4264a3.6688,3.6688,0,0,1,2.8772,1.3393l.0642.0791,1.6912-1.3751-.0722-.08a5.907,5.907,0,0,0-4.51-1.9315c-2.56,0-4.4186,1.47-4.4186,3.4948,0,2.32,1.8738,3.0225,3.5063,3.3754l1.5294.336c1.1532.2508,1.8679.5688,1.8679,1.3786,0,.9038-.8287,1.4433-2.2163,1.4433a3.9186,3.9186,0,0,1-3.3057-1.6976l-.0572-.0946L173.5255,22.43l.0587.0826a6.1858,6.1858,0,0,0,5.0552,2.3775c2.8473,0,4.6868-1.4244,4.6868-3.6292C183.3262,19.1793,181.8889,18.4327,179.5681,17.9027Z"
+                                            style="fill: #001e62"></path>
+                                        <rect id="type_PathItem_7" data-name="type &lt;PathItem&gt;" x="189.9646"
+                                            y="13.0625" width="2.2178" height="11.6263" style="fill: #001e62"></rect>
+                                        <polygon id="type_PathItem_8" data-name="type &lt;PathItem&gt;"
+                                            points="198.459 15.064 201.802 15.064 201.802 24.689 204.021 24.689 204.021 15.064 207.346 15.064 207.346 13.063 198.459 13.063 198.459 15.064"
+                                            style="fill: #001e62"></polygon>
+                                        <polygon id="type_PathItem_9" data-name="type &lt;PathItem&gt;"
+                                            points="217.674 17.855 214.807 13.063 212.233 13.063 216.463 19.946 216.463 24.689 218.681 24.689 218.681 19.948 223.152 13.063 220.589 13.063 217.674 17.855"
+                                            style="fill: #001e62"></polygon>
+                                        <path id="type_CompoundPathItem_2" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M241.2135,12.861c-3.2958,0-5.5105,2.4173-5.5105,6.0147,0,3.71,2.1112,6.0147,5.5105,6.0147s5.51-2.3049,5.51-6.0147C246.7231,15.2783,244.5093,12.861,241.2135,12.861Zm0,2.0012c1.9162,0,3.1067,1.5379,3.1067,4.0135,0,2.492-1.1617,3.98-3.1067,3.98s-3.1066-1.4876-3.1066-3.98C238.1069,16.4,239.2974,14.8622,241.2135,14.8622Z"
+                                            style="fill: #001e62"></path>
+                                        <polygon id="type_PathItem_10" data-name="type &lt;PathItem&gt;"
+                                            points="260.476 15.064 260.476 13.063 252.915 13.063 252.915 24.689 255.135 24.689 255.135 19.834 260.257 19.834 260.257 17.833 255.135 17.833 255.135 15.064 260.476 15.064"
+                                            style="fill: #001e62"></polygon>
+                                        <path id="type_CompoundPathItem_3" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M90.5916,55.4592H85.9075V34.3649h4.6841Z" style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_4" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M100.3152,34.3649V51.24h8.4375v4.2188H95.6312V34.3649Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_5" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M116.5858,34.3649V51.24h8.4375v4.2188H111.9017V34.3649Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_6" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M132.8563,55.4592h-4.6841V34.3649h4.6841Z" style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_7" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M147.6981,42.6164c1.6748,2.7607,3.102,5.3975,3.102,5.3975h.0308s-.1861-4.1563-.1861-6.6075V34.3649h4.6221V55.4592h-4.7148l-4.9947-8.128c-1.1787-1.9541-3.1953-5.6767-3.1953-5.6767h-.0307s.2168,3.5058.2168,6.8867v6.918h-4.6529V34.3649h4.7461Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_8" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M169.5174,33.9924c6.2353,0,10.206,4.4365,10.206,10.92,0,6.4521-3.6914,10.9189-10.206,10.9189-6.4214,0-10.2061-4.4668-10.2061-10.9189C159.3113,38.4289,163.282,33.9924,169.5174,33.9924Zm0,17.8994c3.5674,0,5.522-2.5752,5.522-6.98s-2.0166-7.0732-5.522-7.0732c-3.5366,0-5.522,2.6679-5.522,7.0732S165.9188,51.8918,169.5174,51.8918Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_9" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M188.4935,55.4592h-4.6846V34.3649h4.6846Z" style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_10" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M206.3939,40.1662a7.8829,7.8829,0,0,0-5.46-2.2959c-1.9541,0-3.3193.8066-3.3193,2.1406,0,1.3643.9619,1.9229,2.8847,2.2949l3.4121.6827c3.9092.7754,6.3594,2.3271,6.3594,6.05,0,4.373-3.8769,6.7929-8.8721,6.7929a11.9752,11.9752,0,0,1-9.5234-4.4052l3.2578-2.7911a7.9406,7.9406,0,0,0,6.39,3.2881c2.4511,0,3.8779-.9619,3.8779-2.5127,0-1.458-1.2412-1.8613-3.1641-2.2031l-2.73-.5273c-3.8466-.7442-6.7627-2.1407-6.7627-6.2657,0-3.7851,3.5049-6.4218,8.127-6.4218a11.5274,11.5274,0,0,1,8.5,3.3193Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_11" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M239.7122,50.8371c-1.582,3.1016-4.3115,4.9941-8.5615,4.9941-6.2978,0-10.082-4.4668-10.082-10.9189,0-6.4834,3.9707-10.92,10.082-10.92a9.0173,9.0173,0,0,1,8.7168,5.3974l-3.9082,1.6446a4.8027,4.8027,0,0,0-4.7471-3.1953c-3.4736,0-5.459,2.6679-5.459,7.0732s1.9229,6.98,5.459,6.98a4.7273,4.7273,0,0,0,4.6533-2.8848Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_12" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M247.9505,46.7111v8.7481h-4.6836V34.3649h4.6836v8.1275h7.8174V34.3649h4.6846V55.4592h-4.6846V46.7111Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_13" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M270.22,55.4592h-4.6836V34.3649H270.22Z" style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_14" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M292.9007,50.8371c-1.582,3.1016-4.3115,4.9941-8.5615,4.9941-6.2969,0-10.0821-4.4668-10.0821-10.9189,0-6.4834,3.9708-10.92,10.0821-10.92A9.0173,9.0173,0,0,1,293.056,39.39l-3.9082,1.6446a4.8028,4.8028,0,0,0-4.7471-3.1953c-3.4736,0-5.459,2.6679-5.459,7.0732s1.9229,6.98,5.459,6.98a4.7273,4.7273,0,0,0,4.6533-2.8848Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_15" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M299.4085,55.4592h-4.9326L301.58,34.3649h5.6767l7.042,21.0943h-5.0263l-1.24-4.1875h-7.414Zm5.6768-13.99c-.3721-1.334-.7129-2.73-.7129-2.73h-.0313s-.372,1.3964-.7754,2.7607l-1.8,5.9258h5.0567Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_16" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M325.5931,33.9924A9.0173,9.0173,0,0,1,334.31,39.39l-3.9082,1.6446a4.8028,4.8028,0,0,0-4.7471-3.1953c-3.4736,0-5.49,2.6679-5.49,7.0732,0,4.4668,1.9541,7.166,5.5215,7.166,3.0712,0,4.4668-1.9551,4.7158-4.4678h-5.9873V43.4846h10.0195V55.4592h-4.0947V53.5978a7.2147,7.2147,0,0,1-5.49,2.2334c-5.7705,0-9.3378-4.4668-9.3378-10.9189C315.5111,38.4289,319.4818,33.9924,325.5931,33.9924Z"
+                                            style="fill: #001e62"></path>
+                                        <path id="type_CompoundPathItem_17" data-name="type &lt;CompoundPathItem&gt;"
+                                            d="M348.1107,33.9924c6.2353,0,10.206,4.4365,10.206,10.92,0,6.4521-3.6914,10.9189-10.206,10.9189-6.4219,0-10.2061-4.4668-10.2061-10.9189C337.9046,38.4289,341.8753,33.9924,348.1107,33.9924Zm0,17.8994c3.5673,0,5.5214-2.5752,5.5214-6.98s-2.0156-7.0732-5.5214-7.0732c-3.5362,0-5.5215,2.6679-5.5215,7.0732S344.512,51.8918,348.1107,51.8918Z"
+                                            style="fill: #001e62"></path>
+                                    </g>
+                                    <g id="logoMark">
+                                        <rect id="logoMark_PathItem_" data-name="logoMark &lt;PathItem&gt;" x="31.7455"
+                                            y="24.1714" width="6.7174" height="22.3922" style="fill: #fff"></rect>
+                                        <path id="logoMark_PathItem_2" data-name="logoMark &lt;PathItem&gt;"
+                                            d="M20.9464,37.54a4.7676,4.7676,0,0,1-.757,3.1632,3.24,3.24,0,0,1-2.6327.9214,3.24,3.24,0,0,1-2.6357-.9214,4.7673,4.7673,0,0,1-.7576-3.1632V24.1714H7.4444V37.41c0,3.1288.3308,4.6412,1.2211,6.1589,1.4817,2.4694,5.4315,3.423,8.8912,3.423,3.4544,0,7.4074-.9536,8.8882-3.423.89-1.5177,1.2211-3.03,1.2211-6.1589V24.1714h-6.72Z"
+                                            style="fill: #fff"></path>
+                                        <path id="logoMark_PathItem_3" data-name="logoMark &lt;PathItem&gt;"
+                                            d="M52.884,41.5255c-2.8642,0-4.3148-2.3059-4.3148-6.16,0-3.8819,1.4506-6.2527,4.3148-6.2527,2.1075,0,3.3256,1.2831,3.8875,3.4554l5.8254-2.7981c-1.1194-2.9308-4.2782-5.9919-9.6123-5.9919-6.9811,0-11.2619,4.709-11.2619,11.5873,0,6.85,4.05,11.5925,11.1294,11.5925,5.103,0,8.2988-2.4688,9.8783-6.06L56.638,38.7266A3.7235,3.7235,0,0,1,52.884,41.5255Z"
+                                            style="fill: #fff"></path>
+                                        <path id="logoMark_CompoundPathItem_"
+                                            data-name="logoMark &lt;CompoundPathItem&gt;"
+                                            d="M34.3313,0a34.3283,34.3283,0,1,0,34.33,34.3282A34.3291,34.3291,0,0,0,34.3313,0ZM14.921,40.7031a3.24,3.24,0,0,0,2.6357.9214,3.24,3.24,0,0,0,2.6327-.9214,4.7676,4.7676,0,0,0,.757-3.1632V24.1714h6.72V37.41c0,3.1288-.3315,4.6412-1.2211,6.1589-1.4808,2.4694-5.4338,3.423-8.8882,3.423-3.46,0-7.4095-.9536-8.8912-3.423-.89-1.5177-1.2211-3.03-1.2211-6.1589V24.1714h6.719V37.54A4.7673,4.7673,0,0,0,14.921,40.7031Zm16.8245,5.8605V24.1714h6.7174V46.5636Zm21.1066.3949c-7.08,0-11.1294-4.7424-11.1294-11.5925,0-6.8783,4.2808-11.5873,11.2619-11.5873,5.3341,0,8.4929,3.0611,9.6123,5.9919l-5.8254,2.7981c-.5619-2.1723-1.78-3.4554-3.8875-3.4554-2.8642,0-4.3148,2.3708-4.3148,6.2527,0,3.8536,1.4506,6.16,4.3148,6.16a3.7235,3.7235,0,0,0,3.754-2.7989L62.73,40.8984C61.1509,44.49,57.9551,46.9585,52.8521,46.9585Z"
+                                            style="fill: #d50032"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+
+                        <button aria-label="Search the site" class="search-toggle-mobile js-search-toggle-mobile">
+                            <span class="icon-search ">
+                                <span class="assistive-text">Search the site</span>
+                            </span>
+                        </button>
+                        <button class="nav-header-toggle js-nav-header-toggle">
+                            <span class="icon-menu">
+                                Toggle Menu
+                            </span>
+                        </button>
+                    </div>
+                    <div class="search-input-container-mobile">
+                        <div class="search-input-container-mobile__content">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-navigation__eyebrow">
+
+                    <div class="header-navigation__eyebrow-menus">
+
+                        <div class="header-navigation__logo-and-site-title">
+
+                            <div class="site-title-main">
+
+                                <div id="brand">
+                                    <A href="#" target="_self">
+                                        <img src="images/logo-chula.svg">
+                                    </A>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <nav class="header-menus js-header-menus " aria-label="Primary" role="navigation">
+
+                            <div class="site-title-mobile-menu">
+                                <a href="#">College of Pharmacy - Chicago | Rockford</a>
+                            </div>
+
+
+                            <h2 class="assistive-text">Main Menu</h2>
+                            <ul id="menu-main" class="menu menu-main" aria-label="Main Menu">
+                                <li
+                                    class="menu-main__first-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5035 menu-item-has-children">
+                                    <a class="menu-main__first-link" href="#" target="_self">
+                                        เกี่ยวกับองค์กร
+                                    </a>
+
+                                    <button class="menu-main__expand-item js-expand-item" role="button">
+                                        <svg class="menu-main__expand-icon" aria-label="Expand Programs menu" width="32"
+                                            height="32" viewBox="0 0 32 32">
+                                            <title>Expand Programs menu</title>
+                                            <g fill="none" fill-rule="evenodd">
+                                                <ellipse class="menu-main__expand-circle" stroke-width="1"
+                                                    stroke="#001E62" fill="#001E62" cx="16" cy="16" rx="15.5" ry="15.5">
+                                                </ellipse>
+                                                <path class="menu-main__expand-chevron" stroke-width="2"
+                                                    stroke="#001E62" stroke-linecap="round" d="M12 18l4-4 4 4"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
+
+                                    <div class="menu-main__submenus-container">
+                                        <ul class="menu-main__second-list">
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-193 menu-item-has-children">
+                                                <a class="menu-main__second-link" href="#programs/pharmd/"
+                                                    target="_self">
+
+                                                    PharmD
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-192 menu-item-has-children">
+                                                <a class="menu-main__second-link" href="#programs/graduate-programs/"
+                                                    target="_self">
+
+                                                    Graduate Programs
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-159 menu-item-has-children">
+                                                <a class="menu-main__second-link"
+                                                    href="#programs/residency-and-fellowhip/" target="_self">
+
+                                                    Residency &amp; Fellowship
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5715">
+                                                <a class="menu-main__second-link" href="#programs/continuing-education/"
+                                                    target="_self">
+
+                                                    Continuing Education
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="menu-main__mega-menu-container">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="menu-main__first-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-190 menu-item-has-children">
+                                    <a class="menu-main__first-link" href="#departments-and-centers/" target="_self">
+
+                                        แนะนำหลักสูตร
+                                    </a>
+
+                                    <button class="menu-main__expand-item js-expand-item" role="button">
+                                        <svg class="menu-main__expand-icon"
+                                            aria-label="Expand Departments and Centers menu" width="32" height="32"
+                                            viewBox="0 0 32 32">
+                                            <title>Expand Departments and Centers menu</title>
+                                            <g fill="none" fill-rule="evenodd">
+                                                <ellipse class="menu-main__expand-circle" stroke-width="1"
+                                                    stroke="#001E62" fill="#001E62" cx="16" cy="16" rx="15.5" ry="15.5">
+                                                </ellipse>
+                                                <path class="menu-main__expand-chevron" stroke-width="2"
+                                                    stroke="#001E62" stroke-linecap="round" d="M12 18l4-4 4 4"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
+
+                                    <div class="menu-main__submenus-container">
+                                        <ul class="menu-main__second-list">
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5074">
+                                                <a class="menu-main__second-link"
+                                                    href="#departments-and-centers/departments-2/" target="_self">
+
+                                                    Departments
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-350">
+                                                <a class="menu-main__second-link"
+                                                    href="#departments-and-centers/research-centers/" target="_self">
+
+                                                    Research Centers and Groups
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-345">
+                                                <a class="menu-main__second-link"
+                                                    href="#departments-and-centers/faculty-research-scholarship/"
+                                                    target="_self">
+
+                                                    Faculty Research &amp; Scholarship
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="menu-main__mega-menu-container">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="menu-main__first-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-4990 menu-item-has-children">
+                                    <a class="menu-main__first-link" href="#alumni-and-giving/" target="_self">
+                                        บริการวิชาการ
+                                    </a>
+
+                                    <button class="menu-main__expand-item js-expand-item" role="button">
+                                        <svg class="menu-main__expand-icon" aria-label="Expand Alumni and Giving menu"
+                                            width="32" height="32" viewBox="0 0 32 32">
+                                            <title>Expand Alumni and Giving menu</title>
+                                            <g fill="none" fill-rule="evenodd">
+                                                <ellipse class="menu-main__expand-circle" stroke-width="1"
+                                                    stroke="#001E62" fill="#001E62" cx="16" cy="16" rx="15.5" ry="15.5">
+                                                </ellipse>
+                                                <path class="menu-main__expand-chevron" stroke-width="2"
+                                                    stroke="#001E62" stroke-linecap="round" d="M12 18l4-4 4 4"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
+
+                                    <div class="menu-main__submenus-container">
+                                        <ul class="menu-main__second-list">
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-4975">
+                                                <a class="menu-main__second-link" href="#alumni-and-giving/campaign/"
+                                                    target="_self">
+
+                                                    Campaign – Impact Report
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-12287">
+                                                <a class="menu-main__second-link"
+                                                    href="#alumni-and-giving/donor-stories/" target="_self">
+
+                                                    Donor Stories
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-6004">
+                                                <a class="menu-main__second-link"
+                                                    href="#alumni-and-giving/volunteer-opportunities/" target="_self">
+
+                                                    Volunteer Opportunities
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-11811">
+                                                <a class="menu-main__second-link"
+                                                    href="#alumni-and-giving/alumni-awards/" target="_self">
+
+                                                    Alumni Awards
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-4976">
+                                                <a class="menu-main__second-link"
+                                                    href="#alumni-and-giving/stay-connected/" target="_self">
+
+                                                    Stay Connected
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5167">
+                                                <a class="menu-main__second-link"
+                                                    href="#alumni-and-giving/alumni-and-advancement-staff/"
+                                                    target="_self">
+
+                                                    Alumni and Advancement Staff
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="menu-main__mega-menu-container">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="menu-main__first-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5174 menu-item-has-children">
+                                    <a class="menu-main__first-link" href="#about/" target="_self">
+
+                                        ติดต่อสอบถาม
+                                    </a>
+
+                                    <button class="menu-main__expand-item js-expand-item" role="button">
+                                        <svg class="menu-main__expand-icon" aria-label="Expand About menu" width="32"
+                                            height="32" viewBox="0 0 32 32">
+                                            <title>Expand About menu</title>
+                                            <g fill="none" fill-rule="evenodd">
+                                                <ellipse class="menu-main__expand-circle" stroke-width="1"
+                                                    stroke="#001E62" fill="#001E62" cx="16" cy="16" rx="15.5" ry="15.5">
+                                                </ellipse>
+                                                <path class="menu-main__expand-chevron" stroke-width="2"
+                                                    stroke="#001E62" stroke-linecap="round" d="M12 18l4-4 4 4"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
+
+                                    <div class="menu-main__submenus-container">
+                                        <ul class="menu-main__second-list">
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-10961">
+                                                <a class="menu-main__second-link" href="#about/media-center/"
+                                                    target="_self">
+
+                                                    Media Center
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-9545">
+                                                <a class="menu-main__second-link" href="#events-2/" target="_self">
+
+                                                    Events
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-11121">
+                                                <a class="menu-main__second-link" href="#about/by-the-numbers/"
+                                                    target="_self">
+
+                                                    By The Numbers
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5192">
+                                                <a class="menu-main__second-link" href="#about/our-history/"
+                                                    target="_self">
+
+                                                    Our History
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5189">
+                                                <a class="menu-main__second-link" href="#about/chicago-campus/"
+                                                    target="_self">
+
+                                                    Chicago Campus
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5188 menu-item-has-children">
+                                                <a class="menu-main__second-link" href="#about/rockford-campus/"
+                                                    target="_self">
+
+                                                    Rockford Campus
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5190">
+                                                <a class="menu-main__second-link" href="#about/strategic-plan/"
+                                                    target="_self">
+
+                                                    Strategic Plan
+                                                </a>
+                                            </li>
+                                            <li
+                                                class="menu-main__second-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-5191 menu-item-has-children">
+                                                <a class="menu-main__second-link" href="#about/diversity-and-inclusion/"
+                                                    target="_self">
+
+                                                    Diversity, Equity, and Inclusion
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="menu-main__mega-menu-container">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="l-eyebrow">
+
+                                <h2 class="assistive-text">Eyebrow menu</h2>
+                                <ul id="menu-eyebrow" class="menu menu-eyebrow" aria-label="Eyebrow menu">
+
+                                </ul>
+
+                                <h2 class="assistive-text">UIC menu</h2>
+                                <ul class="menu-uic">
+
+                                </ul>
+
+
+
+                                <div aria-label="Primary" role="search" class="search-wrapper">
+
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </nav>
+                    </div>
+                </div>
+
+                <a class="header-navigation__site-title" href="#">
+                    <div class="title-bar">
+                        <div class="l-full">
+                            <div>
+                                <h1 class="site-name">
+                                    College of Pharmacy - Chicago | Rockford
+                                </h1>
+                            </div>
+                            <span class="ui-affiliation">
+                                UI Health is UIC’s academic health enterprise
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="header-carousel
+  ">
+                <div class="header-carousel__images">
+                    <div class="header-carousel-images">
+                        <div class="header-carousel-images__item" data-item-index="0" data-item-position="previous"
+                            style="
+            background-image:url(&#39;#wp-content/uploads/sites/138/2021/02/PharmD-2.jpg&#39;)">
+                        </div>
+                        <div class="header-carousel-images__item" data-item-index="1" data-item-position="current"
+                            style="
+            background-image:url(&#39;#wp-content/uploads/sites/138/2021/02/Grad-1.jpg&#39;)">
+                        </div>
+                        <div class="header-carousel-images__item" data-item-index="2" data-item-position="next" style="
+            background-image:url(&#39;#wp-content/uploads/sites/138/2021/02/Res-Fel-1.jpg&#39;)">
+                        </div>
+                    </div>
+                </div>
+                <div class="header-carousel__content">
+                    <div class="header-carousel-content">
+                        <div class="header-carousel-content__text">
+                            <ul class="header-carousel-text js-carousel-text">
+                                <li id="header-slide-1" class="header-carousel-text__item" data-item-index="0"
+                                    data-item-position="previous">
+                                    <a href="#programs/pharmd/" class="header-carousel-text__link" data-item-index="0">
+                                        <span class="header-carousel-text__link-text">
+                                            PharmD Program
+                                        </span>
+                                        <span class="header-carousel-text__link-icon" aria-hidden="true">
+                                            <svg class="svg-chevron-right" width="9px" height="14px" viewBox="0 0 9 14"
+                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Components" stroke="none" stroke-width="1" fill="none"
+                                                    fill-rule="evenodd" stroke-linecap="round">
+                                                    <g id="Icons" transform="translate(-664.000000, -832.000000)"
+                                                        stroke-width="2" stroke="currentColor">
+                                                        <g id="Pages" transform="translate(454.000000, 824.000000)">
+                                                            <polyline id="icon-chevron-right"
+                                                                points="211 9 217 15 211 21"></polyline>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li id="header-slide-2" class="header-carousel-text__item" data-item-index="1"
+                                    data-item-position="current">
+                                    <a href="#programs/graduate-programs/" class="header-carousel-text__link"
+                                        data-item-index="1">
+                                        <span class="header-carousel-text__link-text">
+                                            Graduate Programs
+                                        </span>
+                                        <span class="header-carousel-text__link-icon" aria-hidden="true">
+                                            <svg class="svg-chevron-right" width="9px" height="14px" viewBox="0 0 9 14"
+                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Components" stroke="none" stroke-width="1" fill="none"
+                                                    fill-rule="evenodd" stroke-linecap="round">
+                                                    <g id="Icons" transform="translate(-664.000000, -832.000000)"
+                                                        stroke-width="2" stroke="currentColor">
+                                                        <g id="Pages" transform="translate(454.000000, 824.000000)">
+                                                            <polyline id="icon-chevron-right"
+                                                                points="211 9 217 15 211 21"></polyline>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li id="header-slide-3" class="header-carousel-text__item" data-item-index="2"
+                                    data-item-position="next">
+                                    <a href="#programs/residency-and-fellowhip/" class="header-carousel-text__link"
+                                        data-item-index="2">
+                                        <span class="header-carousel-text__link-text">
+                                            Residency and Fellowship Programs
+                                        </span>
+                                        <span class="header-carousel-text__link-icon" aria-hidden="true">
+                                            <svg class="svg-chevron-right" width="9px" height="14px" viewBox="0 0 9 14"
+                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Components" stroke="none" stroke-width="1" fill="none"
+                                                    fill-rule="evenodd" stroke-linecap="round">
+                                                    <g id="Icons" transform="translate(-664.000000, -832.000000)"
+                                                        stroke-width="2" stroke="currentColor">
+                                                        <g id="Pages" transform="translate(454.000000, 824.000000)">
+                                                            <polyline id="icon-chevron-right"
+                                                                points="211 9 217 15 211 21"></polyline>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="header-carousel-navigation">
+                                <button class="header-carousel-navigation__pause" data-play-state="play">
+                                    <span class="header-carousel-navigation__pause-text">
+                                        Pause or play the slideshow
+                                    </span>
+                                    <span class="header-carousel-navigation__pause-icon">
+
+                                    </span>
+                                </button>
+                                <button class="header-carousel-navigation__next js-header-carousel-next">
+                                    <span class="header-carousel-navigation__next-text">
+                                        Show the next item
+                                    </span>
+                                    <span class="header-carousel-navigation__next-icon">
+                                        <svg class="svg-chevron-right" width="9px" height="14px" viewBox="0 0 9 14"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Components" stroke="none" stroke-width="1" fill="none"
+                                                fill-rule="evenodd" stroke-linecap="round">
+                                                <g id="Icons" transform="translate(-664.000000, -832.000000)"
+                                                    stroke-width="2" stroke="currentColor">
+                                                    <g id="Pages" transform="translate(454.000000, 824.000000)">
+                                                        <polyline id="icon-chevron-right" points="211 9 217 15 211 21">
+                                                        </polyline>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button class="header-carousel-navigation__previous js-header-carousel-previous">
+                                    <span class="header-carousel-navigation__previous-text">
+                                        Show the next item
+                                    </span>
+                                    <span class="header-carousel-navigation__previous-icon">
+                                        <svg class="svg-chevron-right" width="9px" height="14px" viewBox="0 0 9 14"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Components" stroke="none" stroke-width="1" fill="none"
+                                                fill-rule="evenodd" stroke-linecap="round">
+                                                <g id="Icons" transform="translate(-664.000000, -832.000000)"
+                                                    stroke-width="2" stroke="currentColor">
+                                                    <g id="Pages" transform="translate(454.000000, 824.000000)">
+                                                        <polyline id="icon-chevron-right" points="211 9 217 15 211 21">
+                                                        </polyline>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <ul class="header-carousel-navigation-pager">
+                                    <button class="header-carousel-navigation-pager__item" data-item-index="0"
+                                        data-item-position="previous">
+                                        <span class="header-carousel-navigation-pager__item-text">
+                                            Show slide number 1
+                                        </span>
+                                        <span class="header-carousel-navigation-pager__item-icon">
+                                        </span>
+                                    </button>
+                                    <button class="header-carousel-navigation-pager__item" data-item-index="1"
+                                        data-item-position="current">
+                                        <span class="header-carousel-navigation-pager__item-text">
+                                            Show slide number 2
+                                        </span>
+                                        <span class="header-carousel-navigation-pager__item-icon">
+                                        </span>
+                                    </button>
+                                    <button class="header-carousel-navigation-pager__item" data-item-index="2"
+                                        data-item-position="next">
+                                        <span class="header-carousel-navigation-pager__item-text">
+                                            Show slide number 3
+                                        </span>
+                                        <span class="header-carousel-navigation-pager__item-icon">
+                                        </span>
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="
+    component-call-to-action
+    component-call-to-action--dark
+    component-call-to-action--header-strip
+    ">
+
+
+                <ul class="_items call-to-action-links">
+                    <li>
+                        <a href="#apply/" target="_self">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark check-icon"
+                                aria-hidden="true">
+                                <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                    <title>Check icon</title>
+                                    <g fill="none" fill-rule="evenodd">
+                                        <ellipse class="_circle" fill="#001E62" cx="18" cy="18" rx="18" ry="18">
+                                        </ellipse>
+                                        <path class="_mark"
+                                            d="M15.168 24.555c.396.593 1.268.593 1.664 0l8-12c.306-.46.182-1.08-.277-1.387-.46-.306-1.08-.182-1.387.277l-8 12h1.664l-4-6c-.306-.46-.927-.583-1.387-.277-.46.306-.583.927-.277 1.387l4 6z"
+                                            fill="#FFF"></path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="_text">Apply</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://ce.pharmacy.uic.edu/" target="_blank">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark graduate-icon"
+                                aria-hidden="true">
+                                <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                    <title>Graduate icon</title>
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle class="_circle" fill="#001E62" cx="18" cy="18" r="18"></circle>
+                                        <path class="_mark"
+                                            d="M18 27c-3.314 0-6-1.79-6-4v-4.5l6 3.5 6-3.5V23c0 2.21-2.686 4-6 4z"
+                                            fill="#FFF"></path>
+                                        <path class="_mark" fill="#FFF" d="M6 14l12 7 12-7-12-5"></path>
+                                        <path class="_mark" d="M9.5 15v10" stroke="#FFF" stroke-linecap="round"></path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="_text">Continuing Education</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://giving.pharmacy.uic.edu/" target="_blank">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark dollar-icon"
+                                aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle class="_circle" cx="18" cy="18" r="18" fill="#001E62"></circle>
+                                        <path class="_mark" fill="#FFF"
+                                            d="M23.559 12.759l-1.485 1.218c-.766-1.057-1.765-1.678-3.018-1.908v5.011l.441.092c2.53.644 4.503 1.54 4.503 4.253 0 2.598-2.089 4.184-4.944 4.46V28H17.27v-2.115c-2.484-.253-4.294-1.471-5.269-3.057l1.648-1.15c.603 1.127 1.857 2.115 3.62 2.414v-5.494l-.394-.115c-2.251-.575-4.224-1.288-4.224-3.977 0-2.529 2.066-4.023 4.619-4.253V8h1.787v2.299c2.252.299 3.69 1.402 4.503 2.46zm-1.625 8.781c0-1.402-1.067-2.023-2.878-2.506v5.08c1.671-.183 2.878-1.034 2.878-2.574zm-7.265-7.218c0 1.333.766 1.862 2.6 2.322V12c-1.532.16-2.6.989-2.6 2.322z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="_text">Make a Gift</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#covid19/" target="_self">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark people-icon"
+                                aria-hidden="true">
+                                <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                    <title>People Icon</title>
+                                    <ellipse class="_circle" fill="#001E62" cx="18" cy="18" rx="18" ry="18"></ellipse>
+                                    <path class="_mark"
+                                        d="M20.39,12.05a4.33,4.33,0,0,1,2,3.19,3.2,3.2,0,0,0,1.45.3,3.42,3.42,0,1,0-3.42-3.49Zm-2.2,7a3.42,3.42,0,1,0-3.42-3.41A3.4,3.4,0,0,0,18.19,19Zm1.44.23H16.75a4.4,4.4,0,0,0-4.4,4.4V27.3l.22.08a19.27,19.27,0,0,0,6,1,12,12,0,0,0,5.24-1l.22-.15h0V23.66A4.45,4.45,0,0,0,19.63,19.26Zm5.69-3.49H22.44a4.25,4.25,0,0,1-1.29,3,5.24,5.24,0,0,1,3.72,5V24.8a10.9,10.9,0,0,0,4.63-1l.23-.15h0V20.09A4.39,4.39,0,0,0,25.32,15.77Zm-13.2-.23A3.69,3.69,0,0,0,13.94,15a4.42,4.42,0,0,1,1.59-2.73v-.23a3.42,3.42,0,1,0-6.83,0A3.47,3.47,0,0,0,12.12,15.54Zm3.11,3.19a4.25,4.25,0,0,1-1.29-3H10.68a4.41,4.41,0,0,0-4.41,4.4v3.64l.23.08a18.52,18.52,0,0,0,4.93.91V23.74A5.33,5.33,0,0,1,15.23,18.73Z"
+                                        fill="#FFF"></path>
+                                </svg> </span>
+                            <span class="_text">COVID-19 Updates</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://healthcheck.uic.edu/AAMEmployeeOnsiteStatus/Home/CheckStatus" target="_blank">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark firstaid-icon"
+                                aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                                    <circle class="_circle" cx="18" cy="18" r="17.4"></circle>
+                                    <path class="_mark" d="M17.7 22.2H19v-1.6h1.7v-1.3H19v-1.6h-1.3v1.6h-1.6v1.3h1.6z">
+                                    </path>
+                                    <path class="_mark"
+                                        d="M9.3 27.4h17.2c1 0 1.8-.8 1.8-1.8V14.3c0-1-.8-1.8-1.8-1.8h-3.8c0-.2.1-.4.1-.6v-.7c0-1.5-1.2-2.6-2.6-2.6h-4.4c-1.5 0-2.6 1.2-2.6 2.6v.7c0 .2 0 .4.1.6h-4c-1 0-1.8.8-1.8 1.8v11.4c0 .9.8 1.7 1.8 1.7zm5.5-16.1c0-.5.4-.9.9-.9h4.4c.5 0 .9.4.9.9v.7c0 .2-.1.4-.2.6h-5.7c-.1-.2-.2-.4-.2-.6l-.1-.7zm1.5 4.2c.8 0 1.6.4 2.1 1 .5-.6 1.3-1 2.1-1 1.6 0 2.8 1.3 2.8 2.8 0 .9-.4 1.6-1 2.2l-3.9 3.8-4-3.8c-.6-.5-1-1.3-1-2.2 0-1.5 1.3-2.8 2.9-2.8z">
+                                    </path>
+                                </svg> </span>
+                            <span class="_text">Temperature &amp; Wellness Screening</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://students.pharmacy.uic.edu/covid-19-status-reporting/" target="_blank">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark user-icon"
+                                aria-hidden="true">
+                                <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                    <title>User icon</title>
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle class="_circle" fill="#001E62" cx="18" cy="18" r="18"></circle>
+                                        <path class="_mark"
+                                            d="M28.09 26.197C25.707 29.127 22.072 31 18 31s-7.707-1.872-10.09-4.803c1.367-.762 4.573-2.54 5.125-2.744.182-.077.428-.823.488-1.48l.04-.428h.455l.304-1.474.007-.02c.013-.05.022-.174-.018-.2-.473-.32-1.248-1.518-1.41-3.416l-.327-.17-.298-2.284.502-.326-.118-3.344-.004-.02c-.022-.16-.455-3.955 7.11-5.145l.088-.014c.24.036.476.076.71.123l-.28.56c-.028.067-.098.343.384.618.812.468 2.276 1.307 2.608 3.184h.07l-.002.484-.004.102.032.5h-.05l-.103 2.954.503.326-.298 2.283-.327.17c-.162 1.9-.937 3.097-1.41 3.416-.044.028-.025.173-.017.2l.312 1.495h.455l.04.427c.07.735.324 1.41.488 1.48.553.205 3.76 1.983 5.125 2.745z"
+                                            fill="#FFF"></path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="_text">COVID-19 Status Reporting</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://outlook.office365.com/owa/calendar/UICSalivabasedCOVIDTesting@UIC365.onmicrosoft.com/bookings/"
+                            target="_blank">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark firstaid-icon"
+                                aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                                    <circle class="_circle" cx="18" cy="18" r="17.4"></circle>
+                                    <path class="_mark" d="M17.7 22.2H19v-1.6h1.7v-1.3H19v-1.6h-1.3v1.6h-1.6v1.3h1.6z">
+                                    </path>
+                                    <path class="_mark"
+                                        d="M9.3 27.4h17.2c1 0 1.8-.8 1.8-1.8V14.3c0-1-.8-1.8-1.8-1.8h-3.8c0-.2.1-.4.1-.6v-.7c0-1.5-1.2-2.6-2.6-2.6h-4.4c-1.5 0-2.6 1.2-2.6 2.6v.7c0 .2 0 .4.1.6h-4c-1 0-1.8.8-1.8 1.8v11.4c0 .9.8 1.7 1.8 1.7zm5.5-16.1c0-.5.4-.9.9-.9h4.4c.5 0 .9.4.9.9v.7c0 .2-.1.4-.2.6h-5.7c-.1-.2-.2-.4-.2-.6l-.1-.7zm1.5 4.2c.8 0 1.6.4 2.1 1 .5-.6 1.3-1 2.1-1 1.6 0 2.8 1.3 2.8 2.8 0 .9-.4 1.6-1 2.2l-3.9 3.8-4-3.8c-.6-.5-1-1.3-1-2.2 0-1.5 1.3-2.8 2.9-2.8z">
+                                    </path>
+                                </svg> </span>
+                            <span class="_text">COVID-19 Saliva Testing - Chicago</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#covid-19-saliva-testing-rockford/" target="_self">
+                            <span class="call-to-action-links__icon call-to-action-links__icon--dark firstaid-icon"
+                                aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                                    <circle class="_circle" cx="18" cy="18" r="17.4"></circle>
+                                    <path class="_mark" d="M17.7 22.2H19v-1.6h1.7v-1.3H19v-1.6h-1.3v1.6h-1.6v1.3h1.6z">
+                                    </path>
+                                    <path class="_mark"
+                                        d="M9.3 27.4h17.2c1 0 1.8-.8 1.8-1.8V14.3c0-1-.8-1.8-1.8-1.8h-3.8c0-.2.1-.4.1-.6v-.7c0-1.5-1.2-2.6-2.6-2.6h-4.4c-1.5 0-2.6 1.2-2.6 2.6v.7c0 .2 0 .4.1.6h-4c-1 0-1.8.8-1.8 1.8v11.4c0 .9.8 1.7 1.8 1.7zm5.5-16.1c0-.5.4-.9.9-.9h4.4c.5 0 .9.4.9.9v.7c0 .2-.1.4-.2.6h-5.7c-.1-.2-.2-.4-.2-.6l-.1-.7zm1.5 4.2c.8 0 1.6.4 2.1 1 .5-.6 1.3-1 2.1-1 1.6 0 2.8 1.3 2.8 2.8 0 .9-.4 1.6-1 2.2l-3.9 3.8-4-3.8c-.6-.5-1-1.3-1-2.2 0-1.5 1.3-2.8 2.9-2.8z">
+                                    </path>
+                                </svg> </span>
+                            <span class="_text">COVID-19 Saliva Testing - Rockford</span>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+
+
+        <header id="head">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5">
+
+                        <div id="brand">
+                            <A href="http://im.sut.ac.th/" target="_self">
+                                <img src="images/logo-chula.svg">
+                            </A>
+                        </div>
+                        <!--brand-->
+
+                    </div>
+                    <!--col-->
+
+                    <div class="col-sm-7"><A title="Skip to content" class="screen-reader-text skip-link" href="#">Skip
+                            to content</A>
+
+                        <% If Not Session("userid") Is Nothing Then %>
+                            <div id="user">
+                                Login by <a href="/Official">
+                                    <asp:Label ID="lblUserLogin" runat="server" Text=""></asp:Label>
+                                </a>&nbsp;<asp:LinkButton ID="LinkButton1" runat="server" CssClass="logout"
+                                    PostBackUrl="Default.aspx?logout=y">[Logout]</asp:LinkButton>
+                            </div>
+                            <% End If %>
+
+                    </div>
+                    <!--col-->
+                </div>
+                <!--row-->
+            </div>
+            <!--container-->
+        </header>
+        <!--head-->
+
+        <div id="page">
+
+            <NAV id="nav" role="navigation">
+                <div id="weather"></div>
+                <div class="nav-collapse">
+                    <UL class="mainnav" id="menu-main2559">
+
+                        <li class="home menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item"
+                            id="menu-item-home"><A href="Default.aspx"><I class="fa fa-home"></I></A></li>
+
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown"
+                            id="menu-item-pr"><A class="dropdown-toggle" href="#" data-toggle="dropdown">ประชาสัมพันธ์<B
+                                    class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-pr1">
+                                    <A href="Calendar.aspx">ปฏิทินกิจกรรม</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom" id="menu-item-pr2">
+                                    <A href="CalendarEdu.aspx">ปฏิทินการศึกษา</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom" id="menu-item-pr3">
+                                    <A href="Gallery.aspx">ภาพกิจกรรม</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-pr4">
+                                    <A href="vdo.aspx">วิดีโอเด่น</A></li>
+
+                            </UL>
+                        </li>
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown"
+                            id="menu-item-42781"><A class="dropdown-toggle" href="#" data-toggle="dropdown">หลักสูตร<B
+                                    class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-p1">
+                                    <A href="CourseView.aspx?cid=1">แพทยศาสตรบัณฑิต</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-p2">
+                                    <A href="CourseView.aspx?cid=2">วิทยาศาสตรมหาบัณฑิต (เวชศาสตร์ปริวรรต)</A></li>
+                            </UL>
+                        </li>
+
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown"
+                            id="menu-item-43057"><A class="dropdown-toggle"
+                                href="StudentNews.aspx?Page=Doctor">นักศึกษา</A> </li>
+
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown"
+                            id="menu-item-42879"><A class="dropdown-toggle" href="#"
+                                data-toggle="dropdown">อาจารย์/บุคลากร<B class="caret"></B></A>
+                            <UL class="dropdown-menu">
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-42880x"><A
+                                        href="PersonListView.aspx?Major=0&PersonType=0">ผู้บริหารสำนักวิชา</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-42880"><A href="Person.aspx?PersonType=1">อาจารย์</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-42881"><A href="Person.aspx?PersonType=2">บุคลากร</A></li>
+
+
+                            </UL>
+                        </li>
+
+
+
+
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown"
+                            id="menu-item-43060"><A class="dropdown-toggle" href="#" data-toggle="dropdown">ดาวน์โหลด<B
+                                    class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown dropdown-submenu"
+                                    id="menu-item-x43061"><A href="#">สำหรับนักศึกษา</A>
+
+                                    <ul class="dropdown-menu">
+                                        <li id="menu-item-42764x"
+                                            class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                                                href="TimeTable.aspx">ตารางเรียน</a></li>
+                                        <li id="menu-item-4276sx"
+                                            class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                                                href="Media.aspx">สื่อการสอน</a></li>
+                                        <li id="menu-item-427d64x"
+                                            class="menu-item menu-item-type-post_type menu-item-object-page"><a
+                                                href="FormDownload.aspx?cate=3">แบบฟอร์ม</a></li>
+
+
+                                    </ul>
+
+                                </li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown"
+                                    id="menu-item-43ป062"><A href="FormDownload.aspx?cate=4">สำหรับบุคลากร</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown"
+                                    id="menu-item-430พ62"><A href="FormDownload.aspx?cate=5">สำหรับบุคคลภายนอก</A></li>
+                                <!--.dropdown-->
+
+                            </UL>
+                        </li>
+
+
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown"
+                            id="menu-item-42818cc"><A class="dropdown-toggle" href="#"
+                                data-toggle="dropdown">สำหรับบุคลากร<B class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-qa">
+                                    <A href="PrivateNews.aspx?p=qa">งานประกันคุณภาพ (QA)</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom" id="menu-item-ac"><A
+                                        href="PrivateNews.aspx?p=ac">งานบริการวิชาการ</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom" id="menu-item-hr"><A
+                                        href="PrivateNews.aspx?p=hr">งานพัฒนาบุคคล</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-st">
+                                    <A href="PrivateNews.aspx?p=st">งานแผนยุทธศาสตร์</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-ia">
+                                    <A href="PrivateNews.aspx?p=ia">งานวิเทศสัมพันธ์และทุน</A></li>
+
+                                <% If Not Session("userid") Is Nothing Then %>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-42885">
+                                        <A href="Official/WorkOutSideList.aspx?actionType=wko">การปฏิบัติงานนอก มทส.</A>
+                                    </li>
+                                    <% End If %>
+
+                            </UL>
+                        </li>
+
+                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown"
+                            id="menu-item-rs"><A class="dropdown-toggle" href="#" data-toggle="dropdown">สถานวิจัย<B
+                                    class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="ResearchNews.aspx">ข่าวสารสถานวิจัย</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="ResearchAdministration.aspx">โครงสร้างบริหารสถานวิจัย</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="Forums.aspx">คลินิกนักวิจัย</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="ResearchGraduate.aspx">บัณฑิตศึกษา</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="ResearchContact.aspx">การติดต่อ</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="ResearchFAQ.aspx">คำถามที่พบบ่อย</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="ResearchSearch.aspx">ฐานข้อมูลงานวิจัย</A></li>
+                            </UL>
+                        </li>
+
+
+
+                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown"
+                            id="menu-item-43068"><A class="dropdown-toggle" href="#"
+                                data-toggle="dropdown">เกี่ยวกับเรา<B class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="DeanMessage.aspx">สารจากคณบดี</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="Policy.aspx">นโยบายคณบดีสำนักวิชาแพทยศาสตร์</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="Administration.aspx">โครงสร้างการบริหาร</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="AboutUs.aspx">ประวัติ</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="Vision.aspx">ปรัชญา/วิสัยทัศน์</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-43หห081"><A href="Survey.aspx">แบบสำรวจความพึงพอใจ</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-430ปป82"><A href="FAQ.aspx">ถาม-ตอบ</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                    id="menu-item-43tt82"><A href="ContactForm.aspx">ติดต่อสอบถาม</A></li>
+
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="ContactUs.aspx">ติดต่อเรา</A></li>
+                            </UL>
+                        </li>
+
+
+
+                        <li
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown">
+                            <A class="dropdown-toggle" href="#" data-toggle="dropdown">ลิงค์ที่เกี่ยวข้อง<B
+                                    class="caret"></B></A>
+                            <UL class="dropdown-menu">
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="http://www.sut.ac.th" target="_blank">มหาวิทยาลัยเทคโนโลยีสุรนารี</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="http://www.suth.go.th"
+                                        target="_blank">โรงพยาบาลมหาวิทยาลัยเทคโนโลยีสุรนารี</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="http://www.meccph.org/" target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ.
+                                        ชัยภูมิ</A></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page"><A
+                                        href="https://www.facebook.com/ศูนย์แพทยศาสตรศึกษาชั้นคลินิก-โรงพยาบาลบุรีรัมย์-1812017155690080/"
+                                        target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ. บุรีรัมย์</A></li>
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><A
+                                        href="http://www.mecs.go.th/" target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ.
+                                        สุรินทร์</A></li>
+                                <!--.dropdown-->
+                            </UL>
+                        </li>
+
+                    </UL>
+                </div>
+            </NAV>
+            <!--nav-->
+
+            <div class="group" id="main">
+
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+
+                </asp:ContentPlaceHolder>
+
+            </div>
+            <!--main-->
+
+
+            <div id="foot" role="contentinfo">
+                <div class="container">
+                    <UL>
+                        <li class="widget widget_text" id="text-2">
+                            <H2 class="widgettitle">สำหรับบุคลากร</H2>
+                            <div class="textwidget">
+
+                                <div class="input-groupxx" align="left">
+                                    <span class="input-group-btn">
+                                        <% If Session("userid") Is Nothing Then %>
+                                            <button onclick="window.open('Login.aspx');" class="btn btn-default">Login
+                                                เข้าใช้งานระบบ</button>
+                                            <% Else %>
+                                                <button onclick="window.open('/Official');"
+                                                    class="btn btn-default">Login by : <asp:Label ID="lblUserName"
+                                                        runat="server"></asp:Label> </button>
+                                                <% End If %>
+
+
+
+                                    </span>
+                                </div>
+
+
+                                <P></P>
+                                <div class="group"><A href="https://www.google.com/intl/en/chrome/browser/"
+                                        target="_blank"><IMG width="129" height="51" alt="Best Viewed In Chrome"
+                                            src="images/chrome_view.png"></A>
+                                </div>
+                            </div>
+
+                        </li>
+
+                        <li class="widget widget_text" id="text-3">
+                            <h2 class="widgettitle">Social Link</h2>
+                            <div class="textwidget">
+                                <div class="group">
+                                    <div class="group">
+                                        <table>
+                                            <tr>
+                                                <td> <a href="https://www.facebook.com/MedSUT" target="_blank"><img
+                                                            src="images/icon_fb.png" width="36"></a></td>
+                                                <td> <a href="https://www.youtube.com/channel/UCpcCRxZcrve1zpUCBiiGEcw"
+                                                        target="_blank"><img src="images/icon_youtube.png"
+                                                            width="36"></a>
+
+                                                </td>
+                                                <td> <img src="images/icon_line.png" width="36"> </td>
+                                            </tr>
+
+                                        </table>
+
+
+
+
+
+                                    </div>
+                                    <br />
+                                    <br />
+                                </div>
+
+                                <div class="group"></div>
+                                <div class="group"></div>
+                            </div>
+                        </li>
+
+                        <li class="widget widget_text" id="text-5">
+                            <H2 class="widgettitle">Address</H2>
+                            <div class="textwidget">
+                                <P>สำนักวิชาแพทยศาสตร์ มหาวิทยาลัยเทคโนโลยีสุรนารี<BR>111 ถ.มหาวิทยาลัย ต.สุรนารี
+                                    อ.เมือง จ.นครราชสีมา 30000<BR>
+                                    โทรศัพท์: 0-4422-3917,0-4422-3922 แฟกซ์: 0-4422-3920<BR>
+                                    อีเมล: <A href="mailto:imadmin@sut.ac.th?Subject=UBYI Send from im.sut.ac.th"
+                                        target="_top">imadmin@sut.ac.th</A></P>
+                            </div>
+
+                        </li>
+
+
+
+
+
+                    </UL>
+                </div>
+                <!--container-->
+            </div>
+
+
+            <script src="js/bootstrap.min.js"></script>
+            <script type="text/javascript">
+                jQuery(document).ready(function () {
+                    jQuery('.menu-toggle').click(function () {
+                        jQuery('#nav').toggleClass('show');
+                        jQuery(this).toggleClass('show');
+                    });
+
+
+                    jQuery('.dropdown').hover(function () {
+                        jQuery(this).addClass('open');
+                    }, function () {
+                        jQuery(this).removeClass('open');
+                    });
+
+
+                });
+
+            </script>
+
+            <!-- ShiftNav Main Toggle -->
+            <div class="shiftnav-toggle shiftnav-toggle-shiftnav-main shiftnav-toggle-main-align-center shiftnav-toggle-edge-left shiftnav-toggle-icon-x shiftnav-toggle-main-align-center shiftnav-toggle-edge-left shiftnav-toggle-icon-x"
+                id="shiftnav-toggle-main" data-shiftnav-target="shiftnav-main"><SPAN
+                    class="shiftnav-main-toggle-content shiftnav-toggle-main-block"><A
+                        href="http://im.sut.ac.th/">สำนักวิชาแพทยศาสตร์</A></SPAN></div>
+            <!-- /#shiftnav-toggle-main -->
+
+            <!-- ShiftNav #shiftnav-main -->
+            <div class="shiftnav shiftnav-nojs shiftnav-left-edge shiftnav-skin-light shiftnav-transition-standard"
+                id="shiftnav-main" data-shiftnav-id="shiftnav-main">
+                <div class="shiftnav-inner">
+                    <H3 class="shiftnav-menu-title shiftnav-site-title"><A
+                            href="http://im.sut.ac.th/">สำนักวิชาแพทยศาสตร์</A></H3>
+
+                    <NAV class="shiftnav-nav">
+                        <UL class="shiftnav-menu shiftnav-targets-default shiftnav-targets-text-enormous shiftnav-targets-icon-default shiftnav-indent-subs"
+                            id="menu-main2559-1">
+                            <li class="home menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-8 current_page_item menu-item-42752 shiftnav-depth-0"
+                                id="menu-item-42752"><A class="shiftnav-target" href="http://im.sut.ac.th/"><I
+                                        class="fa fa-home"></I> หน้าแรก</A></li>
+
+
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-42753"><A class="shiftnav-target" href="#">ประชาสัมพันธ์</A>
+                                <UL class="sub-menu sub-menu-1">
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1"
+                                        id="menu-item-42754"><a class="shiftnav-target"
+                                            href="Calendar.aspx">ปฏิทินกิจกรรม</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-42755"><a class="shiftnav-target"
+                                            href="CalendarEdu.aspx">ปฏิทินการศึกษา</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-42757"><a class="shiftnav-target"
+                                            href="Gallery.aspx">ภาพกิจกรรม</A></li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1"
+                                        id="menu-item-42759"><a class="shiftnav-target" href="vdo.aspx">วิดีโอเด่น</A>
+                                    </li>
+
+                                </UL>
+                            </li>
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-42781x"><A class="shiftnav-target" href="#">หลักสูตร</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1"
+                                        id="menu-item-p3"><a class="shiftnav-target"
+                                            href="CourseView.aspx?cid=1">แพทยศาสตรบัณฑิต</A></li>
+                                    <li class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1"
+                                        id="menu-item-p4"><a class="shiftnav-target"
+                                            href="CourseView.aspx?cid=2">วิทยาศาสตรมหาบัณฑิต (เวชศาสตร์ปริวรรต)</A></li>
+                                </UL>
+                            </li>
+
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-42879x"><A class="shiftnav-target" href="#">อาจารย์/บุคลากร</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-4288xx"><a class="shiftnav-target"
+                                            href="PersonListView.aspx?Major=0&PersonType=0">ผู้บริหารสำนักวิชา</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-42880xx"><a class="shiftnav-target"
+                                            href="Person.aspx?PersonType=1">อาจารย์</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-42881x"><a class="shiftnav-target"
+                                            href="Person.aspx?PersonType=2">บุคลากร</A></li>
+                                </UL>
+                            </li>
+
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-student"><A class="shiftnav-target"
+                                    href="StudentNews.aspx?Page=Doctor">นักศึกษา</A></li>
+
+
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-43060x"><A class="shiftnav-target" href="#">ดาวน์โหลด</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43061"><a class="shiftnav-target" href="#">สำหรับนักศึกษา</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43062"><a class="shiftnav-target" href="#">สำหรับบุคลากร</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43062"><a class="shiftnav-target" href="#">สำหรับบุคคลภายนอก</A>
+                                    </li>
+                                    <!--.dropdown-->
+
+                                </UL>
+                            </li>
+
+
+                            <li
+                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0">
+                                <A class="shiftnav-target" href="#">สำหรับบุคลากร</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="PrivateNews.aspx?p=qa">งานประกันคุณภาพ (QA)</A>
+                                    </li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="PrivateNews.aspx?p=ac">งานบริการวิชาการ</A>
+                                    </li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="PrivateNews.aspx?p=hr">งานพัฒนาบุคคล</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="PrivateNews.aspx?p=st">งานแผนยุทธศาสตร์</A>
+                                    </li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target"
+                                            href="PrivateNews.aspx?p=ia">งานวิเทศสัมพันธ์และทุน</A></li>
+
+                                    <% If Not Session("userid") Is Nothing Then %>
+                                        <li
+                                            class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                            <A href="Official/WorkOutSideList.aspx?actionType=wko">การปฏิบัติงานนอก
+                                                มทส.</A></li>
+                                        <% End If %>
+
+                                </UL>
+                            </li>
+
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0"
+                                id="menu-item-42818"><A class="shiftnav-target" href="#">สถานวิจัย</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="ResearchNews.aspx">ข่าวสารสถานวิจัย</A></li>
+
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target"
+                                            href="ResearchAdministration.aspx">โครงสร้างบริหารสถานวิจัย</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="Forums.aspx">คลินิกนักวิจัย</A></li>
+
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="ResearchGraduate.aspx">บัณฑิตศึกษา</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="ResearchContact.aspx">การติดต่อ</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="ResearchFAQ.aspx">คำถามที่พบบ่อย</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="ResearchSearch.aspx">ฐานข้อมูลงานวิจัย</A></li>
+
+                                </UL>
+                            </li>
+
+
+                            <li
+                                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0">
+                                <A class="shiftnav-target" href="#">เกี่ยวกับเรา</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43073"><a class="shiftnav-target"
+                                            href="DeanMessage.aspx">สารจากคณบดี</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43074"><a class="shiftnav-target"
+                                            href="Policy.aspx">นโยบายคณบดีสำนักวิชาแพทยศาสตร์</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"
+                                        id="menu-item-43076"><a class="shiftnav-target"
+                                            href="Administration.aspx">โครงสร้างการบริหาร</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="AboutUs.aspx">ประวัติ</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="Vision.aspx">ปรัชญา/วิสัยทัศน์</A></li>
+
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="Survey.aspx">แบบสำรวจความพึงพอใจ</A></li>
+
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="FAQ.aspx">ถาม-ตอบ</A></li>
+
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="ContactForm.aspx">ติดต่อสอบถาม</A></li>
+
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="ContactUs.aspx">ติดต่อเรา</A></li>
+                                </UL>
+                            </li>
+
+
+
+                            <li
+                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children xza shiftnav-sub-always shiftnav-depth-0">
+                                <A class="shiftnav-target" href="#">ลิงค์ที่เกี่ยวข้อง</A>
+                                <UL class="sub-menu sub-menu-">
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="http://www.sut.ac.th"
+                                            target="_blank">มหาวิทยาลัยเทคโนโลยีสุรนารี</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target" href="http://www.suth.go.th"
+                                            target="_blank">โรงพยาบาลมหาวิทยาลัยเทคโนโลยีสุรนารี</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="http://www.meccph.org/"
+                                            target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ. ชัยภูมิ</A></li>
+                                    <li
+                                        class="menu-item menu-item-type-post_type menu-item-object-page  shiftnav-depth-1">
+                                        <a class="shiftnav-target"
+                                            href="https://www.facebook.com/ศูนย์แพทยศาสตรศึกษาชั้นคลินิก-โรงพยาบาลบุรีรัมย์-1812017155690080/"
+                                            target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ. บุรีรัมย์</A></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                            class="shiftnav-target" href="http://www.mecs.go.th/"
+                                            target="_blank">ศูนย์แพทยศาสตรศึกษาชั้นคลินิก รพ. สุรินทร์</A></li>
+                                    <!--.dropdown-->
+                                </UL>
+
+                            </li>
+
+
+
+                        </UL>
+
+                    </NAV>
+
+                </div><!-- /.shiftnav-inner -->
+            </div><!-- /.shiftnav #shiftnav-main -->
+
+
+
+            <div class="container body-content">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+                <hr />
+                <footer>
+                    <p>&copy; <%: DateTime.Now.Year %> - tansomros.com</p>
+                </footer>
+            </div>
+
+
+
+        </div>
+    </form>
+
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        function changeTaxonomy() {
+            if (0 == this.options[this.selectedIndex].value) {
+                return;
+            }
+            if (0 == this.options[this.selectedIndex].value) {
+                return;
+            }
+            location.href = this.options[this.selectedIndex].value;
+        }
+
+        /* ]]> */
+    </script>
+
+    <STYLE type="text/css">
+        .searchwp-live-search-results {
+            opacity: 0;
+            transition: opacity .25s ease-in-out;
+            -moz-transition: opacity .25s ease-in-out;
+            -webkit-transition: opacity .25s ease-in-out;
+            height: 0;
+            overflow: hidden;
+            z-index: 9999;
+            position: absolute;
+            display: none;
+        }
+
+        .searchwp-live-search-results-showing {
+            display: block;
+            opacity: 1;
+            height: auto;
+            overflow: auto;
+        }
+
+        .searchwp-live-search-no-results {
+            padding: 3em 2em 0;
+            text-align: center;
+        }
+    </STYLE>
+
+    <script src="js/core.min.js" type="text/javascript"></script>
+
+    <script src="js/widget.min.js" type="text/javascript"></script>
+
+    <script src="js/mouse.min.js" type="text/javascript"></script>
+
+    <script src="js/sortable.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var searchwp_live_search_params = [];
+        searchwp_live_search_params = { "ajaxurl": "http:\/\/im.sut.ac.th\/wp-admin\/admin-ajax.php", "config": { "default": { "engine": "default", "input": { "delay": 500, "min_chars": 3 }, "results": { "position": "bottom", "width": "auto", "offset": { "x": 0, "y": 5 } }, "spinner": { "lines": 10, "length": 8, "width": 4, "radius": 8, "corners": 1, "rotate": 0, "direction": 1, "color": "#000", "speed": 1, "trail": 60, "shadow": false, "hwaccel": false, "className": "spinner", "zIndex": 2000000000, "top": "50%", "left": "50%" } } }, "msg_no_config_found": "No valid SearchWP Live Search configuration found!" };;
+/* ]]> */
+    </script>
+
+    <script src="js/searchwp-live-search.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var shiftnav_data = { "shift_body": "on", "lock_body": "on", "lock_body_x": "off", "swipe_close": "on", "swipe_open": "off", "swipe_tolerance_x": "150", "swipe_tolerance_y": "60", "swipe_edge_proximity": "80", "open_current": "on", "collapse_accordions": "on", "scroll_panel": "on" };
+/* ]]> */
+    </script>
+
+    <script src="js/shiftnav.js" type="text/javascript"></script>
+
+    <script src="js/wp-embed.min.js" type="text/javascript"></script>
+
+    <script src="js/jquery.royalslider.min.js" type="text/javascript"></script>
+
+    <script id="new-royalslider-init-code" type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('.new-royalslider-1').royalSlider({ template: 'default', image_generation: { imageWidth: 1190, imageHeight: 420, thumbImageWidth: '', thumbImageHeight: '' }, thumbs: { thumbWidth: 96, thumbHeight: 72 }, autoPlay: { enabled: !0, delay: 5000, stopAtAction: !1 }, block: { moveOffset: 20, speed: 400, delay: 200 }, width: '100%', height: '', autoScaleSlider: !0, autoScaleSliderWidth: 1190, autoScaleSliderHeight: 420, slidesSpacing: 0, imageScalePadding: 0, arrowsNavAutoHide: !1, globalCaptionInside: !0, loop: !0 });
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery(".banner-section").owlCarousel({
+                singleItem: true,
+                autoPlay: 4000,
+                stopOnHover: true,
+            });
+
+
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>

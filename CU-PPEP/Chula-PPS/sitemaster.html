@@ -1,0 +1,198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-874" />
+
+<link rel="stylesheet" type="text/css" href="css/custyles.css"> 
+ <link rel="stylesheet" type="text/css" href="~/css/cu_menu.css">
+
+
+<title>ระบบฐานข้อมูลการฝึกปฏิบัติงานวิชาชีพ คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</title>
+
+ <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css">  
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>  
+<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>  
+
+    <script language="javascript">
+
+        $(function () {
+            // แทรกโค้ต jquery  
+            $("#txtCheckdate").datepicker({
+                numberOfMonths: 2,
+                showButtonPanel: true
+            });
+        });  
+  
+        function AllowOnlyIntegers() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function AllowOnlyEnglishs() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 58 && keyCode <= 122) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function NotAllowOther() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 128) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+    
+</script>
+
+    <link href="css/menu.css" rel="stylesheet" type="text/css" />
+    <script src="css/menu.js" type="text/javascript"></script>
+
+  <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+   
+</head>
+
+<script language="JavaScript" src="css/menu.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function lefthide() {
+        var fr = document.all["sbCont"];
+        if (fr.style.display == "") {
+            fr.style.display = "none";
+            change('outlookside', 'outlookBarExpand')
+        }
+        else {
+            fr.style.display = "";
+            change('outlookside', 'outlookBarcollapse')
+        }
+
+    }
+    function change(id, newClass) {
+
+        identity = document.getElementById(id);
+        identity.className = newClass;
+
+    }
+ </script>
+<body>
+    <form name="form1" runat="server">
+      <div id="linemenutop"></div>  
+  <div id="header" >
+    <table width="1060" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="735" rowspan="2" valign="bottom"><a href="http://localhost/cupps/Default.aspx"> <img src="images/header.png" width="734" height="95" /></a></td>
+        <td valign="middle"><table border="0" align="right" cellpadding="0" cellspacing="0">
+            <tr>
+              <td><div id="menutop-lang">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center" valign="middle"><a href="Default.aspx">ระบบฐานข้อมูลการฝึกปฏิบัติงานวิชาชีพ</a></td>
+                    </tr>
+                  </table>
+              </div></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td valign="top">&nbsp;</td>
+      </tr>
+    </table>
+  </div>
+  <div id="linebottomheader">
+  </div>
+               
+               
+ 
+<div id="main" align="center">
+	<div class="shell">
+		
+		<!-- Content -->
+		<div id="content">
+        
+
+    <table   id="content"  width="1060" align="center" cellpadding="0" cellspacing="0">
+<tr style="height: 100%"> 
+			<td width="230" valign="top"  class="LeftSide"  id="sbCont">
+            
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td><table width="100%" border="0" cellpadding="0" cellspacing="2">
+                      <tr>
+                        <td align="center"><img src="images/unpic.jpg" width="150" height="143" /></td>
+                      </tr>
+                      <tr>
+                        <td align="center">logined as Administrator</td>
+                      </tr>
+                      <tr>
+                        <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="2">
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>ข้อมูลส่วนตัว</td>
+                            <td>&nbsp;</td>
+                            <td>เปลี่ยนรหัสผ่าน</td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td><table border="0" align="center" cellpadding="0" cellspacing="2">
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>ออกจากระบบ</td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>   <uc1:ucMenu ID="ucMenu1" runat="server" /></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                  </tr>
+                </table></td>
+                
+<td  valign="top" class="collapse_side"  width="35" align="center"><img  src="images/button-menu.png" name="outlookside" width="35" height="71" class="outlookBarCollapse" id="outlookside" style="cursor: pointer"  onclick="lefthide(this);" /></td>
+                
+            <td style="height: 100%; width: 100%;" valign="top"><asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder></td>
+</tr>
+<tr style="height: 100%">
+  <td colspan="3" valign="top"  class="LeftSide"  id="sbCont2">
+  
+  
+  <div id="footer">
+  <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center">หน่วยฝึกปฏิบัติงานวิชาชีพ คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย 254 ถนนพญาไท เขตปทุมวัน กรุงเทพมหานคร 10330 โทร 02-218-8450-1 โทรสาร 02-218-8450</td>
+  </tr>
+</table>
+</div>       
+      
+      
+  
+  </td>
+  </tr>
+        </table>
+        
+   
+
+	</div>
+	  <!-- End Content -->
+		
+	</div>
+</div>
+
+
+
+</form>
+</body>
+</html>

@@ -1,0 +1,189 @@
+Body{
+	background: #f7f7f7 url(../images/bg-web.jpg) no-repeat fixed center;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+	
+}
+#lineTop {
+	background-color: #002664;
+	height: 2px;
+	line-height: 2px;
+}
+a {
+	text-decoration: none;
+}
+.mainmnu{
+	font-size: 14px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #000;
+}
+.mainmnu a, 
+.mainmnu a:link,
+.mainmnu a:visited  {
+	font-size: 14px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #000;
+}
+
+.mainmnu a.active, 
+.mainmnu a:hover,
+.mainmnu a:visited:hover
+{
+   font-size: 14px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #002664;
+}
+
+.submnu{
+	font-size: 11px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+.submnu a, 
+.submnu a:link,
+.submnu a:visited  {
+	font-size: 11px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+
+.submnu a.active, 
+.submnu a:hover,
+.submnu a:visited:hover
+{
+   font-size: 11px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #002664;
+}
+.lang {
+	 font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+.lang a, 
+.lang a:link,
+.lang a:visited  {
+	font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #868686;
+}
+
+.lang a.active, 
+.lang a:hover,
+.lang a:visited:hover
+{
+   font-size: 12px;font-family: Geneva, Arial, Helvetica, sans-serif;	
+	color: #002664;
+}
+
+
+ul#menuLeft,ul#menuLeft ul{
+	margin: 0 0 0 0;list-style:none;
+	background-color:;
+	border-right: 2px solid #bbbbbb;
+	padding: 10px 5px 0 0px; 
+	height: 30px;
+	vertical-align: middle;
+	float: right;
+	}
+
+	
+ul#menuRight,ul#menuRight ul{
+	margin: 0 0 0 0;list-style:none;
+	background-color:;
+	border-left: 2px solid #bbbbbb;
+	padding: 10px 0 0 5px; 
+	height: 30px;
+	vertical-align: middle;
+	float: left;
+	}
+
+
+
+ul#css3menu1,ul#css3menu1 ul{
+	margin: 0 0 0 0;list-style:none;
+	background-color:;
+	border-left: 2px solid #bbbbbb;
+	padding: 0 0 0 5px;}
+ul#css3menu1 ul{
+	display:none;
+	position:absolute;
+	left:0;top:100%;
+	padding: 0 0 0px 5px;
+	margin: 0 0 0 -2px;}
+ul#css3menu1 li:hover>*{
+	display:block;}
+ul#css3menu1 li{
+	position:relative;
+	display:block;white-space:nowrap;font-size:0;float:left;}
+ul#css3menu1 li:hover{
+	z-index:1;}
+ul#css3menu1{
+	font-size:0;z-index:999;position:relative;display:inline-block;zoom:1;padding:10px 10px 10px 0;border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;
+	*display:inline;}
+* html ul#css3menu1 li a{
+	display:inline-block;}
+ul#css3menu1>li{
+	margin: 0 0 0 0;}
+ul#css3menu1 ul>li{
+	margin: 10px 0px 0px 0px;}
+ul#css3menu1 a:active, ul#css3menu1 a:focus{
+	outline-style:none;}
+ul#css3menu1 a{
+	display:block;
+	vertical-align:middle;
+	text-align:left;
+	text-decoration:none;
+	font:14px Tahoma,Geneva,sans-serif;
+	color:#000;
+	cursor:auto;
+	padding: 0px 0px 0px 5px;}
+ul#css3menu1 ul li{
+	float:none;margin:0;
+	margin: 0px 0px 0px 5px;
+	padding: 0px 0px 0px 5px;}
+ul#css3menu1 ul a{
+	text-align:left;padding: 1px;background-color:;border-color:;border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;-moz-transition:all 0.5s;-webkit-transition:all 0.5s;-o-transition:all 0.5s;font:11px Tahoma,Geneva,sans-serif;color:#868686;text-decoration:none;}
+ul#css3menu1 li:hover>a,ul#css3menu1 li a.pressed{
+	color:#002664;text-decoration:none;}
+ul#css3menu1 span{
+	display:block;overflow:visible;background-image:url("arrowmain0.gif");background-position:right center;background-repeat:no-repeat;padding-right:17px;}
+ul#css3menu1 li:hover>a>span{}
+ul#css3menu1 ul li:hover>a,ul#css3menu1 ul li a.pressed{
+	color:#002664;
+	text-decoration:none; 	 	
+}
+ul#css3menu1>li>a{
+	padding: 1px 5px;}
+ul#css3menu1 li.toproot>a{
+	border-style:none;border-color:;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;-moz-transition:all 0.5s;-webkit-transition:all 0.5s;-o-transition:all 0.5s;padding: 3px 5px;}
+ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
+
+}
+
+
+.block_module{
+	border: 1px solid #aaa;
+	padding: 10px 10px 0px 10px;
+	margin: 0 0 0 0;
+
+}
+
+.block_menu{
+	border: 1px solid #aaa;
+	padding: 5px 5px 5px 5px;
+	margin: 0 0 0 0;
+
+}
+.topichead{
+	font-size: 13px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #000;
+}
+.footer {
+	font-size: 11px; 
+	font-family: Geneva, Arial, Helvetica, sans-serif;	 
+	color: #868686;
+	padding: 10px 10px 5px 0px;
+}

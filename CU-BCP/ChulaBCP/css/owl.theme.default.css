@@ -1,0 +1,18 @@
+.owl-carousel .owl-nav .owl-next {
+	background-position: center; top: 50%; width: 50px; height: 50px; color: transparent; margin-top: -25px; position: absolute; cursor: pointer; opacity: 0; background-repeat: no-repeat;
+}
+.owl-carousel .owl-nav .owl-prev {
+	background-position: center; top: 50%; width: 50px; height: 50px; color: transparent; margin-top: -25px; position: absolute; cursor: pointer; opacity: 0; background-repeat: no-repeat;
+}
+.owl-carousel:hover .owl-nav .owl-next {
+	opacity: 1;
+}
+.owl-carousel:hover .owl-nav .owl-prev {
+	opacity: 1;
+}
+.owl-carousel .owl-nav .owl-next {
+	right: 0px; background-image: url("slide-arrow-right.png");
+}
+.owl-carousel .owl-nav .owl-prev {
+	left: 0px; background-image: url("slide-arrow-left.png");
+}

@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "TH SarabunPSK";
+    src: url('fonts/THSarabun.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+body
+{
+	margin: 0 auto;
+	padding: 0;
+	background-color: #ffffff;
+	font-family: "TH SarabunPSK";
+	font-size: 14pt;
+font-style: normal;
+text-align: left;
+  color: black;
+  HEIGHT: 100%
+  
+	}
+
+.docname{
+	font-family: "TH SarabunPSK";
+	font-size:12pt ;
+	font-weight:normal;
+	color:Black;
+}
+
+.Page_Header{
+font-size: 18pt;
+text-align: center;
+  color: black;  
+ font-family: "TH SarabunPSK";
+	
+	height: 25px;
+	font-weight: bold;
+}
+.textnormal{
+	font-family: "TH SarabunPSK";
+	font-size:14pt ;
+	font-weight:normal;
+	color:Black;
+}
+.texttopic{
+	font-family: "TH SarabunPSK";
+	font-size:14pt ;
+	font-weight:normal;
+	color:Black;
+	vertical-align: text-bottom;
+	
+}
+.TextInputUnderline
+{
+	font-family: "TH SarabunPSK";
+	font-size: 14pt ;
+	font-weight:normal;
+	color:Black;
+	border-bottom-style: dotted;
+	border-bottom-width: 1px ;
+	border-bottom-color:Black;
+	padding: 0px 0px 0px 10px;;
+
+	}
+.table_brd {
+	border-top: 1px solid #5d5d5d;
+	border-left: 1px solid #5d5d5d;
+	border-bottom: 1px solid #5d5d5d;
+	border-right: 1px solid #5d5d5d;
+	
+}
+td.td_brd {
+	border-top: 1px solid #5d5d5d;
+	border-left: 1px solid #5d5d5d;
+}
+td.td_brd_Right {
+	border-top: 1px solid #5d5d5d;
+	border-left: 1px solid #5d5d5d;
+	border-right: 1px solid #5d5d5d;
+}
+
+
+.dc_table_s3,.dc_table_s3 th,.dc_table_s3 td{border: 1px solid #000;border-collapse:collapse}
+.dc_table_s3 caption{caption-side:top;font-size:11px;margin:0 0 5px;padding:0;}
+.dc_table_s3 td,.dc_table_s3 th{padding:4px 8px}
+.dc_table_s3 thead th{background: #ffddee;color: #ff50b2;font-size:100% !important; text-align: center;}
+.dc_table_s3 tbody th{font-weight:bold;}
+.dc_table_s3 tbody tr{background:#FCFDFE}
+.dc_table_s3 tbody tr.odd{background:#F7F9FC}
+.dc_table_s3 tfoot th,.dc_table_s3 tfoot td{font-size:85%}

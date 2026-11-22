@@ -1,0 +1,168 @@
+.shiftnav.shiftnav-skin-light {
+    background: rgb(249, 249, 249);
+    color: rgb(102, 102, 102);
+    line-height: 1.3em;
+    font-size: 13px;
+}
+
+.shiftnav.shiftnav-skin-light .shiftnav-site-title {
+    padding: 25px 25px 10px;
+    text-align: center;
+    color: #006633;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.shiftnav.shiftnav-skin-light .shiftnav-activated-style {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item>.shiftnav-target {
+    color: #fff;
+    font-size: 13px;
+    font-weight: normal;
+    border-top-color: currentColor;
+    border-bottom-color: currentColor;
+    border-top-width: medium;
+    border-bottom-width: medium;
+    border-top-style: none;
+    border-bottom-style: none;
+    text-shadow: none;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item .shiftnav-submenu-activation {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgb(85, 85, 85);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item .shiftnav-submenu-activation:hover {
+    background: rgba(0, 0, 0, 0.2);
+    color: rgb(238, 238, 238);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.shiftnav-active>.shiftnav-submenu-activation {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgb(238, 238, 238);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.shiftnav-in-transition>.shiftnav-submenu-activation {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgb(238, 238, 238);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.shiftnav-highlight>.shiftnav-target {
+    background: none;
+    color: rgb(0, 122, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item ul.sub-menu .shiftnav-highlight>.shiftnav-target {
+    background: none;
+    color: rgb(0, 122, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.shiftnav-active>.shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.shiftnav-in-transition>.shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item.current-menu-item>.shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu>li.shiftnav-sub-accordion.current-menu-ancestor>.shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu>li.shiftnav-sub-shift.current-menu-ancestor>.shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.menu-item ul.sub-menu .current-menu-item .shiftnav-target {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu>li.menu-item>.shiftnav-target {
+    background-color: #de5c8e;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu li.shiftnav-retract .shiftnav-target {
+    background: rgba(0, 0, 0, 0.2);
+    text-align: right;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu ul.sub-menu {
+    background: #fff;
+    color: #042c8a;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu ul.sub-menu li.menu-item>.shiftnav-target {
+    border-width: inherit;
+    color: #006633;
+    font-size: inherit;
+    font-weight: normal;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu.shiftnav-sub-always ul.sub-menu li.menu-item>.shiftnav-target {
+    padding-left: 50px;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu.shiftnav-sub-always ul.sub-menu ul.sub-menu ul.sub-menu li.menu-item>.shiftnav-target {
+    padding-left: 75px;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu.shiftnav-sub-always ul.sub-menu ul.sub-menu ul.sub-menu ul.sub-menu li.menu-item>.shiftnav-target {
+    padding-left: 100px;
+}
+
+.shiftnav.shiftnav-skin-light.shiftnav-left-edge {
+    border-right-color: currentColor;
+    border-right-width: medium;
+    border-right-style: none;
+}
+
+.shiftnav.shiftnav-skin-light.shiftnav-right-edge {
+    border-left-color: currentColor;
+    border-left-width: medium;
+    border-left-style: none;
+}
+
+.shiftnav.shiftnav-skin-light.shiftnav-nojs ul.shiftnav-menu li.menu-item>.shiftnav-target:hover {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu.shiftnav-active-on-hover li.menu-item>.shiftnav-target:hover {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.shiftnav.shiftnav-skin-light ul.shiftnav-menu.shiftnav-active-highlight li.menu-item>.shiftnav-target:active {
+    background: rgb(0, 122, 255);
+    color: rgb(255, 255, 255);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}

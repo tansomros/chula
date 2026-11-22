@@ -1,0 +1,12 @@
+.searchwp-live-search-results {
+	background: rgb(255, 255, 255); border-radius: 3px; width: 315px; min-height: 175px; max-height: 300px; box-sizing: border-box; box-shadow: 0px 0px 2px 0px rgba(30,30,30,0.4); -moz-box-sizing: border-box; -webkit-box-shadow: 0 0 2px 0 rgba(30, 30, 30, 0.4);
+}
+.searchwp-live-search-result p {
+	margin: 0px; padding: 1em; font-size: 0.9em; border-bottom-color: rgba(30, 30, 30, 0.1); border-bottom-width: 1px; border-bottom-style: solid;
+}
+:last-of-type.searchwp-live-search-result p {
+	border-bottom-color: currentColor; border-bottom-width: 0px; border-bottom-style: none;
+}
+.searchwp-live-search-result a {
+	overflow: hidden; display: block; white-space: nowrap; -ms-text-overflow: ellipsis;
+}

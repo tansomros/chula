@@ -1,0 +1,111 @@
+.collapsed {
+	display: none;
+}
+.expanded {
+	display: table-row;
+}
+#counterize_history_navigationbar * {
+	display: inline-block;
+}
+#counterize_history_navigationbar2 * {
+	display: inline-block;
+}
+#counterize_history_navigationbar li {
+	margin-right: 5px; margin-left: 5px;
+}
+#counterize_history_navigationbar2 li {
+	margin-right: 5px; margin-left: 5px;
+}
+#counterizehistorytable {
+	margin-bottom: 30px;
+}
+#counterizehistorytable tr.alternate {
+	background-color: rgb(232, 232, 232);
+}
+#counterizehitcountertable tr.alternate {
+	background-color: rgb(232, 232, 232);
+}
+#counterizehistorytable tbody {
+	border: 1px solid rgb(153, 153, 153); border-image: none;
+}
+#counterizehistorytable thead {
+	border: 1px solid rgb(153, 153, 153); border-image: none; display: table-header-group;
+}
+#counterizehistorytable th {
+	height: 30px; background-color: rgb(221, 221, 221);
+}
+#counterizehistorytable thead tr th {
+	padding: 5px; text-align: center;
+}
+#counterizehistorytable tfoot tr th {
+	padding: 5px; text-align: center;
+}
+#counterizehistorytable tbody tr.repeat th {
+	padding: 5px; text-align: center;
+}
+#counterizehistorytable tfoot {
+	border: 1px solid rgb(153, 153, 153); border-image: none; display: table-footer-group;
+}
+#counterizehistorytable tbody tr.repeat {
+	border: 1px solid rgb(153, 153, 153); border-image: none;
+}
+#counterizehistorytable th + th {
+	padding: 5px; border-left-color: rgb(208, 208, 208); border-left-width: 1px; border-left-style: dashed;
+}
+#counterizehistorytable td + td {
+	padding: 5px; border-left-color: rgb(208, 208, 208); border-left-width: 1px; border-left-style: dashed;
+}
+#counterizehistorytable td {
+	vertical-align: middle;
+}
+.counterize_history_killbutton {
+	color: red; font-size: 18px; font-weight: bold;
+}
+.counterize_subtable {
+	border: 1px solid rgb(204, 204, 204); border-image: none;
+}
+.counterize_subtable .alternate {
+	background-color: rgb(238, 238, 238);
+}
+.counterize_caption_help:hover {
+	cursor: help;
+}
+.counterize_chart_bar {
+	box-shadow: 2px 2px 2px #333333;
+}
+.counterize_chart_bar_horizontal {
+	height: 20px; margin-bottom: 1px; vertical-align: middle; display: inline-block;
+}
+.counterize_chart_bar_horizontal.blue {
+	background: -ms-linear-gradient(left, rgb(0, 51, 153) 0%, rgb(0, 102, 153) 100%);
+}
+.counterize_chart_bar_horizontal.red {
+	background: -ms-linear-gradient(left, rgb(204, 0, 0) 0%, rgb(255, 0, 0) 100%);
+}
+.counterize_chart_bar_horizontal.green {
+	background: -ms-linear-gradient(left, rgb(0, 153, 0) 0%, rgb(0, 220, 0) 100%);
+}
+.counterize_chart_bar_horizontal.yellow {
+	background: -ms-linear-gradient(left, rgb(204, 192, 12) 0%, rgb(255, 255, 0) 100%);
+}
+.counterize_chart_bar_vertical {
+	width: 20px; margin-right: 1px; vertical-align: bottom; display: inline-block;
+}
+.counterize_chart_bar_vertical.blue {
+	background: -ms-linear-gradient(rgb(0, 102, 153) 0%, rgb(0, 51, 153) 100%);
+}
+.counterize_chart_bar_vertical.red {
+	background: -ms-linear-gradient(rgb(255, 0, 0) 0%, rgb(204, 0, 0) 100%);
+}
+.counterize_chart_bar_vertical.green {
+	background: -ms-linear-gradient(rgb(0, 220, 0) 0%, rgb(0, 153, 0) 100%);
+}
+.counterize_chart_bar_vertical.yellow {
+	background: -ms-linear-gradient(rgb(255, 255, 0) 0%, rgb(204, 204, 0) 100%);
+}
+.counterize_chart_bar_vertical_inverted {
+	vertical-align: top; transform: scaleY(-1); -webkit-transform: scaleY(-1); -moz-transform: scaleY(-1); -o-transform: scaleY(-1);
+}
+.counterizefooter {
+	margin-top: 30px;
+}

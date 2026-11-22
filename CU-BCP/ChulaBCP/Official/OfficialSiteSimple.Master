@@ -1,0 +1,409 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="OfficialSiteSimple.Master.vb" Inherits="OfficialSiteSimple" %>
+  
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server"> 
+ 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Control Panel</title>
+
+<asp:ContentPlaceHolder ID="ContentHeader" runat="server">
+    </asp:ContentPlaceHolder> 
+    
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+
+  <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css" />
+      <!--  -->
+  <link rel="stylesheet" href="../css/dscountdown.css" />    
+     <link rel="stylesheet" href="css/adminstyles.css" />  
+    <link rel="stylesheet" type="text/css" href="../css/pagestyles.css" /> 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css" />
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css" />
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css" />
+  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css" />   
+  <link rel="stylesheet" type="text/css" href="css/pagestyles.css" />  
+
+<script language="javascript">
+
+        function AllowOnlyIntegers() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function AllowOnlyDouble() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 48 && keyCode <= 57) {
+                event.returnValue = true;
+            } else if (keyCode == 46) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function AllowOnlyEnglishs() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 58 && keyCode <= 122) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+        function NotAllowOther() {
+            var keyCode = event.keyCode;
+            if (keyCode >= 128) {
+                event.returnValue = true;
+            } else {
+                event.returnValue = false;
+            }
+        }
+    
+</script>
+
+</head>
+
+<body class="hold-transition skin-green sidebar-mini">
+<form id="form2" runat="server">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    
+    <a href="../Default.aspx" class="logo">
+   
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"> <img src="images/logo.png"  align="absmiddle"></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><img src="images/logo.png"  width="40" align="absmiddle">&nbsp;<b>IM</b>SUT</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      
+        <div class="slk-header" >
+            <span>สำนักวิชาแพทยศาสตร์ มหาวิทยาลัยเทคโนโลยีสุรนารี</span>
+        </div>
+
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+            <asp:Image ID="imgUser" runat="server" class="img-circle" ImageUrl="dist/img/user_blank.png" Height="45px" Width="50px" />
+        </div>
+        <div class="pull-left info">
+          <p><asp:Label ID="lblMemberName" runat="server"></asp:Label></p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+    
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+                <% If Request("actionType") = "h"  %>
+            <li class="active"><a href="Default.aspx?actionType=h"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li>
+                <% Else %>
+            <li><a href="Default.aspx?actionType=h"><i class="fa fa-home"></i> <span>หน้าแรก</span></a></li> 
+                <% End If %> 
+
+<!--------- Admin ------------->
+<% If Session("isAdmin") = "Y"  %>
+
+  <% If Request("actionType") = "calendar"  %>
+        <li class="active"><a href="EventList.aspx?actionType=calendar"><i class="fa fa-calendar"></i> <span>ปฏิทินกิจกรรม</span></a></li>
+            <% Else %>
+         <li><a href="EventList.aspx?actionType=calendar"><i class="fa fa-calendar"></i> <span>ปฏิทินกิจกรรม</span></a></li>
+  <% End If %>  
+
+  <% If Request("actionType") = "pr2"  %>
+     <li class="active"><a href="CalendarEduEdit.aspx?actionType=pr2"><i class="fa fa-calendar-plus-o"></i>ปฏิทินการศึกษา</a></li>
+  <% Else %>
+     <li><a href="CalendarEduEdit.aspx?actionType=pr2"><i class="fa fa-calendar-plus-o"></i>ปฏิทินการศึกษา</a></li>
+  <% End If %>
+ 
+  <% If Request("actionType") = "gallery"  %>
+      <li class="active"><a href="GalleryList.aspx?actionType=gallery"><i class="fa fa-photo"></i>ภาพกิจกรรม</a></li>
+  <% Else %>
+      <li><a href="GalleryList.aspx?actionType=gallery"><i class="fa fa-photo"></i>ภาพกิจกรรม</a></li>
+  <% End If %>
+
+ <% If Request("actionType") = "vdo"  %>
+     <li class="active"><a href="vdoEdit.aspx?actionType=vdo"><i class="fa fa-youtube-play"></i>VDO</a></li>
+ <% Else %>
+     <li><a href="vdoEdit.aspx?actionType=vdo"><i class="fa fa-youtube-play"></i>VDO</a></li>
+ <% End If %>
+ 
+ <% If Request("actionType") = "Curriculum"  %>
+     <li class="active"><a href="CourseManage.aspx?actionType=Curriculum"><i class="fa fa-location-arrow"></i>หลักสูตร</a></li>
+ <% Else %>
+     <li><a href="CourseManage.aspx?actionType=Curriculum"><i class="fa fa-location-arrow"></i>หลักสูตร</a></li>
+ <% End If %>
+
+
+
+<% If Request("m") = "ps" Then  %>
+        <li class="active treeview">
+            <% Else %>
+         <li class="treeview">
+             <% End If %>        
+          <a href="#">
+            <i class="fa fa-user-md"></i> <span>อาจารย์/บุคลากร</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">                
+   <% If Request("actionType") = "wko"  %>
+        <li class="active"><a href="WorkOutSideList.aspx?actionType=wko"><i class="fa fa-outdent"></i> <span>การปฏิบัติงานนอก มทส.</span></a></li>
+            <% Else %>
+         <li><a href="WorkOutSideList.aspx?actionType=wko"><i class="fa fa-outdent"></i> <span>การปฏิบัติงานนอก มทส.</span></a></li> 
+       <% End If %>  
+     <% If Request("actionType") = "psn"  %>
+        <li class="active"><a href="PersonList.aspx?actionType=psn"><i class="fa fa-user-md"></i> <span>อาจารย์/บุคลากร</span></a></li>
+            <% Else %>
+         <li><a href="PersonList.aspx?actionType=psn"><i class="fa fa-user-md"></i> <span>อาจารย์/บุคลากร</span></a></li> 
+       <% End If %>      
+
+             
+          </ul>
+        </li>
+
+     
+       <% If Request("m") = "dw" Then  %>
+        <li class="active treeview">
+            <% Else %>
+         <li class="treeview">
+             <% End If %>        
+          <a href="#">
+            <i class="fa fa-cloud-download"></i> <span>Download</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <% If Request("actionType") = "doc"  %>
+                <li class="active"><a href="DownloadList.aspx?m=dw&actionType=doc"><i class="fa fa-book"></i>เอกสารดาวน์โหลด</a></li>
+                    <% Else %>
+              <li><a href="DownloadList.aspx?m=dw&actionType=doc"><i class="fa fa-book"></i>เอกสารดาวน์โหลด</a></li>
+                  <% End If %>           
+
+               <% If Request("actionType") = "media"  %>
+                <li class="active"><a href="MediaList.aspx?m=dw&actionType=media"><i class="fa fa-youtube-play"></i>สื่อการสอน</a></li>
+                    <% Else %>
+              <li><a href="MediaList.aspx?m=dw&actionType=media"><i class="fa fa-youtube-play"></i>สื่อการสอน</a></li>
+                  <% End If %>
+              
+             
+          </ul>
+        </li>
+
+    <% If Request("m") = "faq" Then  %>
+        <li class="active treeview">
+            <% Else %>
+         <li class="treeview">
+             <% End If %>        
+          <a href="#">
+            <i class="fa fa-question-circle"></i> <span>ถาม-ตอบ</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <% If Request("actionType") = "cat"  %>
+                <li class="active"><a href="FAQCategory.aspx?m=faq&actionType=cat"><i class="fa fa-tasks"></i>หมวดหมู่</a></li>
+                    <% Else %>
+              <li><a href="FAQCategory.aspx?m=faq&actionType=cat"><i class="fa fa-tasks"></i>หมวดหมู่</a></li>
+                  <% End If %>           
+
+               <% If Request("actionType") = "faq"  %>
+                <li class="active"><a href="FAQManage.aspx?m=faq&actionType=faq"><i class="fa fa-question"></i>จัดการคำถาม-ตอบ</a></li>
+                    <% Else %>
+              <li><a href="FAQManage.aspx?m=faq&actionType=faq"><i class="fa fa-question"></i>จัดการคำถาม-ตอบ</a></li>
+                  <% End If %>              
+               <% If Request("actionType") = "mail"  %>
+                <li class="active"><a href="FAQMail.aspx?m=faq&actionType=mail"><i class="fa fa-envelope"></i>จดหมายคำถาม</a></li>
+                    <% Else %>
+              <li><a href="FAQMail.aspx?m=faq&actionType=mail"><i class="fa fa-envelope"></i>จดหมายคำถาม</a></li>
+                  <% End If %>
+             
+          </ul>
+        </li>
+
+     
+          <% If Request("m") = "sv" Then  %>
+        <li class="active treeview">
+            <% Else %>
+         <li class="treeview">
+             <% End If %>        
+          <a href="#">
+            <i class="fa fa-check-circle"></i> <span>แบบประเมินความพึงพอใจ</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <% If Request("actionType") = "1"  %>
+                <li class="active"><a href="SurveyReport.aspx?m=sv&actionType=1"><i class="fa fa-area-chart"></i>ผลการประเมินฯ</a></li>
+                    <% Else %>
+              <li><a href="SurveyReport.aspx?m=sv&actionType=1"><i class="fa fa-area-chart"></i>ผลการประเมินฯ</a></li>
+                  <% End If %>            
+           
+
+            
+              
+             
+          </ul>
+        </li>
+
+          
+       
+        <% If Request("actionType") = "research"  %>
+        <li class="active"><a href="Research_Manage.aspx?actionType=research"><i class="fa fa-flask"></i> <span>งานวิจัย</span></a></li>
+            <% Else %>
+         <li><a href="Research_Manage.aspx?actionType=research"><i class="fa fa-flask"></i> <span>งานวิจัย</span></a></li>
+       <% End If %>     
+
+    
+          <% If Request("m") = "setting" Then  %>
+        <li class="active treeview">
+            <% Else %>
+         <li class="treeview">
+             <% End If %>        
+          <a href="#">
+            <i class="fa fa-gears"></i> <span>ตั้งค่า</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <% If Request("actionType") = "user"  %>
+                <li class="active"><a href="UserManage.aspx?m=setting&actionType=user"><i class="fa fa-users"></i>จัดการผู้ใช้งาน</a></li>
+                    <% Else %>
+              <li><a href="UserManage.aspx?m=setting&actionType=user"><i class="fa fa-users"></i>จัดการผู้ใช้งาน</a></li>
+              <% End If %>   
+
+               <% If Request("actionType") = "refd"  %>
+                <li class="active"><a href="ReferenceDomain.aspx?m=setting&actionType=refd"><i class="fa fa-mouse-pointer"></i>Reference Domain</a></li>
+                    <% Else %>
+              <li><a href="ReferenceDomain.aspx?m=setting&actionType=refd"><i class="fa fa-mouse-pointer"></i>Reference Domain</a></li>
+              <% End If %>   
+               <% If Request("actionType") = "refv"  %>
+                <li class="active"><a href="ReferenceValue.aspx?m=setting&actionType=refv"><i class="fa fa-vimeo"></i>Reference Value</a></li>
+                    <% Else %>
+              <li><a href="ReferenceValue.aspx?m=setting&actionType=refv"><i class="fa fa-vimeo"></i>Reference Value</a></li>
+              <% End If %>                 
+             
+          </ul>
+        </li>
+
+
+              
+<% End If %>    
+   
+
+<!--------- End of Admin ------------->
+
+             
+<% If Request("actionType") = "info" Then  %>
+        <% Response.Write("<li class='active'><a href='PersonInfo.aspx?actionType=info&pid=" & Session("pid") & "'><i class='fa fa-user'></i><span>ข้อมูลส่วนตัว</span></a></li>")%>
+<% Else %>
+        <% Response.Write("<li><a href='PersonInfo.aspx?actionType=info&pid=" & Session("pid") & "'><i class='fa fa-user'></i><span>ข้อมูลส่วนตัว</span></a></li>")%>
+<% End If %>  
+
+<!--------- Member ------------->
+<% If Session("RoleID") <> "0" Then  %>    
+  <% If Request("actionType") = "media"  %>
+                <li class="active"><a href="MediaList.aspx?m=dw&actionType=media"><i class="fa fa-youtube-play"></i>สื่อการสอน</a></li>
+                    <% Else %>
+              <li><a href="MediaList.aspx?m=dw&actionType=media"><i class="fa fa-youtube-play"></i>สื่อการสอน</a></li>
+                  <% End If %>
+<% End If %>
+<!--------- End of Member ------------->   
+            
+                    
+              <% If Request("actionType") = "pwd"Then  %>
+        <li class="active"><a href="ChangePassword.aspx?actionType=pwd"><i class="fa fa-key"></i> <span>เปลี่ยนรหัสผ่าน</span></a></li>   
+            <% Else %>
+         <li><a href="ChangePassword.aspx?actionType=pwd"><i class="fa fa-key"></i> <span>เปลี่ยนรหัสผ่าน</span></a></li>   
+       <% End If %>    
+
+                      
+          
+                 
+        <li><a href="../Login.aspx?logout=y"><i class="fa fa-power-off"></i> <span>ออกจากระบบ</span></a></li>
+      
+      <!--  <li class="header">LABELS</li>
+        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        -->
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">    
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>     
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2017-2019 <a href="http://www.tansomros.com">tansomros</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+ </form>
+<!-- jQuery 3 -->
+<script src="components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Sparkline -->
+<script src="components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+
+<script src="components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Slimscroll -->
+<script src="components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

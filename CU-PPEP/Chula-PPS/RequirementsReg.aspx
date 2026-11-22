@@ -1,0 +1,360 @@
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="RequirementsReg.aspx.vb" Inherits=".RequirementsReg" %>
+
+
+<%@ Register assembly="DevExpress.Web.v23.2, Version=23.2.15.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web" tagprefix="dx" %>
+
+
+<%@ Register namespace="Microsoft.AspNet.EntityDataSource" tagprefix="EntityDataSource" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+  
+</asp:Content>
+    
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+ 
+
+<section class="content-header">
+      <h1>ความต้องการรับนิสิตฝึกปฏิบัติงานฯ</h1>   
+    </section>
+
+<section class="content">  
+
+     <div class="box box-primary">
+            <div class="box-header">
+              <i class="fa fa-filter"></i>
+
+              <h3 class="box-title">1.เลือกเงื่อนไขการกำหนดความต้องการ</h3>
+             
+                 <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>                                 
+            </div>
+            <div class="box-body"> 
+                 <table border="0" cellspacing="2" cellpadding="0">
+           
+            <tr>
+              <td width="60">ปี</td>
+              <td><asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="True" Width="120"
+                      CssClass="form-control select2"> </asp:DropDownList></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>แหล่งฝึก</td>
+              <td>
+              <asp:DropDownList ID="ddlLocation" runat="server" AutoPostBack="True" 
+                      Width="300px" CssClass="form-control select2">                  </asp:DropDownList></td>
+             
+              <td>:(<asp:Label ID="lblID" runat="server"></asp:Label>) </td>
+             
+<td>   <asp:Image ID="imgArrowUser" runat="server" ImageUrl="images/arrow-orange-icons.png" />
+                                          </td>
+             
+<td>   
+                                        <asp:TextBox ID="txtFindLocation" runat="server" 
+                      Width="100px"></asp:TextBox>
+                                              </td>
+              <td>
+                                          <asp:LinkButton ID="lnkFind"     runat="server" CssClass="buttonLink">ค้นหาแหล่งฝึก</asp:LinkButton></td>
+            </tr>
+            </table>
+</div>
+            <div class="box-footer clearfix">
+           
+              <asp:Label ID="lblValidate" runat="server" 
+                  Visible="False" CssClass="validateAlert" Width="99%">กรุณากำหนดผลัดฝึกของปีที่ต้องการก่อน</asp:Label>
+           
+            </div>
+          </div>
+    <div class="box box-success">
+            <div class="box-header">
+              <i class="fa fa-search-plus"></i>
+
+              <h3 class="box-title">2.ข้อมูลการรับนิสิต</h3>
+             
+                 <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>                                 
+            </div>
+            <div class="box-body"> 
+       <asp:GridView ID="grdSubject" runat="server" AutoGenerateColumns="False" Width="100%" DataKeyNames="CourseID" ShowHeader="False">
+                  <Columns>
+                      <asp:TemplateField>
+                          <ItemTemplate>
+                              <table Width="100%">
+                                  <tr>
+                                      <td align="left" class="MenuSt">
+                                          <asp:Label ID="lblSubjectName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "SubjectName") %>'></asp:Label>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td align="left">
+                                           <asp:GridView ID="grdREQ" 
+                             runat="server" CellPadding="0" ForeColor="#333333" 
+                                                        GridLines="None" 
+                      AutoGenerateColumns="False" Width="100%" DataKeyNames="TimePhaseID">
+            <RowStyle BackColor="#F7F7F7" HorizontalAlign="Center" />
+            <columns>
+            <asp:BoundField HeaderText="ผลัด" DataField="PhaseNo">
+                <HeaderStyle HorizontalAlign="Center" />
+              <itemstyle HorizontalAlign="Center" VerticalAlign="Middle" />                      </asp:BoundField>
+            <asp:BoundField DataField="PhaseName" HeaderText="วันที่ฝึก">
+              <headerstyle HorizontalAlign="Left" />          
+              <itemstyle HorizontalAlign="Left" />                      </asp:BoundField>
+            <asp:TemplateField HeaderText="ชาย">
+                <ItemTemplate>
+                    <asp:TextBox ID="txtMale" runat="server" Width="50px" CssClass="NumberCenter"  Text='<%# DataBinder.Eval(Container.DataItem, "Man") %>'></asp:TextBox>
+                </ItemTemplate>
+              <itemstyle HorizontalAlign="Center" VerticalAlign="Middle" />          
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="หญิง">
+                <ItemTemplate>
+                    <asp:TextBox ID="txtFemale" runat="server" Width="50px" CssClass="NumberCenter"  Text='<%# DataBinder.Eval(Container.DataItem, "Women") %>'></asp:TextBox>
+                </ItemTemplate>
+              <itemstyle HorizontalAlign="Center" VerticalAlign="Middle" />          
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="ไม่ระบุเพศ*">
+                <ItemTemplate>
+                    <asp:TextBox ID="txtAll" runat="server" Width="50px" CssClass="NumberCenter"  Text='<%# DataBinder.Eval(Container.DataItem, "NoSpec") %>'></asp:TextBox>
+                </ItemTemplate>
+              <itemstyle HorizontalAlign="Center" VerticalAlign="Middle" />          
+            </asp:TemplateField>
+            </columns>
+            <footerstyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />          
+            <pagerstyle HorizontalAlign="Center" 
+                      CssClass="dc_pagination dc_paginationC dc_paginationC11" />          
+            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+            <headerstyle CssClass="th" Font-Bold="True" HorizontalAlign="Center" 
+                      VerticalAlign="Middle" />          
+            <EditRowStyle BackColor="#2461BF" />
+            <AlternatingRowStyle BackColor="White" />
+          </asp:GridView>
+
+                                      </td>
+                                  </tr>
+                              </table>
+                          </ItemTemplate>
+                      </asp:TemplateField>
+                  </Columns>
+              </asp:GridView>                                             
+</div> 
+        <div class="box-footer clearfix">           
+           <table border="0" cellspacing="2" cellpadding="0">
+                                                            <tr>
+                                                              <td>* กรณีไม่ระบุเพศ ต้องการนิสิตเพศเดียวกัน </td>
+                                                              <td class="mailbox-messages">
+                                                                  <asp:RadioButtonList ID="optGender" runat="server" 
+                                                                      RepeatDirection="Horizontal">
+                                                                      <asp:ListItem Value="Y">ใช่</asp:ListItem>
+                                                                      <asp:ListItem Selected="True" Value="N">ไม่ใช่</asp:ListItem>
+                                                                  </asp:RadioButtonList></td>
+                                                            </tr>
+                                                          </table>      
+            </div>
+          </div>
+
+            
+  
+   
+            
+<table width="100%" border="0" cellPadding="1" cellSpacing="1">
+                                                
+     <!--  <tr>
+          <td align="left" valign="top" class="MenuSt"> 3. วัน-เวลาที่สามารถให้นิสิตฝึกปฏิบัติงาน</td>
+      </tr>
+         <tr>
+          <td align="left" valign="top"  ><table border="0" cellpadding="0" cellspacing="1">
+            <tr>
+              <td width="30">วัน</td>
+              <td>
+              <asp:RadioButtonList ID="optDay" runat="server" RepeatDirection="Horizontal">
+                  <asp:ListItem Value="1" Selected="True">จันทร์-ศุกร์</asp:ListItem>
+                  <asp:ListItem Value="2">จันทร์-เสาร์</asp:ListItem>
+                  <asp:ListItem Value="3">อื่นๆ (โปรดระบุ)</asp:ListItem>
+                  </asp:RadioButtonList>                </td>
+              <td>ระบุ</td>
+              <td><asp:TextBox ID="txtDay" runat="server" Width="150px"></asp:TextBox></td>
+            </tr>
+            <tr>
+              <td>เวลา</td>
+              <td>
+              <asp:RadioButtonList ID="optTime" runat="server" RepeatDirection="Horizontal">
+                  <asp:ListItem Value="1" Selected="True">08.00-16.00 น.</asp:ListItem>
+                  <asp:ListItem Value="2">09.00-17.00 น.</asp:ListItem>
+                  <asp:ListItem Value="3">อื่นๆ (โปรดระบุ)</asp:ListItem>
+                  </asp:RadioButtonList>                </td>
+              <td>ระบุ</td>
+              <td>
+                      <asp:TextBox ID="txtOfficeTime" runat="server" Width="150px"></asp:TextBox>                    </td>
+            </tr>
+          </table></td>
+      </tr>
+         <tr>
+          <td align="left" valign="top" class="MenuSt"> 4. การจัดหาที่พักสำหรับนิสิต</td>
+      </tr>
+         <tr>
+          <td align="left" valign="top" ><table width="100%" border="0" cellspacing="1" cellpadding="0">
+            <tr>
+              <td width="20">&nbsp;</td>
+              <td>
+                  <asp:RadioButton ID="optResidence1" runat="server" Text="แหล่งฝึกมีที่พักให้" 
+                      AutoPostBack="True" />                </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                  <asp:Panel ID="pnRes1" runat="server" HorizontalAlign="Left" class="block_step1">                  
+                  <asp:RadioButtonList ID="optIsPay" runat="server" RepeatDirection="Horizontal">
+                      <asp:ListItem Value="0" Selected="True">ไม่ต้องเสียค่าใช้จ่าย</asp:ListItem>
+                      <asp:ListItem Value="1">เสียค่าเช่าโดยประมาณ</asp:ListItem>
+                  </asp:RadioButtonList>
+                  เดือนละ
+                  <asp:TextBox ID="txtPay" runat="server" Width="60px" CssClass="NumberCenter"></asp:TextBox>
+&nbsp;บาท<br /> นิสิตต้องเข้าพัก ณ ที่พักที่แหล่งฝึกจัดหาให้<asp:RadioButtonList ID="optForce" runat="server" RepeatDirection="Horizontal">
+                          <asp:ListItem Value="1">ใช่</asp:ListItem>
+                          <asp:ListItem Value="0" Selected="True">ไม่ใช่</asp:ListItem>
+                      </asp:RadioButtonList>
+                      <br />
+                นิสิตต้องติดต่อเพื่อเข้าพักที่แหล่งฝึกจัดหาให้ล่วงหน้า 
+                  <asp:TextBox ID="txtConfirm" runat="server" Width="50px" CssClass="NumberCenter"></asp:TextBox>
+&nbsp;เดือน
+</asp:Panel></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>
+                  <asp:RadioButton ID="optResidence2" runat="server" 
+                      Text="แหล่งฝึกไม่มีที่พักให้" AutoPostBack="True" />                </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>
+                  <asp:RadioButton ID="optResidence3" runat="server" 
+                      Text="แหล่งฝึกไม่มีที่พักให้ แต่สามารถประสานงานจัดหาให้ได้" 
+                      AutoPostBack="True" />                </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>
+                  <asp:RadioButton ID="optResidence4" runat="server" 
+                      Text="แหล่งฝึกไม่มีที่พักให้ แต่สามารถแนะนำที่พักให้ได้" 
+                      AutoPostBack="True" />                </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                  <asp:Panel ID="pnRes4" runat="server" class="block_step1">
+                
+                  <table width="100%" border="0" cellspacing="1" cellpadding="0">
+                <tr>
+                  <td width="100">ชื่อที่พัก</td>
+                  <td>
+                                                      <asp:TextBox ID="txtApartmentName" runat="server" Width="200px"></asp:TextBox>                                                    </td>
+                  <td width="100">เบอร์โทร</td>
+                  <td>
+                                                        <asp:TextBox ID="txtApartmentTel" runat="server" Width="200px"></asp:TextBox>                                                    </td>
+                </tr>
+                <tr>
+                  <td>ที่อยู่</td>
+                  <td colspan="3">
+                                                        <asp:TextBox ID="txtApartmentAddress" runat="server" 
+                          Width="90%"></asp:TextBox>                                                    </td>
+                </tr>
+                <tr>
+                  <td>การเดินทาง</td>
+                  <td>
+                                                      <asp:TextBox ID="txtTravel" runat="server" Width="200px"></asp:TextBox>                                                    </td>
+                  <td>ระยะทาง</td>
+                  <td>
+                                                      <asp:TextBox ID="txtDistance" runat="server" Width="200px"></asp:TextBox>                                                    </td>
+                </tr>
+              </table>
+              
+                </asp:Panel>              </td>
+            </tr>
+          </table>          </td>
+      </tr>
+         <tr>
+          <td align="left" valign="top" class="MenuSt"> 5.
+              <asp:Label ID="lblStep5" runat="server" 
+                  Text="งานที่สามารถให้นิสิตฝึกปฏิบัติได้"></asp:Label>             </td>
+      </tr>
+         <tr>
+          <td align="left" valign="top" >
+           <asp:Panel ID="pnWorkBrunch" runat="server">
+          
+          <table width="100%" border="0" cellspacing="1" cellpadding="0">
+            <tr>
+              <td>
+                  <asp:RadioButtonList ID="optWorkBrunch" runat="server" 
+                      RepeatDirection="Horizontal">
+                      <asp:ListItem Value="1">นิสิตต้องหมุนเวียนฝึกทุกสาขา</asp:ListItem>
+                      <asp:ListItem Value="2" Selected="True">อยู่ประจำสาขาเดียว</asp:ListItem>
+                  </asp:RadioButtonList>                </td>
+            </tr>
+            <tr>
+              <td>ระบุรายละเอียด</td>
+            </tr>
+            <tr>
+              <td><asp:TextBox ID="txtBrunchDetail" runat="server" Width="600px" Height="55px" 
+                      TextMode="MultiLine"></asp:TextBox></td>
+            </tr>
+          </table>
+             
+              </asp:Panel>
+              <asp:Panel ID="pnWorkList" runat="server">
+            
+              <asp:CheckBoxList ID="chkWorkList" runat="server">
+                  <asp:ListItem Value="1">งานบริการผู้ป่วยนอกและผู้ป่วยใน</asp:ListItem>
+                  <asp:ListItem Value="2">งานด้านเภสัชกรรมคลีนิก</asp:ListItem>
+                  <asp:ListItem Value="3">งานด้านคลับเวชภัณฑ์</asp:ListItem>
+                  <asp:ListItem Value="4">งานบริการวิชาการ</asp:ListItem>
+                  <asp:ListItem Value="5">งานการผลิตยา</asp:ListItem>
+                  <asp:ListItem Value="6">งานคุ้มครองผู้บริโภคในหน่วยงาน</asp:ListItem>
+                  <asp:ListItem Value="7">ศึกษาดูงานคุ้มครองผู้บริโภค ณ สำนักงานสาธารณสุขจังหวัด</asp:ListItem>
+                  <asp:ListItem Value="8">อื่นๆ (โปรดระบุ)</asp:ListItem>
+              </asp:CheckBoxList>
+              ระบุ
+              <asp:TextBox ID="txtSpecWork" runat="server" Width="600px"></asp:TextBox>
+            </asp:Panel>          </td>
+      </tr>
+        <tr>
+          <td align="left" valign="top" >งานเด่นของแหล่งฝึก</td>
+      </tr>
+        <tr>
+          <td align="left" valign="top" >
+                                                      <asp:TextBox ID="txtTopWork" 
+                  runat="server" Width="600px" TextMode="MultiLine" Height="55px"></asp:TextBox>                                                    </td>
+      </tr>
+         <tr>
+          <td align="left" valign="top" class="MenuSt"> 6. สิ่งอื่นๆที่นิสิตควรทราบหรือเตรียมตัวก่อนมาฝึกปฏิบัติงาน</td>
+      </tr>
+         <tr>
+          <td align="left" valign="top">
+                                                      <asp:TextBox ID="txtRemark" 
+                  runat="server" Width="600px" Height="55px" TextMode="MultiLine"></asp:TextBox>                                                    </td>
+      </tr>
+      <tr>
+          <td align="left" valign="top">Status : &nbsp;<span class="texttopic"><asp:CheckBox ID="chkStatus" runat="server" Checked="True" Text="Active" 
+                                                     />
+          </span></td>
+      </tr>
+         -->
+      
+       <tr>
+          <td align="center" valign="top">
+              <asp:Button ID="cmdSave" runat="server" CssClass="btn btn-pink" Width="100" Text="บันทึก"></asp:Button>
+    <asp:Button ID="cmdClear" runat="server" CssClass="btn btn-default" Width="100" Text="ยกเลิก"></asp:Button>
+          </td>
+      </tr>
+         
+    </table>
+  </section>    
+</asp:Content>

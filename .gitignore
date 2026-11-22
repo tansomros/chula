@@ -61,3 +61,20 @@ node_modules/
 dist/
 .vite/
 *.local
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.log
+
+# Database files
+*.mdf
+*.ldf
+*.bak
+
+# Publish output
+publish/
+
+packages/
+FileManagerTemp/
