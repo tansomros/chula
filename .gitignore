@@ -64,6 +64,7 @@ dist/
 bin/
 obj/
 .vs/
+.bak/
 *.user
 *.suo
 *.log
@@ -78,3 +79,5 @@ publish/
 
 packages/
 FileManagerTemp/
+
+Web.config

@@ -11,7 +11,7 @@
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwjs6-YQxdxIJvdUkOV7RFTpACE4dcH-E&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=<% ConfigurationSettings.AppSettings("GoogleKey").ToString() %>&callback=initMap">
     </script>
 </asp:Content>
 
