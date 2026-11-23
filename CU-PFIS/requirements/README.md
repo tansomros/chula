@@ -14,16 +14,16 @@
 2. นำไปวางในโฟลเดอร์ย่อยตาม **Bounded Context** ที่ feature นั้นเกี่ยวข้อง (ดูความหมายแต่ละ context ที่ [`.ai/architecture.md`](../.ai/architecture.md) หัวข้อ "Bounded-context folder map"):
 
    - `ReferenceData/` — ปีการศึกษา (`AcademicYear`), ภาควิชา/หน่วยงาน (`Department`), สาขาวิชา (`Major`), ตำแหน่งทางวิชาการ (`AcademicPosition`), รอบรับเข้า (`AdmissionRound`), แม่แบบเอกสาร/รายงาน (`DocumentTemplate`) → [`ReferenceData/reference-data.md`](ReferenceData/reference-data.md)
-   - `Faculty/` — ข้อมูลอาจารย์ (`FacultyMember`), CV อาจารย์, วุฒิการศึกษา, ผลงานตีพิมพ์ (และการดึงข้อมูลจาก Scopus), การส่งออก PDF และการแจ้งเตือนอัปเดต CV → [`Faculty/faculty-cv.md`](Faculty/faculty-cv.md)
+   - `Faculty/` — ข้อมูลอาจารย์ (`FacultyMember`), อาจารย์, วุฒิการศึกษา, ผลงานตีพิมพ์ (และการดึงข้อมูลจาก Scopus), การส่งออก PDF และการแจ้งเตือนอัปเดต CV → [`Faculty/faculty-profile.md`](Faculty/faculty-profile.md)
    - `Training/` — การอบรม 4 ประเภท (`TrainingRequest`), การตั้งค่าวงเงินงบประมาณรายปี (`TrainingBudgetPolicy`), สมุดคุมงบประมาณ (`TrainingBudgetLedger`), ขั้นตอนตรวจความถูกต้องและแจ้งอนุมัติหลังคณบดีลงนาม → [`Training/training-request.md`](Training/training-request.md)
-   - `Students/` — ข้อมูลนิสิตและ CV นิสิต (`Student`), ผลงานและรางวัลนิสิต (`StudentAchievement`), การได้งานทำรอบคณะเทียบชุด Final จุฬาฯ (`GraduateEmployment`), ข้อมูลผู้ใช้บัณฑิต (`EmployerEvaluation`) → [`Students/student-cv.md`](Students/student-cv.md), [`Students/student-achievement.md`](Students/student-achievement.md), [`Students/graduate-employment.md`](Students/graduate-employment.md), [`Students/employer-evaluation.md`](Students/employer-evaluation.md)
+   - `Students/` — ข้อมูลนิสิตและ นิสิต (`Student`), ผลงานและรางวัลนิสิต (`StudentAchievement`), การได้งานทำรอบคณะเทียบชุด Final จุฬาฯ (`GraduateEmployment`), ข้อมูลผู้ใช้บัณฑิต (`EmployerEvaluation`) → [`Students/student-profile.md`](Students/student-profile.md), [`Students/student-achievement.md`](Students/student-achievement.md), [`Students/graduate-employment.md`](Students/graduate-employment.md), [`Students/employer-evaluation.md`](Students/employer-evaluation.md)
    - `ProfessionalLicense/` — ผลสอบใบประกอบวิชาชีพ (`CC1`, `CC2`, `IP1`, `IP2`, `PC1`, `PC2`) และรายงานสรุปจำนวน/ร้อยละตามรุ่น → [`ProfessionalLicense/license-exam-result.md`](ProfessionalLicense/license-exam-result.md)
    - `SeniorProjects/` — โครงงานนิสิตรายบุคคล/กลุ่ม (`SeniorProject`), การเก็บไฟล์ PDF จริงและสถานะเผยแพร่, การรวมเล่มหน้า Abstract (หน้าที่ 3) รายปี, การติดตามการใช้ประโยชน์และแจ้งเตือนปีที่ 1–3 → [`SeniorProjects/senior-project-and-utilization.md`](SeniorProjects/senior-project-and-utilization.md)
    - `Integration/` — การดึง/นำเข้าข้อมูลจาก CUPPEP, Google Form/Sheet, ไฟล์ชุด Final จุฬาฯ และการจัดการคิวข้อมูลขัดแย้ง (`DataConflictQueue`) → [`Integration/external-data-sync.md`](Integration/external-data-sync.md)
    - `Reporting/` — Dashboard ภาพรวม และการส่งออกรายงานประจำปี (PDF / Word / Excel) → [`Reporting/dashboard-and-annual-reports.md`](Reporting/dashboard-and-annual-reports.md)
    - `Security/` — สิทธิ์การเข้าถึงตามบทบาท (`Admin`, `เจ้าหน้าที่`, `อาจารย์`), เจ้าของข้อมูล และการคุ้มครองข้อมูลส่วนบุคคล (PDPA) → [`Security/access-control-and-pdpa.md`](Security/access-control-and-pdpa.md)
 
-3. ตั้งชื่อไฟล์เป็นภาษาอังกฤษ kebab-case สื่อความหมาย เช่น `faculty-cv.md`, `training-request.md`, `senior-project-abstract.md`
+3. ตั้งชื่อไฟล์เป็นภาษาอังกฤษ kebab-case สื่อความหมาย เช่น `faculty-profile.md`, `training-request.md`, `senior-project-abstract.md`
 4. กรอกทุกหัวข้อในเทมเพลตให้ครบที่สุดเท่าที่ทำได้
 5. ดูตัวอย่างไฟล์ที่กรอกตามบริบทโปรเจกต์ **CU-PFIS** ได้ที่ [`Training/training-request.md`](Training/training-request.md)
 

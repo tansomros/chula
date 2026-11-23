@@ -32,10 +32,16 @@ public sealed class TestCurrentUserService : ICurrentUserService
         {
             PermissionConstants.ReferenceData.View,
             PermissionConstants.ReferenceData.Manage,
-            PermissionConstants.FacultyCv.ViewAll,
-            PermissionConstants.FacultyCv.EditAll,
-            PermissionConstants.StudentsCv.View,
-            PermissionConstants.StudentsCv.Edit
+            PermissionConstants.Faculty.ViewAll,
+            PermissionConstants.Faculty.EditAll,
+            PermissionConstants.Students.View,
+            PermissionConstants.Students.Edit,
+            PermissionConstants.TrainingRequests.ViewAll,
+            PermissionConstants.TrainingRequests.Verify,
+            PermissionConstants.TrainingRequests.Approve,
+            PermissionConstants.TrainingRequests.ViewBankAccount,
+            PermissionConstants.TrainingRequests.Export,
+            PermissionConstants.TrainingBudgetPolicies.Manage
         };
         DepartmentExternalId = null;
         FacultyMemberExternalId = null;
@@ -52,10 +58,14 @@ public sealed class TestCurrentUserService : ICurrentUserService
         Permissions = new[]
         {
             PermissionConstants.ReferenceData.View,
-            PermissionConstants.FacultyCv.ViewAll,
-            PermissionConstants.FacultyCv.EditAll,
-            PermissionConstants.StudentsCv.View,
-            PermissionConstants.StudentsCv.Edit
+            PermissionConstants.Faculty.ViewAll,
+            PermissionConstants.Faculty.EditAll,
+            PermissionConstants.Students.View,
+            PermissionConstants.Students.Edit,
+            PermissionConstants.TrainingRequests.ViewAll,
+            PermissionConstants.TrainingRequests.Verify,
+            PermissionConstants.TrainingRequests.Approve,
+            PermissionConstants.TrainingRequests.Export
         };
         DepartmentExternalId = departmentExternalId;
         FacultyMemberExternalId = null;
@@ -72,8 +82,11 @@ public sealed class TestCurrentUserService : ICurrentUserService
         Permissions = new[]
         {
             PermissionConstants.ReferenceData.View,
-            PermissionConstants.FacultyCv.ViewOwn,
-            PermissionConstants.FacultyCv.EditOwn
+            PermissionConstants.Faculty.ViewOwn,
+            PermissionConstants.Faculty.EditOwn,
+            PermissionConstants.TrainingRequests.ViewOwn,
+            PermissionConstants.TrainingRequests.CreateOwn,
+            PermissionConstants.TrainingRequests.UpdateOwn
         };
         DepartmentExternalId = null;
         FacultyMemberExternalId = facultyMemberExternalId;

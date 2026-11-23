@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Students.Students.Queries.GetStudents;
 
-[RequirePermission(PermissionConstants.StudentsCv.View)]
+[RequirePermission(PermissionConstants.Students.View)]
 public sealed record GetStudentsQuery(
     string? Search = null,
     int? CohortYearBe = null,

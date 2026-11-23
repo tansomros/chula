@@ -13,7 +13,7 @@ Living document for **CU-PFIS** (**ระบบสารสนเทศคณะ
   - **ชื่อระบบภาษาไทย:** ระบบสารสนเทศคณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
   - **ชื่อภาษาอังกฤษ:** Chula Pharmacy Faculty Information System
   - **ตัวย่อ หรือชื่อเรียกสั้น:** `CU-PFIS`
-- **D05 — Release Phasing (`A01`):** Phase 1 delivers the **Frontend UX/UI structure (`src/vuewebui`)** plus working **Faculty CV (`Faculty`)** and **Student CV (`Students`)** modules. Phase 2 delivers **Training & Budget (`Training`)**, followed by the remaining modules (`Students` sub-workflows, `ProfessionalLicense`, `SeniorProjects`, `Reporting`).
+- **D05 — Release Phasing (`A01`):** Phase 1 delivers the **Frontend UX/UI structure (`src/vuewebui`)** plus working **Faculty (`Faculty`)** and **Students (`Students`)** modules. Phase 2 delivers **Training & Budget (`Training`)**, followed by the remaining modules (`Students` sub-workflows, `ProfessionalLicense`, `SeniorProjects`, `Reporting`).
 - **D06 — Department-Scoped Staff Roles & PDPA Consent (`A03`, `A18`):** `Staff` permissions are scoped by **Department / Division** (`DepartmentId`). Students/Alumni do not log into CU-PFIS for now (CUPPEP only). All CU-PFIS users must accept a **First-Time PDPA Consent screen** on initial login, recorded persistently in the database.
 - **D07 — Training Option B, Fiscal Year Budget & Future Quota Borrowing (`A04`, `A05`, `A06`):**
   - Confirmed **Option B** (faculty submit directly in CU-PFIS) **plus Excel import** for historical training data migration.
@@ -32,11 +32,14 @@ Living document for **CU-PFIS** (**ระบบสารสนเทศคณะ
   - **Full TH/EN bilingual support** across UI, key database fields, exports, and notification emails.
   - 10-year historical data (currently on paper/free websites) will be entered/verified manually by staff (plus Excel import for training).
   - Expected concurrency **≤ 10 concurrent users**; expandable hosting storage for PDFs.
-- **D11 — Monorepo Boundaries & Two-API Integration (`CU-PPEP Integration API`):**
-  - Under `D:\Projects\Chula`: `CU-BCP/` is an unrelated existing site (**DO NOT TOUCH**); `CU-PFIS/` is this `.NET 10` + PostgreSQL Master System; `CU-PPEP/` is the legacy `.NET Framework` + MS SQL Server student web app.
-  - Confirmed **Option A (Two APIs):** Build a separate **`.NET 10` Clean Architecture `CU-PPEP Integration API`** reading CU-PPEP's MS SQL Server via read-only SQL Views (`vw_pfis_*`). `CU-PFIS` pulls data via **One-Way Pull + Incremental Sync (`?updatedSince=...`)** through `ICuppepDataSource` into `ImportBatch` → `StagingRecord` → `DataConflictQueue`.
+- **D11 — Monorepo Boundaries & Single-API Direct Read-Only Integration (`Option 1B` — Updated 2026-11-23):**
+  - Under `D:\Projects\Chula`: `CU-BCP/` is an unrelated existing site (**DO NOT TOUCH**); `CU-PFIS/` is this `.NET 10` + PostgreSQL Master System; `CU-PPEP/Chula-PPS/` is the legacy `.NET Framework` + MS SQL Server (`chula_pps`) student web app (continuing to connect via direct SQL Server connection string).
+  - Confirmed **Option 1B (Single API on Same Server, 2 Domains):** Both websites run on the same server (2 separate domains), with `CU-PFIS` remaining on **PostgreSQL (`cupharm`)** and `CU-PPEP` remaining on **MS SQL Server (`chula_pps`)**. No second `CU-PPEP` WebAPI process is required — `CU-PFIS API` pulls incremental data via a lightweight **read-only MS SQL Server adapter (`SqlCuppepDataSource : ICuppepDataSource` using `Microsoft.Data.SqlClient` + Dapper)** while keeping EF Core (`ChulaDbContext`) strictly single-context on PostgreSQL and routing imports through `ImportBatch` → `DataConflictQueue`.
+- **D12 — Core Module & Menu Terminology (`อาจารย์` / `นิสิต`):**
+  - Main navigation menus and core modules MUST be named simply **"อาจารย์"** (`Faculty`) and **"นิสิต"** (`Students`) — reflecting that each module manages comprehensive faculty/student information across multiple sections, not solely a CV.
+  - Permission namespaces follow `faculty.*` and `students.*` (e.g., `faculty.view-all`, `faculty.edit-own`, `students.view`, `students.edit`).
 - **P01 — Non-destructive External Sync:** External imports from CUPPEP or Google Sheets must preserve provenance (`SourceSystem`, `SourceRecordId`, `ImportedAt`) and route conflicts with staff-edited records in `CU-PFIS` to `DataConflictQueue` rather than overwriting silently.
-- **O01 — CUPPEP Extension Screens & Live DB Wiring (In Progress):** Legacy `chula_pps` schema mapped (`View_Student_Bio`, `Persons`, `RPT_Student_PracticeHistory`), SQL contract scripts (`vw_pfis_*` + `PFIS_*` extension tables) created, and `.NET 10` Clean Architecture **`CU-PPEP Integration API`** scaffolded at `D:\Projects\Chula\CU-PPEP\IntegrationApi\`. Remaining: apply SQL scripts to `chula_pps`, add new student self-entry WebForms screens in `Chula-PPS`, and implement `HttpCuppepDataSource : ICuppepDataSource` in `CU-PFIS`.
+- **O01 — CUPPEP Extension Screens & Live DB Wiring (In Progress):** Legacy `chula_pps` schema mapped (`Students`, `Major`, `View_Student_Bio`, `Persons`, `RPT_Student_PracticeHistory`), SQL contract scripts (`vw_pfis_*` + `PFIS_*` extension tables) prepared, and `SqlCuppepDataSource : ICuppepDataSource` wired directly into `CU-PFIS` via read-only connection string (`ConnectionStrings:CuppepSqlServer`). Remaining: add new student self-entry WebForms screens in `Chula-PPS` (writing directly via connection string to `chula_pps` extension tables) and extend `ICuppepDataSource` in Phase 3 for achievements/license/employment pulls.
 - **O02 — Dashboard KPIs & Report Templates (Open — `A14`):** To be finalized in the next stakeholder meeting (collect sample Word/PDF/Excel templates).
 - **O03 — Scopus Data Source Channel (Open — `A16`):** Confirm whether Chula institutional Scopus API credentials (API Key / InstToken) are available, or use ORCID / Scopus BibTeX-CSV import as interim/fallback.
 - **Architectural Baseline (adopted from team template):**
@@ -49,7 +52,7 @@ Living document for **CU-PFIS** (**ระบบสารสนเทศคณะ
 
 ## Non-negotiable: Data Integrity, Sync Safety, Budget Accuracy & PDPA
 
-This system underlies faculty CVs, academic training budgets, graduate employment statistics, license pass rates, and senior project publications. These rules apply across every phase as blocking requirements:
+This system underlies faculty profiles, academic training budgets, graduate employment statistics, license pass rates, and senior project publications. These rules apply across every phase as blocking requirements:
 
 1. **Training budget balances are never mutated in place** — always derived from the append-only `TrainingBudgetLedger` (reserve, consume on Dean approval, release on cancel, and future-year advance borrowing `BorrowAdvance` / `CarryForwardDeduction`). Annual budget caps (default `10,000 THB/person/fiscal year`, 1 Oct – 30 Sep) must be configurable per fiscal year (`TrainingBudgetPolicy`), never hardcoded.
 2. **External data imports never silently overwrite staff-verified data** — re-importing from CUPPEP or Google Sheets must be idempotent, match by stable IDs (never by name alone or Sheet row number), preserve provenance (`SourceSystem`, `SourceRecordId`, `ImportedAt`), and route conflicts with staff-edited records to a review queue.
@@ -73,9 +76,9 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 
 ---
 
-## Phase 1 — Core Foundation, Frontend UX/UI, Faculty CV & Student CV (`A01` Priority)
+## Phase 1 — Core Foundation, Frontend UX/UI, Faculty & Students (`A01` Priority)
 
-**Status: in progress (2026-11-21).**
+**Status: core complete — ready for Phase 2 (2026-11-23).**
 
 - [x] Scaffold Clean Architecture solution (`chula.sln`: `Domain`, `Application`, `Infrastructure`, `API`, and test projects `Domain.UnitTests`, `Application.FunctionalTests`).
 - [x] Base infrastructure: `EntityBase` (Dual-key `Id` + `ExternalId`, `xmin` concurrency), `SoftDeletableEntityBase` (global query filter), `IHasActiveFlag`, `AuditLog` interceptor (`AuditableEntitySaveChangesInterceptors`).
@@ -83,26 +86,27 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 - [x] `ReferenceData` context: `AcademicYear` (supporting 10+ years history), `Department`, `Major`, `AcademicPosition`, `AdmissionRound` (2-tier hierarchy), `DocumentTemplate`, plus initial `AcademicYears` CQRS vertical slice.
 - [x] Complete `Security` extensions per `A03`/`A18`: Department-scoped Staff access (`DepartmentExternalId` claim), First-Login **PDPA Consent** (`PdpaConsent`) append-only entity + CQRS (`GET /api/pdpa-consents/me`, `POST /api/pdpa-consents`), and `DevelopmentHeaderAuthMiddleware` for local RBAC testing.
 - [x] Complete Phase 1 `ReferenceData` read slices (`Departments`, `Majors`, `AcademicPositions`, `AdmissionRounds`), initial EF Core PostgreSQL migration (`InitialPhase1Foundation`), idempotent `ChulaDbContextInitialiser` seed, and `Application.FunctionalTests` harness (`cupharm-test`, configurable via `CHULA_TEST_CONNECTION_STRING`).
-- [x] **Frontend UX/UI Foundation (`src/vuewebui`):** Vue 3 + Vuetify 3 shell, layout, navigation, CASL permission wiring, full **TH/EN bilingual (`vue-i18n`)** support (`A01`, `A15`), **First-Login PDPA Consent** gate (`A18`), and dedicated `list/view/create/edit` UX/UI pages for **Faculty CV** (8 sections + Scopus CSV import) and **Student CV** (11 sections + 2-tier Admission Round dropdown) with preview Pinia stores (`vite build` verified).
-- [x] **Faculty CV (`Faculty`) — Phase 1 Backend (`A01`, `A15`, `A16`):** `FacultyMember`, `FacultyEducation`, `FacultyPublication` domain entities + EF configs + CQRS CRUD (`GET/POST/PUT /api/faculty-members`) + idempotent Scopus import (`POST /api/faculty-members/{externalId}/import-scopus`) + Dept-scoped Staff & Faculty own-CV enforcement + Unit & Functional Tests.
-- [x] **Student CV (`Students`) — Phase 1 Backend (`A01`, `A02`, `A03`):** `Student`, `StudentInternship` domain entities with CUPPEP provenance & `IsStaffVerifiedEdit` protection + EF configs + CQRS CRUD (`GET/POST/PUT /api/students`) + `ICuppepDataSource` port (`D11`) + Unit & Functional Tests.
+- [x] **Frontend UX/UI Foundation (`src/vuewebui`):** Vue 3 + Vuetify 3 shell, layout, navigation, CASL permission wiring, full **TH/EN bilingual (`vue-i18n`)** support (`A01`, `A15`), **First-Login PDPA Consent** gate (`A18`), and dedicated `list/view/create/edit` UX/UI pages for **Faculty** (8 sections + Scopus CSV import) and **Students** (11 sections + 2-tier Admission Round dropdown) with preview Pinia stores (`vite build` verified).
+- [x] **Faculty (`Faculty`) — Phase 1 Backend (`A01`, `A15`, `A16`):** `FacultyMember`, `FacultyEducation`, `FacultyPublication` domain entities + EF configs + CQRS CRUD (`GET/POST/PUT /api/faculty-members`) + idempotent Scopus import (`POST /api/faculty-members/{externalId}/import-scopus`) + Dept-scoped Staff & Faculty own-CV enforcement + Unit & Functional Tests.
+- [x] **Students (`Students`) — Phase 1 Backend (`A01`, `A02`, `A03`):** `Student`, `StudentInternship` domain entities with CUPPEP provenance & `IsStaffVerifiedEdit` protection + EF configs + CQRS CRUD (`GET/POST/PUT /api/students`) + `ICuppepDataSource` port (`D11`) + Unit & Functional Tests.
 - [x] **PostgreSQL Verification (`cupharm` & `cupharm-test`):** Local PostgreSQL verified — `InitialPhase1Foundation` migration applied cleanly on `cupharm`, `TestingSetup` auto-resolves local credentials from `appsettings.Development.json`, and all **43/43 automated tests** (36 Domain Unit Tests + 7 PostgreSQL Functional Tests) pass!
-- [x] **Frontend → Live `CU-PFIS` API Wiring (`src/vuewebui`):** Replaced preview mock Pinia stores with live async HTTP calls via `src/api/httpClient.js` against `https://localhost:7001/api/*` (PDPA Consent gate, all 5 Reference Data endpoints, Faculty CV CRUD + Scopus CSV import, Student CV CRUD + 2-tier Admission Round, and live `X-Dev-*` role/department/own-CV switching). Verified `vite build` (0 errors) and live API smoke tests across Admin / Dept-Scoped Staff (`PP`) / Faculty (`PHARM-1001`) on PostgreSQL `cupharm`.
-- [x] **CU-PPEP Live Integration & Non-Destructive Sync (`D11`, `P01`):** Implemented `HttpCuppepDataSource : ICuppepDataSource` (pulling paginated incremental students from `CU-PPEP/WebAPI`), `ImportBatch` & `DataConflictQueueItem` domain entities + EF PostgreSQL migration (`AddCuppepIntegrationSync`), CQRS commands/queries (`SyncCuppepStudents`, `GetImportBatches`, `GetDataConflicts`, `ResolveDataConflict`), `IntegrationsController` (`/api/integrations/cuppep/*`), and Vue 3 `/students/sync` dashboard. Verified **49/49 automated tests** (41 Domain Unit + 8 PostgreSQL Functional Tests) plus **live Two-API End-to-End Sync** from MS SQL Server `chula_pps` → `CU-PPEP/WebAPI` → `CU-PFIS` → PostgreSQL `cupharm` (idempotent on re-pull).
-- [ ] **Phase 1 Final Polish (Awaiting `A14`):** Formal PDF export templates (pending stakeholder templates per `A14`) and bilingual CV update reminder email job.
+- [x] **Frontend → Live `CU-PFIS` API Wiring (`src/vuewebui`):** Replaced preview mock Pinia stores with live async HTTP calls via `src/api/httpClient.js` against `https://localhost:7001/api/*` (PDPA Consent gate, all 5 Reference Data endpoints, Faculty CRUD + Scopus CSV import, Students CRUD + 2-tier Admission Round, and live `X-Dev-*` role/department/own-CV switching). Verified `vite build` (0 errors) and live API smoke tests across Admin / Dept-Scoped Staff (`PP`) / Faculty (`PHARM-1001`) on PostgreSQL `cupharm`.
+- [x] **CU-PPEP Live Integration & Non-Destructive Sync (`D11 — Option 1B`, `P01`):** Implemented direct read-only **`SqlCuppepDataSource : ICuppepDataSource`** (`Microsoft.Data.SqlClient` + Dapper via `ConnectionStrings:CuppepSqlServer`), pulling students, **Academic Advisors** (`dbo.Persons` with automatic `FacultyMember` FK matching + fallback display name via migration `AddStudentAdvisorFallbackName`), and **Internship Rotations** (`dbo.View_StudentRegister` + `dbo.View_StudentRegister_InLocation` with TH/EN rotation names) into `ImportBatch` & `DataConflictQueueItem`, plus Vue 3 `/students/sync` dashboard. Verified **50/50 automated tests** (42 Domain Unit + 8 PostgreSQL Functional Tests) and live idempotent sync from `chula_pps` → PostgreSQL `cupharm`.
+- [ ] **Phase 1 Deferred Polish (Non-blocking for Phase 2):** Admin UI for ReferenceData CRUD, formal PDF export templates (pending stakeholder templates per `A14`), and bilingual profile update reminder email job.
 
 ---
 
 ## Phase 2 — Training & Fiscal-Year Budget Ledger (`Training`)
 
-**Status: pending.**
+**Status: core complete (2026-11-23).**
 
-- [ ] `TrainingBudgetPolicy` (configurable annual limit per person per **Fiscal Year: 1 Oct – 30 Sep**, default 10,000 THB/year, `A06`).
-- [ ] Append-only `TrainingBudgetLedger` supporting `Reserve`, `Consume` (triggered **after Dean approval**, `A05`), `Release` (on cancellation), and **Future Fiscal-Year Quota Borrowing** (`BorrowAdvance` / `CarryForwardDeduction`, `A06`).
-- [ ] `TrainingRequest` supporting all 4 training types (`AcademicFunded`, `NonAcademicFunded`, `FacultyOrganized`, `ShortTermOrOverseas`) via **Option B** (direct faculty entry in CU-PFIS, `A04`).
-- [ ] Training workflow: submit → staff verification / revision request → PDF memo generation & bilingual email for Dean signature → record Dean approval → deduct budget ledger & reflect on `FacultyCv`.
-- [ ] **Historical Training Excel Import (`A04`):** structured Excel migration tool with validation and non-destructive provenance tracking.
-- [ ] Training budget & attendance reports (PDF/Word/Excel export).
+- [x] `TrainingBudgetPolicy` + `FacultyTrainingBudgetAllocation` (configurable global annual limit per **Fiscal Year: 1 Oct – 30 Sep**, default 10,000 THB/year + bulk apply/reset to all faculty + **per-faculty individual quota/borrow-cap overrides** with note & one-click revert, `A06`).
+- [x] Append-only `TrainingBudgetLedgerEntry` supporting `Consume` (triggered **after Dean approval**, `A05`), `BorrowAdvance` / `CarryForwardDeduction` (**Future Fiscal-Year Quota Borrowing**, `A06`), and `Adjustment`, with derived balances calculated via `TrainingBudgetCalculator`.
+- [x] `TrainingRequest` + append-only `TrainingApprovalHistory` supporting all 4 training types (`AcademicFunded`, `NonAcademicFunded`, `FacultyOrganized`, `ShortTermOrOverseas`) via **Option B** (direct faculty entry in CU-PFIS, `A04`) + multi-select staff recording + PDPA-gated bank account fields (`A18`).
+- [x] Training workflow: `Draft` / `Submitted` → Staff verify (`VerifiedInProgress`, printable PDF memo) or `RequestRevision` (mandatory reason) → Staff record Dean approval (`Approved`) → atomic budget ledger deduction + **auto-linked into Faculty Profile Section 8 (`ApprovedTrainings`)**.
+- [x] **2 Required Staff Views (`req071169.pdf` pages 2–4) & Vue 3 UI (`/trainings/{list,create,edit,view}`):** Per-Faculty Fiscal-Year Budget Summary (`GET /api/training-requests/faculty-budgets`) with inline Admin Policy editor, Per-Event Summary (`GET /api/training-requests/event-summaries`) with average cost/attendee & expandable attendees, plus **Historical Training CSV Import (`A04`)** (`POST /api/training-requests/import-historical`).
+- [x] **Verification:** EF migrations `AddPhase2TrainingAndBudgetLedger` + `AddFacultyTrainingBudgetAllocation` applied on PostgreSQL `cupharm`, **59/59 automated tests pass** (48 Domain Unit + 11 PostgreSQL Functional Tests covering A05/A06 future borrowing, per-faculty budget overrides, & PDPA bank masking), and Vue 3 `vite build` passes (0 errors).
+- [ ] **Phase 2 Deferred Polish (Awaiting `A14`):** Formal Word/PDF/Excel template-based training reports & SMTP email notifications.
 
 ---
 
@@ -111,7 +115,7 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 **Status: pending.**
 
 - [ ] CUPPEP & Google Sheet integration staging (`ImportBatch`, `StagingRecord`, `DataConflictQueue`).
-- [ ] `StudentAchievement` workflow: sync self-confirmed items from CUPPEP (no file attachments, `A08`) → staff review (request revision / verify) → publish to `StudentCv`.
+- [ ] `StudentAchievement` workflow: sync self-confirmed items from CUPPEP (no file attachments, `A08`) → staff review (request revision / verify) → publish to `Students`.
 - [ ] `GraduateEmployment` workflow (`A07`): display CUPPEP 1st-round data in CU-PFIS → Staff manually rechecks against Chula Final data and edits/confirms authoritative values in CU-PFIS without destructive overwrite on CUPPEP re-import (push-back to CUPPEP deferred).
 - [ ] `EmployerEvaluation` (ผู้ใช้บัณฑิต): import from Google Form/Sheet (stable ID, never row number), match to graduate, search/sort/export.
 - [ ] `LicenseExamResult` (`CC1`, `CC2`, `IP1`, `IP2`, `PC1`, `PC2`): sync self-confirmed checklist from CUPPEP (no file attachments, `A08`), cohort pass count & `%` using **total graduates** denominator (`A09`), and reporting.
@@ -122,7 +126,7 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 
 **Status: pending.**
 
-- [ ] `SeniorProject` CRUD (individual/group), linking students (`SeniorProjectMember`) and advisors (`SeniorProjectAdvisor`), connected to `StudentCv`.
+- [ ] `SeniorProject` CRUD (individual/group), linking students (`SeniorProjectMember`) and advisors (`SeniorProjectAdvisor`), connected to `Students`.
 - [ ] Actual PDF file upload, validation (page count, encryption, MIME), storage, and `Publish` status restricted to **Staff, Faculty, and Students only** (`A10`).
 - [ ] Annual `AbstractCompilation` (`A11`): auto-detect Abstract page within **pages 3–5** (matching centered `"Abstract"` on first line) with manual staff preview/override for scanned/non-standard PDFs, and compile into PDF with **Cover Page (page 1)** followed directly by each project's Abstract page.
 - [ ] `ProjectUtilization` tracking & bilingual reminder emails (`A12`): start **1 year from Publication Date**; manual Staff trigger button for legacy projects (subsequent reminders count from `LastRemindedAt`); stop immediately when filled or after **3 reminders / 3 years**.
@@ -143,7 +147,7 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 
 | Code | Topic | Confirmed Answer (`A01–A18`) | Status |
 |---|---|---|---|
-| **Q01 / A01** | Release Phasing | Phase 1 must deliver **Frontend UX/UI structure** + usable **Faculty CV** and **Student CV** modules first; followed by **Training**, then remaining modules. | Confirmed |
+| **Q01 / A01** | Release Phasing | Phase 1 must deliver **Frontend UX/UI structure** + usable **Faculty** and **Students** modules first; followed by **Training**, then remaining modules. | Confirmed |
 | **Q02 / A02** | CUPPEP Data Ownership | Students enter all their own data (CV, achievements, etc.) in **CUPPEP** (create new input screens in CUPPEP); CU-PFIS pulls to display/verify, avoiding data collisions. | Confirmed (tech channel `O01` open) |
 | **Q03 / A03** | Roles & Access | **Staff** permissions must be separated by **Department/Division**. **Students/Alumni** do not log into CU-PFIS yet (use CUPPEP only for now). | Confirmed (see `A10` alignment note) |
 | **Q04 / A04** | Training Input Channel | Confirmed **Option B** (faculty fill directly in CU-PFIS), **plus Excel import** for historical data migration. | Confirmed |
@@ -166,7 +170,7 @@ This system underlies faculty CVs, academic training budgets, graduate employmen
 
 ## Artifacts & Samples to Request from Stakeholders
 
-1. **Templates & Forms:** ตัวอย่าง CV อาจารย์/นิสิต, แบบฟอร์มขออนุมัติอบรม, บันทึกข้อความเสนอคณบดี, รายงานสรุปงบประมาณ และรายงานประจำปี (Word / PDF / Excel)
+1. **Templates & Forms:** ตัวอย่าง ข้อมูลอาจารย์/นิสิต, แบบฟอร์มขออนุมัติอบรม, บันทึกข้อความเสนอคณบดี, รายงานสรุปงบประมาณ และรายงานประจำปี (Word / PDF / Excel)
 2. **Google Form / Google Sheet:** โครงสร้างคอลัมน์จริงของแบบประเมินผู้ใช้บัณฑิตและข้อมูลการอบรมเดิม (ใช้ข้อมูลที่ปกปิดข้อมูลส่วนบุคคลแล้ว)
 3. **Sample Datasets:** ตัวอย่างข้อมูลนิสิต ผลงานนิสิต ข้อมูลการได้งานทำรอบคณะ และไฟล์ชุด Final จากจุฬาฯ
 4. **Sample Senior Project PDFs:** ไฟล์ PDF โครงงานนิสิตจริงจากหลายปีการศึกษา และตัวอย่างเล่มรวม Abstract เพื่อตรวจสอบโครงสร้างหน้าที่ 3

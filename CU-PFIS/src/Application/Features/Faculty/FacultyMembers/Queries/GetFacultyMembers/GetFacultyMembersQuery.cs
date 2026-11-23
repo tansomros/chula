@@ -1,6 +1,7 @@
 using Chula.Application.Common.Exceptions;
 using Chula.Application.Common.Interfaces;
 using Chula.Application.Common.Security;
+using Chula.Domain.Enums.Training;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,7 @@ public sealed record FacultyMemberListItemDto(
     string? PhoneNumber,
     string? ScopusAuthorId,
     int PublicationsCount,
+    int ApprovedTrainingsCount,
     DateTimeOffset? LastModifiedOrCreated);
 
 public sealed class GetFacultyMembersQueryHandler
@@ -57,12 +59,12 @@ public sealed class GetFacultyMembersQueryHandler
         }
 
         var canViewAll = _currentUserService.IsInRole(RoleConstants.Admin) ||
-                         _currentUserService.HasPermission(PermissionConstants.FacultyCv.ViewAll);
-        var canViewOwn = _currentUserService.HasPermission(PermissionConstants.FacultyCv.ViewOwn);
+                         _currentUserService.HasPermission(PermissionConstants.Faculty.ViewAll);
+        var canViewOwn = _currentUserService.HasPermission(PermissionConstants.Faculty.ViewOwn);
 
         if (!canViewAll && !canViewOwn)
         {
-            throw new ForbiddenAccessException("Missing permission to view Faculty CV records.");
+            throw new ForbiddenAccessException("Missing permission to view Faculty records.");
         }
 
         var query = _context.FacultyMembers
@@ -118,9 +120,11 @@ public sealed class GetFacultyMembersQueryHandler
                 x.Email.ToLower().Contains(term));
         }
 
-        return await query
+        var rows = await query
             .OrderBy(x => x.PersonnelCode)
-            .Select(x => new FacultyMemberListItemDto(
+            .Select(x => new
+            {
+                x.Id,
                 x.ExternalId,
                 x.PersonnelCode,
                 x.ProfessionalTitleTh,
@@ -129,17 +133,48 @@ public sealed class GetFacultyMembersQueryHandler
                 x.LastNameTh,
                 x.FirstNameEn,
                 x.LastNameEn,
-                x.AcademicPosition.ExternalId,
-                x.AcademicPosition.TitleTh,
-                x.AcademicPosition.TitleEn,
-                x.Department.ExternalId,
-                x.Department.NameTh,
-                x.Department.NameEn,
+                AcademicPositionExternalId = x.AcademicPosition.ExternalId,
+                AcademicPositionTitleTh = x.AcademicPosition.TitleTh,
+                AcademicPositionTitleEn = x.AcademicPosition.TitleEn,
+                DepartmentExternalId = x.Department.ExternalId,
+                DepartmentNameTh = x.Department.NameTh,
+                DepartmentNameEn = x.Department.NameEn,
                 x.Email,
                 x.PhoneNumber,
                 x.ScopusAuthorId,
-                x.Publications.Count,
-                x.LastModified ?? x.CreatedOn))
+                PublicationsCount = x.Publications.Count,
+                LastModifiedOrCreated = x.LastModified ?? x.CreatedOn
+            })
             .ToListAsync(cancellationToken);
+
+        var facultyIds = rows.Select(r => r.Id).ToList();
+        var trainingCounts = await _context.TrainingRequests
+            .AsNoTracking()
+            .Where(t => facultyIds.Contains(t.FacultyMemberId) && t.Status == TrainingRequestStatus.Approved)
+            .GroupBy(t => t.FacultyMemberId)
+            .Select(g => new { FacultyId = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.FacultyId, x => x.Count, cancellationToken);
+
+        return rows.Select(x => new FacultyMemberListItemDto(
+            x.ExternalId,
+            x.PersonnelCode,
+            x.ProfessionalTitleTh,
+            x.ProfessionalTitleEn,
+            x.FirstNameTh,
+            x.LastNameTh,
+            x.FirstNameEn,
+            x.LastNameEn,
+            x.AcademicPositionExternalId,
+            x.AcademicPositionTitleTh,
+            x.AcademicPositionTitleEn,
+            x.DepartmentExternalId,
+            x.DepartmentNameTh,
+            x.DepartmentNameEn,
+            x.Email,
+            x.PhoneNumber,
+            x.ScopusAuthorId,
+            x.PublicationsCount,
+            trainingCounts.GetValueOrDefault(x.Id),
+            x.LastModifiedOrCreated)).ToList();
     }
 }

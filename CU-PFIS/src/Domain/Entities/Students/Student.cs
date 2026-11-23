@@ -29,7 +29,9 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         string? highSchoolEn = null,
         string sourceSystem = "CUPPEP",
         string? sourceRecordId = null,
-        DateTimeOffset? importedAt = null)
+        DateTimeOffset? importedAt = null,
+        string? academicAdvisorNameTh = null,
+        string? academicAdvisorNameEn = null)
     {
         StudentCode = Guard.Against.NullOrWhiteSpace(studentCode, nameof(studentCode)).Trim();
         FirstNameTh = Guard.Against.NullOrWhiteSpace(firstNameTh, nameof(firstNameTh)).Trim();
@@ -42,6 +44,8 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         DepartmentId = departmentId;
         AdmissionRoundId = admissionRoundId;
         AcademicAdvisorId = academicAdvisorId;
+        AcademicAdvisorNameTh = NormalizeOptional(academicAdvisorNameTh);
+        AcademicAdvisorNameEn = NormalizeOptional(academicAdvisorNameEn);
         HighSchoolTh = NormalizeOptional(highSchoolTh);
         HighSchoolEn = NormalizeOptional(highSchoolEn);
         SourceSystem = Guard.Against.NullOrWhiteSpace(sourceSystem, nameof(sourceSystem)).Trim();
@@ -82,6 +86,13 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
     public int? AcademicAdvisorId { get; private set; }
 
     public FacultyMember? AcademicAdvisor { get; private set; }
+
+    /// <summary>
+    /// Fallback advisor display name synced from CUPPEP when the advisor is not yet linked to a CU-PFIS FacultyMember record.
+    /// </summary>
+    public string? AcademicAdvisorNameTh { get; private set; }
+
+    public string? AcademicAdvisorNameEn { get; private set; }
 
     public string? HighSchoolTh { get; private set; }
 
@@ -124,6 +135,12 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         DepartmentId = departmentId;
         AdmissionRoundId = admissionRoundId;
         AcademicAdvisorId = academicAdvisorId;
+        if (academicAdvisorId.HasValue)
+        {
+            AcademicAdvisorNameTh = null;
+            AcademicAdvisorNameEn = null;
+        }
+
         HighSchoolTh = NormalizeOptional(highSchoolTh);
         HighSchoolEn = NormalizeOptional(highSchoolEn);
         IsStaffVerifiedEdit = true;
@@ -140,7 +157,9 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         int studyYear,
         int majorId,
         string? highSchoolTh,
-        string? highSchoolEn)
+        string? highSchoolEn,
+        int? academicAdvisorId = null,
+        string? academicAdvisorNameTh = null)
     {
         var diffs = new List<string>();
         if (!string.Equals(FirstNameTh, firstNameTh.Trim(), StringComparison.Ordinal))
@@ -160,6 +179,19 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         if (!string.Equals(HighSchoolEn, NormalizeOptional(highSchoolEn), StringComparison.Ordinal))
             diffs.Add(nameof(HighSchoolEn));
 
+        var normalizedIncomingAdvisorName = NormalizeOptional(academicAdvisorNameTh);
+        if (academicAdvisorId.HasValue)
+        {
+            if (AcademicAdvisorId != academicAdvisorId.Value)
+                diffs.Add(nameof(AcademicAdvisorId));
+        }
+        else if (!string.IsNullOrWhiteSpace(normalizedIncomingAdvisorName) &&
+                 !AcademicAdvisorId.HasValue &&
+                 !string.Equals(AcademicAdvisorNameTh, normalizedIncomingAdvisorName, StringComparison.Ordinal))
+        {
+            diffs.Add(nameof(AcademicAdvisorNameTh));
+        }
+
         return diffs;
     }
 
@@ -176,7 +208,10 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         string? highSchoolTh,
         string? highSchoolEn,
         string sourceRecordId,
-        DateTimeOffset importedAt)
+        DateTimeOffset importedAt,
+        int? academicAdvisorId = null,
+        string? academicAdvisorNameTh = null,
+        string? academicAdvisorNameEn = null)
     {
         if (IsStaffVerifiedEdit)
         {
@@ -192,6 +227,21 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         MajorId = Guard.Against.NegativeOrZero(majorId, nameof(majorId));
         HighSchoolTh = NormalizeOptional(highSchoolTh);
         HighSchoolEn = NormalizeOptional(highSchoolEn);
+        if (academicAdvisorId.HasValue)
+        {
+            AcademicAdvisorId = academicAdvisorId;
+        }
+
+        if (!string.IsNullOrWhiteSpace(academicAdvisorNameTh))
+        {
+            AcademicAdvisorNameTh = NormalizeOptional(academicAdvisorNameTh);
+        }
+
+        if (!string.IsNullOrWhiteSpace(academicAdvisorNameEn))
+        {
+            AcademicAdvisorNameEn = NormalizeOptional(academicAdvisorNameEn);
+        }
+
         SourceRecordId = NormalizeOptional(sourceRecordId) ?? SourceRecordId;
         ImportedAt = importedAt;
     }
@@ -209,7 +259,9 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         string? highSchoolTh,
         string? highSchoolEn,
         string sourceRecordId,
-        DateTimeOffset importedAt)
+        DateTimeOffset importedAt,
+        int? academicAdvisorId = null,
+        string? academicAdvisorNameTh = null)
     {
         FirstNameTh = Guard.Against.NullOrWhiteSpace(firstNameTh, nameof(firstNameTh)).Trim();
         LastNameTh = Guard.Against.NullOrWhiteSpace(lastNameTh, nameof(lastNameTh)).Trim();
@@ -219,9 +271,44 @@ public sealed class Student : SoftDeletableEntityBase, IHasActiveFlag
         MajorId = Guard.Against.NegativeOrZero(majorId, nameof(majorId));
         HighSchoolTh = NormalizeOptional(highSchoolTh);
         HighSchoolEn = NormalizeOptional(highSchoolEn);
+        if (academicAdvisorId.HasValue)
+        {
+            AcademicAdvisorId = academicAdvisorId;
+        }
+
+        if (!string.IsNullOrWhiteSpace(academicAdvisorNameTh))
+        {
+            AcademicAdvisorNameTh = NormalizeOptional(academicAdvisorNameTh);
+        }
+
         SourceRecordId = NormalizeOptional(sourceRecordId) ?? SourceRecordId;
         ImportedAt = importedAt;
         IsStaffVerifiedEdit = true;
+    }
+
+    /// <summary>
+    /// Idempotently upserts an internship rotation pulled from CUPPEP by its stable SourceRecordId.
+    /// Returns true if a new internship was added or an existing one changed.
+    /// </summary>
+    public bool UpsertExternalInternship(
+        string sourceRecordId,
+        string siteTh,
+        string rotationTypeTh,
+        string periodLabel,
+        string? siteEn = null,
+        string? rotationTypeEn = null)
+    {
+        var normalizedKey = Guard.Against.NullOrWhiteSpace(sourceRecordId, nameof(sourceRecordId)).Trim();
+        var existing = _internships.FirstOrDefault(x =>
+            string.Equals(x.SourceRecordId, normalizedKey, StringComparison.OrdinalIgnoreCase));
+
+        if (existing is not null)
+        {
+            return existing.UpdateFromExternal(siteTh, rotationTypeTh, periodLabel, siteEn, rotationTypeEn);
+        }
+
+        AddInternship(siteTh, rotationTypeTh, periodLabel, siteEn, rotationTypeEn, normalizedKey);
+        return true;
     }
 
     public StudentInternship AddInternship(

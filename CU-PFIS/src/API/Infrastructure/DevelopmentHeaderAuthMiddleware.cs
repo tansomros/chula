@@ -37,31 +37,45 @@ public sealed class DevelopmentHeaderAuthMiddleware
             if (string.Equals(role, RoleConstants.Admin, StringComparison.OrdinalIgnoreCase))
             {
                 claims.Add(new Claim("permission", PermissionConstants.ReferenceData.Manage));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ViewAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.EditAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ExportAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.NotifyUpdate));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.View));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.Edit));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.Export));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ViewAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.EditAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ExportAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.NotifyUpdate));
+                claims.Add(new Claim("permission", PermissionConstants.Students.View));
+                claims.Add(new Claim("permission", PermissionConstants.Students.Edit));
+                claims.Add(new Claim("permission", PermissionConstants.Students.Export));
                 claims.Add(new Claim("permission", PermissionConstants.EmployerEvaluations.View));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.ViewAll));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Verify));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Approve));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.ViewBankAccount));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Export));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingBudgetPolicies.Manage));
             }
             else if (string.Equals(role, RoleConstants.Staff, StringComparison.OrdinalIgnoreCase))
             {
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ViewAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.EditAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ExportAll));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.NotifyUpdate));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.View));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.Edit));
-                claims.Add(new Claim("permission", PermissionConstants.StudentsCv.Export));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ViewAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.EditAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ExportAll));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.NotifyUpdate));
+                claims.Add(new Claim("permission", PermissionConstants.Students.View));
+                claims.Add(new Claim("permission", PermissionConstants.Students.Edit));
+                claims.Add(new Claim("permission", PermissionConstants.Students.Export));
                 claims.Add(new Claim("permission", PermissionConstants.EmployerEvaluations.View));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.ViewAll));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Verify));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Approve));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.ViewBankAccount));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.Export));
             }
             else if (string.Equals(role, RoleConstants.Faculty, StringComparison.OrdinalIgnoreCase))
             {
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ViewOwn));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.EditOwn));
-                claims.Add(new Claim("permission", PermissionConstants.FacultyCv.ExportOwn));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ViewOwn));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.EditOwn));
+                claims.Add(new Claim("permission", PermissionConstants.Faculty.ExportOwn));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.ViewOwn));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.CreateOwn));
+                claims.Add(new Claim("permission", PermissionConstants.TrainingRequests.UpdateOwn));
             }
 
             if (!string.IsNullOrWhiteSpace(departmentExternalId))

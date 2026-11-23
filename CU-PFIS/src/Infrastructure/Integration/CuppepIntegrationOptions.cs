@@ -4,17 +4,19 @@ public sealed class CuppepIntegrationOptions
 {
     public const string SectionName = "CuppepIntegration";
 
-    public string BaseUrl { get; set; } = "https://localhost:7002";
-
-    public string? ApiKey { get; set; }
-
-    public int PageSize { get; set; } = 200;
-
-    public int TimeoutSeconds { get; set; } = 30;
+    /// <summary>
+    /// Name of the read-only MS SQL Server connection string under ConnectionStrings (default: CuppepSqlServer).
+    /// </summary>
+    public string ConnectionStringName { get; set; } = "CuppepSqlServer";
 
     /// <summary>
-    /// Allows connecting to localhost HTTPS dev certificates when talking to CU-PPEP/WebAPI in local development.
-    /// Must be false in production.
+    /// SQL command timeout in seconds for read-only pulls from chula_pps.
     /// </summary>
-    public bool AllowUntrustedDevCertificate { get; set; }
+    public int CommandTimeoutSeconds { get; set; } = 30;
+
+    /// <summary>
+    /// When true, queries the dedicated read-only integration view dbo.vw_pfis_students (recommended for least-privilege DBA setups).
+    /// When false, queries dbo.Students LEFT JOIN dbo.Major directly in read-only mode.
+    /// </summary>
+    public bool UseIntegrationView { get; set; }
 }

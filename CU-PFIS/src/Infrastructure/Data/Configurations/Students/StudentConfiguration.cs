@@ -26,6 +26,8 @@ public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(x => x.LastNameEn).IsRequired().HasMaxLength(150);
 
         builder.Property(x => x.StudyYear).IsRequired();
+        builder.Property(x => x.AcademicAdvisorNameTh).HasMaxLength(250);
+        builder.Property(x => x.AcademicAdvisorNameEn).HasMaxLength(250);
         builder.Property(x => x.HighSchoolTh).HasMaxLength(300);
         builder.Property(x => x.HighSchoolEn).HasMaxLength(300);
 

@@ -1,7 +1,9 @@
 using Chula.Domain.Entities.Faculty;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Students;
+using Chula.Domain.Entities.Training;
 using Chula.Domain.Enums.ReferenceData;
+using Chula.Domain.Enums.Training;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +39,7 @@ public sealed class ChulaDbContextInitialiser
     {
         await SeedReferenceDataAsync(cancellationToken);
         await SeedSampleFacultyAndStudentsAsync(cancellationToken);
+        await SeedTrainingPoliciesAndSamplesAsync(cancellationToken);
     }
 
     private async Task SeedReferenceDataAsync(CancellationToken cancellationToken)
@@ -236,6 +239,125 @@ public sealed class ChulaDbContextInitialiser
 
             _context.Students.AddRange(student1, student2);
             await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    private async Task SeedTrainingPoliciesAndSamplesAsync(CancellationToken cancellationToken)
+    {
+        if (!await _context.TrainingBudgetPolicies.AnyAsync(cancellationToken))
+        {
+            for (var fyBe = 2568; fyBe <= 2571; fyBe++)
+            {
+                _context.TrainingBudgetPolicies.Add(new TrainingBudgetPolicy(
+                    fyBe,
+                    annualQuotaAmount: 10_000m,
+                    allowFutureQuotaBorrowing: true,
+                    maxBorrowAmount: 10_000m));
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        if (!await _context.TrainingRequests.AnyAsync(cancellationToken))
+        {
+            var somchai = await _context.FacultyMembers
+                .FirstOrDefaultAsync(x => x.PersonnelCode == "PHARM-1001", cancellationToken);
+            var napawan = await _context.FacultyMembers
+                .FirstOrDefaultAsync(x => x.PersonnelCode == "PHARM-1002", cancellationToken);
+
+            if (somchai is not null)
+            {
+                var now = DateTimeOffset.UtcNow;
+
+                // Approved AcademicFunded training in FY 2570 (shows in Faculty Section 8 + deducts 6,500 THB in Ledger)
+                var req1 = new TrainingRequest(
+                    somchai.Id,
+                    TrainingCategory.AcademicFunded,
+                    TrainingWorkType.Research,
+                    "การประชุมวิชาการนานาชาติทางเภสัชกรรมคลินิกแห่งเอเชีย (ACCP 2026)",
+                    "ศูนย์ประชุมแห่งชาติสิริกิติ์ กรุงเทพฯ",
+                    new DateOnly(2026, 11, 10),
+                    new DateOnly(2026, 11, 12),
+                    requestedAmount: 6_500m,
+                    titleEn: "Asian Conference on Clinical Pharmacy (ACCP 2026)",
+                    organizerAndVenueEn: "Queen Sirikit National Convention Center, Bangkok",
+                    bankName: "ธนาคารไทยพาณิชย์ (SCB)",
+                    bankAccountNumber: "045-2-99123-4",
+                    bankAccountHolderName: "รศ.ดร.ภก.สมชาย เภสัชศาสตร์");
+
+                req1.Submit("somchai.p", now.AddDays(-14));
+                req1.MarkVerified("staff.pharmcare", now.AddDays(-10));
+                req1.ApproveByDean("staff.pharmcare", 6_500m, now.AddDays(-5), "คณบดีลงนามอนุมัติแล้ว");
+                _context.TrainingRequests.Add(req1);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                _context.TrainingBudgetLedgerEntries.Add(new TrainingBudgetLedgerEntry(
+                    somchai.Id,
+                    req1.Id,
+                    req1.FiscalYearBe,
+                    BudgetLedgerEntryType.Consume,
+                    6_500m,
+                    now.AddDays(-5),
+                    "staff.pharmcare",
+                    $"Approved training spend: {req1.TitleTh}"));
+
+                // Submitted training awaiting staff verification
+                var req2 = new TrainingRequest(
+                    somchai.Id,
+                    TrainingCategory.AcademicFunded,
+                    TrainingWorkType.Academic,
+                    "การอบรมเชิงปฏิบัติการเภสัชจลนศาสตร์คลินิกขั้นสูง",
+                    "คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+                    new DateOnly(2027, 2, 18),
+                    new DateOnly(2027, 2, 19),
+                    requestedAmount: 5_000m,
+                    titleEn: "Advanced Clinical Pharmacokinetics Workshop",
+                    organizerAndVenueEn: "Faculty of Pharmaceutical Sciences, Chulalongkorn University",
+                    bankName: "ธนาคารไทยพาณิชย์ (SCB)",
+                    bankAccountNumber: "045-2-99123-4",
+                    bankAccountHolderName: "รศ.ดร.ภก.สมชาย เภสัชศาสตร์");
+
+                req2.Submit("somchai.p", now.AddDays(-2));
+                _context.TrainingRequests.Add(req2);
+
+                // Category 3 (FacultyOrganized — no approval required, directly approved for both faculty members)
+                var facSem1 = new TrainingRequest(
+                    somchai.Id,
+                    TrainingCategory.FacultyOrganized,
+                    TrainingWorkType.Academic,
+                    "สัมมนาคณาจารย์คณะเภสัชศาสตร์ ประจำปี 2569",
+                    "คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+                    new DateOnly(2026, 10, 20),
+                    new DateOnly(2026, 10, 21),
+                    requestedAmount: 0m,
+                    titleEn: "Annual Faculty Retreat & Curriculum Seminar 2026",
+                    sessionTopicTh: "การบูรณาการ AI ในการเรียนการสอนเภสัชศาสตร์",
+                    sessionTopicEn: "Integrating AI into Pharmacy Education",
+                    organizerAndVenueEn: "Faculty of Pharmaceutical Sciences, Chulalongkorn University");
+                facSem1.RecordDirectlyAsApproved("admin.pfis", 0m, now.AddDays(-20));
+                _context.TrainingRequests.Add(facSem1);
+
+                if (napawan is not null)
+                {
+                    var facSem2 = new TrainingRequest(
+                        napawan.Id,
+                        TrainingCategory.FacultyOrganized,
+                        TrainingWorkType.Academic,
+                        "สัมมนาคณาจารย์คณะเภสัชศาสตร์ ประจำปี 2569",
+                        "คณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย",
+                        new DateOnly(2026, 10, 20),
+                        new DateOnly(2026, 10, 21),
+                        requestedAmount: 0m,
+                        titleEn: "Annual Faculty Retreat & Curriculum Seminar 2026",
+                        sessionTopicTh: "การบูรณาการ AI ในการเรียนการสอนเภสัชศาสตร์",
+                        sessionTopicEn: "Integrating AI into Pharmacy Education",
+                        organizerAndVenueEn: "Faculty of Pharmaceutical Sciences, Chulalongkorn University");
+                    facSem2.RecordDirectlyAsApproved("admin.pfis", 0m, now.AddDays(-20));
+                    _context.TrainingRequests.Add(facSem2);
+                }
+
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

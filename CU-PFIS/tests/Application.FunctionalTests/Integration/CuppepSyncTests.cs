@@ -18,7 +18,7 @@ public sealed class CuppepSyncTests : FunctionalTestBase
     {
         var now = DateTimeOffset.UtcNow;
 
-        // 1. First pull creates 2 new students (including a legacy cohort year 2559 not initially seeded!)
+        // 1. First pull creates 2 new students (including a legacy cohort year 2559 + advisor + internship rotations!)
         CuppepDataSource.NextStudents.AddRange(
         [
             new CuppepStudentSnapshot(
@@ -33,7 +33,20 @@ public sealed class CuppepSyncTests : FunctionalTestBase
                 "PC",
                 "โรงเรียนสวนกุหลาบวิทยาลัย",
                 null,
-                now),
+                now,
+                AcademicAdvisorNameTh: "รศ.ดร.ภก.สมชาย เภสัชศาสตร์",
+                AcademicAdvisorFirstNameTh: "สมชาย",
+                AcademicAdvisorLastNameTh: "เภสัชศาสตร์",
+                Internships:
+                [
+                    new CuppepInternshipSnapshot(
+                        "CUPPEP-ROT-9001",
+                        "บริษัท สยามเภสัช จำกัด (กรุงเทพฯ)",
+                        null,
+                        "การปฏิบัติงานวิชาชีพในโรงงานอุตสาหกรรมยา 6",
+                        "Professional Practice in Pharmaceutical Industry VI",
+                        "ผลัด 8 · 18 มกราคม - 26 กุมภาพันธ์ 2570")
+                ]),
             new CuppepStudentSnapshot(
                 "CUPPEP-SYNC-2",
                 "5933090233",
@@ -46,7 +59,8 @@ public sealed class CuppepSyncTests : FunctionalTestBase
                 "IP",
                 "โรงเรียนบดินทรเดชา",
                 null,
-                now)
+                now,
+                AcademicAdvisorNameTh: "อ.ดร.ภญ.ปรรณพัชร์ ลักษมีเศรษฐ์")
         ]);
 
         var batch1 = await SendAsync(new SyncCuppepStudentsCommand());
@@ -56,6 +70,23 @@ public sealed class CuppepSyncTests : FunctionalTestBase
         batch1.UpdatedCount.ShouldBe(0);
         batch1.SkippedUnchangedCount.ShouldBe(0);
         batch1.ConflictCount.ShouldBe(0);
+
+        // Verify Student #1 auto-linked to seeded FacultyMember (สมชาย) + synced 1 internship,
+        // and Student #2 preserved fallback AcademicAdvisorNameTh from CUPPEP
+        var syncedStudent1 = await WithDbContextAsync(db =>
+            db.Students
+                .Include(x => x.AcademicAdvisor)
+                .Include(x => x.Internships)
+                .FirstAsync(x => x.StudentCode == "6733090133"));
+        syncedStudent1.AcademicAdvisor.ShouldNotBeNull();
+        syncedStudent1.AcademicAdvisor!.PersonnelCode.ShouldBe("PHARM-1001");
+        syncedStudent1.Internships.Count.ShouldBe(1);
+        syncedStudent1.Internships.First().RotationTypeEn.ShouldBe("Professional Practice in Pharmaceutical Industry VI");
+
+        var syncedStudent2 = await WithDbContextAsync(db =>
+            db.Students.FirstAsync(x => x.StudentCode == "5933090233"));
+        syncedStudent2.AcademicAdvisorId.ShouldBeNull();
+        syncedStudent2.AcademicAdvisorNameTh.ShouldBe("อ.ดร.ภญ.ปรรณพัชร์ ลักษมีเศรษฐ์");
 
         // 2. Re-pulling exact same data is idempotent
         var batch2 = await SendAsync(new SyncCuppepStudentsCommand());

@@ -64,7 +64,7 @@ UnhandledExceptionBehaviour → AuthorizationBehaviour → ValidationBehaviour
 โปรเจกต์นี้ใช้ AI Agent (ผ่าน Cursor / Claude Code) เป็นตัวช่วยหลักในการวิเคราะห์และพัฒนา โดยมีขั้นตอนมาตรฐานต่อ 1 ฟีเจอร์ดังนี้:
 
 1. **เขียน/อัปเดตไฟล์ Requirement ก่อนเสมอ:**
-   - คัดลอก [`requirements/_template.md`](../requirements/_template.md) ไปวางในโฟลเดอร์ Bounded Context ที่เกี่ยวข้อง เช่น `requirements/Faculty/faculty-cv.md`, `requirements/Training/training-request.md`
+   - คัดลอก [`requirements/_template.md`](../requirements/_template.md) ไปวางในโฟลเดอร์ Bounded Context ที่เกี่ยวข้อง เช่น `requirements/Faculty/faculty-profile.md`, `requirements/Training/training-request.md`
    - กรอกรายละเอียดให้ครบ หากส่วนไหนยังรอคำตอบจากลูกค้า (`Q01–Q18`) ให้ระบุไว้ชัดเจนในไฟล์
 2. **เปิด Session กับ AI พร้อมบริบทมาตรฐาน:**
    - ใช้ **Shared Preamble** และ Prompt ตามสเตจจาก [prompt-templates.md](prompt-templates.md) พร้อมอ้างอิงไฟล์ `requirements/{Context}/{feature}.md`

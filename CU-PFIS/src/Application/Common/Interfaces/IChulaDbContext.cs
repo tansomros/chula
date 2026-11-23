@@ -4,6 +4,7 @@ using Chula.Domain.Entities.Integration;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Security;
 using Chula.Domain.Entities.Students;
+using Chula.Domain.Entities.Training;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Common.Interfaces;
@@ -41,6 +42,16 @@ public interface IChulaDbContext
     DbSet<ImportBatch> ImportBatches { get; }
 
     DbSet<DataConflictQueueItem> DataConflictQueueItems { get; }
+
+    DbSet<TrainingBudgetPolicy> TrainingBudgetPolicies { get; }
+
+    DbSet<FacultyTrainingBudgetAllocation> FacultyTrainingBudgetAllocations { get; }
+
+    DbSet<TrainingRequest> TrainingRequests { get; }
+
+    DbSet<TrainingApprovalHistory> TrainingApprovalHistories { get; }
+
+    DbSet<TrainingBudgetLedgerEntry> TrainingBudgetLedgerEntries { get; }
 
     DbSet<AuditLog> AuditLogs { get; }
 

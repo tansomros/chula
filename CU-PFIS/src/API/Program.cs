@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Chula.API.Filters;
 using Chula.API.Infrastructure;
 using Chula.API.Services;
@@ -29,6 +30,9 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+}).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddOpenApi();

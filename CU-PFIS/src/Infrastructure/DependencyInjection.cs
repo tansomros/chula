@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Chula.Infrastructure;
 
@@ -40,28 +39,7 @@ public static class DependencyInjection
         services.Configure<CuppepIntegrationOptions>(
             configuration.GetSection(CuppepIntegrationOptions.SectionName));
 
-        services.AddHttpClient<ICuppepDataSource, HttpCuppepDataSource>((sp, client) =>
-        {
-            var opts = sp.GetRequiredService<IOptions<CuppepIntegrationOptions>>().Value;
-            client.BaseAddress = new Uri(opts.BaseUrl.TrimEnd('/'));
-            client.Timeout = TimeSpan.FromSeconds(Math.Clamp(opts.TimeoutSeconds, 5, 300));
-            if (!string.IsNullOrWhiteSpace(opts.ApiKey))
-            {
-                client.DefaultRequestHeaders.Remove("X-Api-Key");
-                client.DefaultRequestHeaders.Add("X-Api-Key", opts.ApiKey);
-            }
-        }).ConfigurePrimaryHttpMessageHandler(sp =>
-        {
-            var opts = sp.GetRequiredService<IOptions<CuppepIntegrationOptions>>().Value;
-            var handler = new HttpClientHandler();
-            if (opts.AllowUntrustedDevCertificate)
-            {
-                handler.ServerCertificateCustomValidationCallback =
-                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            }
-
-            return handler;
-        });
+        services.AddScoped<ICuppepDataSource, SqlCuppepDataSource>();
 
         return services;
     }

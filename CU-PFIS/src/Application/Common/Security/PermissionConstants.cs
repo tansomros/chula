@@ -8,15 +8,15 @@ public static class PermissionConstants
         public const string Manage = "reference-data.manage";
     }
 
-    public static class FacultyCv
+    public static class Faculty
     {
-        public const string ViewOwn = "faculty-cv.view-own";
-        public const string EditOwn = "faculty-cv.edit-own";
-        public const string ExportOwn = "faculty-cv.export-own";
-        public const string ViewAll = "faculty-cv.view-all";
-        public const string EditAll = "faculty-cv.edit-all";
-        public const string ExportAll = "faculty-cv.export-all";
-        public const string NotifyUpdate = "faculty-cv.notify-update";
+        public const string ViewOwn = "faculty.view-own";
+        public const string EditOwn = "faculty.edit-own";
+        public const string ExportOwn = "faculty.export-own";
+        public const string ViewAll = "faculty.view-all";
+        public const string EditAll = "faculty.edit-all";
+        public const string ExportAll = "faculty.export-all";
+        public const string NotifyUpdate = "faculty.notify-update";
     }
 
     public static class TrainingRequests
@@ -31,11 +31,16 @@ public static class PermissionConstants
         public const string Export = "training-requests.export";
     }
 
-    public static class StudentsCv
+    public static class TrainingBudgetPolicies
     {
-        public const string View = "students-cv.view";
-        public const string Edit = "students-cv.edit";
-        public const string Export = "students-cv.export";
+        public const string Manage = "training-budget-policies.manage";
+    }
+
+    public static class Students
+    {
+        public const string View = "students.view";
+        public const string Edit = "students.edit";
+        public const string Export = "students.export";
     }
 
     public static class EmployerEvaluations

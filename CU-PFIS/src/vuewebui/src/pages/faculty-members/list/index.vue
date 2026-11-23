@@ -1,14 +1,21 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { useAbility } from '@casl/vue'
+import DataTable from 'datatables.net-vue3'
+import DataTablesCore from 'datatables.net-dt'
 import { useAuthStore } from '@/stores/auth'
 import { useFacultyMembersStore } from '@/stores/facultyMembers'
 import { useReferenceDataStore } from '@/stores/referenceData'
 import { useLocalizedField } from '@/composables/useLocalizedField'
 import { usePdfPrint } from '@/composables/usePdfPrint'
+import '@/styles/datatables.css'
+
+DataTable.use(DataTablesCore)
 
 const { t } = useI18n()
+const router = useRouter()
 const { can } = useAbility()
 const authStore = useAuthStore()
 const facultyStore = useFacultyMembersStore()
@@ -16,15 +23,14 @@ const refStore = useReferenceDataStore()
 const { locale, pick, formatFullName } = useLocalizedField()
 const { printCurrentView } = usePdfPrint()
 
-const search = ref('')
+const dtTableRef = ref(null)
 const selectedDepartment = ref(null)
 const selectedPosition = ref(null)
 const snackbar = ref(false)
 const snackbarMessage = ref('')
-let searchTimer = null
 
-const canCreateOrNotify = computed(() => can('edit-all', 'faculty-cv'))
-const canExportAll = computed(() => can('export-all', 'faculty-cv'))
+const canCreateOrNotify = computed(() => can('edit-all', 'faculty'))
+const canExportAll = computed(() => can('export-all', 'faculty'))
 
 const departmentOptions = computed(() => [
   { value: null, title: t('common.all') },
@@ -42,9 +48,147 @@ const positionOptions = computed(() => [
   })),
 ])
 
+const tableRows = computed(() =>
+  facultyStore.items.map((item) => {
+    const fullName = formatFullName(item, true)
+    const academicPosition = pick(item.academicPositionTitleTh, item.academicPositionTitleEn)
+    const departmentName = pick(item.departmentNameTh, item.departmentNameEn)
+    const publicationsCount = item.publicationsCount ?? 0
+
+    return {
+      externalId: item.externalId,
+      personnelCode: item.personnelCode,
+      fullName,
+      email: item.email || '',
+      fullNameSearch: [
+        item.professionalTitleTh,
+        item.firstNameTh,
+        item.lastNameTh,
+        item.professionalTitleEn,
+        item.firstNameEn,
+        item.lastNameEn,
+        item.email,
+      ]
+        .filter(Boolean)
+        .join(' '),
+      academicPosition,
+      academicPositionSearch: [item.academicPositionTitleTh, item.academicPositionTitleEn]
+        .filter(Boolean)
+        .join(' '),
+      departmentName,
+      departmentSearch: [item.departmentNameTh, item.departmentNameEn].filter(Boolean).join(' '),
+      publicationsCount,
+      approvedTrainingsCount: item.approvedTrainingsCount ?? 0,
+    }
+  }),
+)
+
+const columns = computed(() => [
+  {
+    data: 'personnelCode',
+    title: t('faculty.personnelCode'),
+    className: 'font-weight-medium dt-nowrap',
+  },
+  {
+    data: null,
+    title: t('faculty.fullName'),
+    render: {
+      display: '#fullName',
+      sort: 'fullName',
+      filter: 'fullNameSearch',
+      type: 'fullName',
+      _: 'fullName',
+    },
+  },
+  {
+    data: null,
+    title: t('faculty.academicPosition'),
+    render: {
+      display: 'academicPosition',
+      sort: 'academicPosition',
+      filter: 'academicPositionSearch',
+      type: 'academicPosition',
+      _: 'academicPosition',
+    },
+  },
+  {
+    data: null,
+    title: t('common.department'),
+    render: {
+      display: 'departmentName',
+      sort: 'departmentName',
+      filter: 'departmentSearch',
+      type: 'departmentName',
+      _: 'departmentName',
+    },
+  },
+  {
+    data: null,
+    title: t('faculty.publicationsCount'),
+    type: 'num',
+    className: 'dt-center',
+    render: {
+      display: '#publications',
+      sort: 'publicationsCount',
+      filter: 'publicationsCount',
+      type: 'publicationsCount',
+      _: 'publicationsCount',
+    },
+  },
+  {
+    data: null,
+    title: t('faculty.trainingsCount'),
+    type: 'num',
+    className: 'dt-center',
+    render: {
+      display: '#trainings',
+      sort: 'approvedTrainingsCount',
+      filter: 'approvedTrainingsCount',
+      type: 'approvedTrainingsCount',
+      _: 'approvedTrainingsCount',
+    },
+  },
+  {
+    data: null,
+    title: t('common.actions'),
+    orderable: false,
+    searchable: false,
+    className: 'dt-right dt-nowrap no-print',
+    render: {
+      display: '#actions',
+      _: () => '',
+    },
+  },
+])
+
+const dtOptions = computed(() => ({
+  autoWidth: false,
+  pageLength: 10,
+  lengthMenu: [
+    [10, 25, 50, 100, -1],
+    [10, 25, 50, 100, t('common.all')],
+  ],
+  order: [[0, 'asc']],
+  language: {
+    search: t('datatable.search'),
+    searchPlaceholder: t('datatable.facultySearchPlaceholder'),
+    lengthMenu: t('datatable.lengthMenu'),
+    info: t('datatable.info'),
+    infoEmpty: t('datatable.infoEmpty'),
+    infoFiltered: t('datatable.infoFiltered'),
+    emptyTable: t('common.noData'),
+    zeroRecords: t('datatable.zeroRecords'),
+    paginate: {
+      first: '«',
+      previous: '‹',
+      next: '›',
+      last: '»',
+    },
+  },
+}))
+
 async function loadList() {
   await facultyStore.fetchList({
-    search: search.value.trim() || undefined,
     departmentExternalId: selectedDepartment.value || undefined,
     academicPositionExternalId: selectedPosition.value || undefined,
   })
@@ -56,20 +200,23 @@ onMounted(async () => {
 
 watch([() => authStore.personaKey, selectedDepartment, selectedPosition], loadList)
 
-watch(search, () => {
-  clearTimeout(searchTimer)
-  searchTimer = setTimeout(loadList, 250)
-})
-
 function resetFilters() {
-  search.value = ''
   selectedDepartment.value = null
   selectedPosition.value = null
+  dtTableRef.value?.dt?.search('').draw()
 }
 
 function handleNotifyAll() {
   snackbarMessage.value = t('faculty.notifySent')
   snackbar.value = true
+}
+
+function goToView(externalId) {
+  router.push(`/faculty-members/view/${externalId}`)
+}
+
+function goToEdit(externalId) {
+  router.push(`/faculty-members/edit/${externalId}`)
 }
 </script>
 
@@ -133,26 +280,17 @@ function handleNotifyAll() {
       class="mb-4"
       icon="mdi-account-lock-outline"
     >
-      {{ t('common.ownCvOnlyNotice') }}
+      {{ t('common.ownProfileOnlyNotice') }}
     </v-alert>
 
     <v-alert v-if="facultyStore.error" type="error" variant="tonal" density="compact" class="mb-4">
       {{ facultyStore.error }}
     </v-alert>
 
-    <!-- Filters -->
+    <!-- Structured Filters -->
     <v-card class="pa-4 mb-5 no-print">
       <v-row align="center">
-        <v-col cols="12" md="4">
-          <v-text-field
-            v-model="search"
-            :label="t('common.search')"
-            prepend-inner-icon="mdi-magnify"
-            clearable
-            data-testid="faculty-search-input"
-          />
-        </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="5">
           <v-select
             v-model="selectedDepartment"
             :items="departmentOptions"
@@ -160,80 +298,73 @@ function handleNotifyAll() {
             :disabled="authStore.isStaff || authStore.isFaculty"
           />
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="5">
           <v-select
             v-model="selectedPosition"
             :items="positionOptions"
             :label="t('faculty.academicPosition')"
           />
         </v-col>
-        <v-col cols="12" md="2" class="d-flex ga-2">
-          <v-btn variant="text" block @click="resetFilters">
+        <v-col cols="12" md="2">
+          <v-btn variant="outlined" color="primary" block @click="resetFilters">
             {{ t('common.reset') }}
           </v-btn>
         </v-col>
       </v-row>
     </v-card>
 
-    <!-- Data Table -->
+    <!-- DataTables.net Table -->
     <v-card>
       <v-progress-linear v-if="facultyStore.loading" indeterminate color="primary" />
-      <v-table hover data-testid="faculty-table">
-        <thead>
-          <tr>
-            <th>{{ t('faculty.personnelCode') }}</th>
-            <th>{{ t('faculty.fullName') }}</th>
-            <th>{{ t('faculty.academicPosition') }}</th>
-            <th>{{ t('common.department') }}</th>
-            <th class="text-center">{{ t('faculty.publicationsCount') }}</th>
-            <th class="text-center">{{ t('faculty.trainingsCount') }}</th>
-            <th class="text-right no-print">{{ t('common.actions') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="!facultyStore.loading && facultyStore.items.length === 0">
-            <td colspan="7" class="text-center py-8 cu-muted">{{ t('common.noData') }}</td>
-          </tr>
-          <tr v-for="item in facultyStore.items" :key="item.externalId">
-            <td class="font-weight-medium">{{ item.personnelCode }}</td>
-            <td>
-              <div class="font-weight-bold">{{ formatFullName(item, true) }}</div>
-              <div class="text-caption cu-muted">{{ item.email }}</div>
-            </td>
-            <td>{{ pick(item.academicPositionTitleTh, item.academicPositionTitleEn) }}</td>
-            <td>{{ pick(item.departmentNameTh, item.departmentNameEn) }}</td>
-            <td class="text-center">
-              <v-chip size="small" color="primary" variant="tonal">
-                {{ item.publicationsCount ?? 0 }}
-              </v-chip>
-            </td>
-            <td class="text-center">
-              <v-chip size="small" color="secondary" variant="tonal">
-                P2
-              </v-chip>
-            </td>
-            <td class="text-right no-print">
-              <v-btn
-                size="small"
-                variant="tonal"
-                color="primary"
-                class="mr-2"
-                :to="`/faculty-members/view/${item.externalId}`"
-                :data-testid="`faculty-view-${item.personnelCode}`"
+      <div class="cu-datatable-wrap">
+        <DataTable
+          :key="locale"
+          ref="dtTableRef"
+          id="faculty-datatable"
+          :data="tableRows"
+          :columns="columns"
+          :options="dtOptions"
+          class="display hover row-border"
+          data-testid="faculty-table"
+        >
+          <template #fullName="{ rowData }">
+            <div class="font-weight-bold">{{ rowData.fullName }}</div>
+            <div class="text-caption cu-muted">{{ rowData.email }}</div>
+          </template>
+
+          <template #publications="{ rowData }">
+            <span class="cu-dt-chip cu-dt-chip--primary">
+              {{ rowData.publicationsCount }}
+            </span>
+          </template>
+
+          <template #trainings="{ rowData }">
+            <span class="cu-dt-chip cu-dt-chip--secondary">
+              {{ rowData.approvedTrainingsCount }}
+            </span>
+          </template>
+
+          <template #actions="{ rowData }">
+            <div class="cu-dt-actions">
+              <button
+                type="button"
+                class="cu-dt-btn cu-dt-btn--tonal-primary"
+                :data-testid="`faculty-view-${rowData.personnelCode}`"
+                @click="goToView(rowData.externalId)"
               >
                 {{ t('common.view') }}
-              </v-btn>
-              <v-btn
-                size="small"
-                variant="outlined"
-                :to="`/faculty-members/edit/${item.externalId}`"
+              </button>
+              <button
+                type="button"
+                class="cu-dt-btn cu-dt-btn--outlined"
+                @click="goToEdit(rowData.externalId)"
               >
                 {{ t('common.edit') }}
-              </v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
+              </button>
+            </div>
+          </template>
+        </DataTable>
+      </div>
     </v-card>
 
     <v-snackbar v-model="snackbar" color="success" timeout="3500">

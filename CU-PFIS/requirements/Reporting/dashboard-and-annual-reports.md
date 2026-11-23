@@ -14,7 +14,7 @@
 ตามเอกสารขอบเขตหน้า 1 ระบบ **CU-PFIS (ระบบสารสนเทศคณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย / Chula Pharmacy Faculty Information System)** ต้องมีความสามารถระดับภาพรวมของคณะ ได้แก่:
 - มีหน้าแสดง **Dashboard** ของข้อมูลในระบบ
 - สามารถสรุปและ **Export** ข้อมูลที่ต้องการออกมาเป็น **รายงานประจำปี** หรือ **ตามช่วงวันที่ที่ต้องการ Export** ในรูปแบบ **Word (`.docx`), PDF (`.pdf`), และ Excel (`.xlsx`)**
-- สามารถแก้ไขหรือใส่ **Template ไฟล์/แบบฟอร์ม** ที่จะ Export ข้อมูลออกมาจากระบบได้ (เช่น เล่ม Abstract, CV อาจารย์, รายงานงบประมาณอบรมประจำปี)
+- สามารถแก้ไขหรือใส่ **Template ไฟล์/แบบฟอร์ม** ที่จะ Export ข้อมูลออกมาจากระบบได้ (เช่น เล่ม Abstract, อาจารย์, รายงานงบประมาณอบรมประจำปี)
 - รองรับการเก็บและเรียกดูข้อมูลย้อนหลังอย่างน้อย **10 ปี** แยกตาม **ปีการศึกษา (`AcademicYear`)**
 - รองรับ **2 ภาษา** ได้แก่ **ภาษาไทย** และ **ภาษาอังกฤษ**
 
@@ -90,9 +90,9 @@
 ## 12. เกี่ยวข้องกับ/ขึ้นกับ feature อื่น (Dependencies)
 
 - `requirements/ReferenceData/reference-data.md`
-- `requirements/Faculty/faculty-cv.md`
+- `requirements/Faculty/faculty-profile.md`
 - `requirements/Training/training-request.md`
-- `requirements/Students/student-cv.md`
+- `requirements/Students/student-profile.md`
 - `requirements/ProfessionalLicense/license-exam-result.md`
 - `requirements/SeniorProjects/senior-project-and-utilization.md`
 

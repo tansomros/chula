@@ -39,7 +39,7 @@ These are binding conventions for **CU-PFIS** (**Chula Pharmacy Faculty Informat
 - **Optimistic concurrency**: every mutable entity carries the Postgres `xmin` system column as a shadow-property concurrency token (`ConfigureEntityBase<T>()`). A conflicting concurrent write must fail loudly (`DbUpdateConcurrencyException`), never silently overwrite.
 - **Multi-aggregate operations are transactional.** If a single logical action touches more than one aggregate (e.g. approving a `TrainingRequest` writes a `TrainingBudgetLedger` entry and updates CV visibility), wrap it in one database transaction.
 - **Validation is layered, not singular.** FluentValidation at the Application boundary, invariant guard clauses in the Domain entity, and database `CHECK` constraints / unique indexes in the EF configuration.
-- **Permissions**: use the `module.action` convention (e.g. `faculty-cv.view`, `training-requests.verify`, `training-requests.approve`, `senior-projects.publish`) with `[RequirePermission]` on commands/queries.
+- **Permissions**: use the `module.action` convention (e.g. `faculty.view`, `training-requests.verify`, `training-requests.approve`, `senior-projects.publish`) with `[RequirePermission]` on commands/queries.
 - **EF configuration**: Fluent API only (`IEntityTypeConfiguration<T>`), no data annotations on entities. Use `ConfigureEntityBase<T>()`, `ConfigureSoftDelete<T>()` (for `SoftDeletableEntityBase`), and `ConfigureActiveFlag<T>()` (for `IHasActiveFlag`). Never make append-only ledger or audit entities (`TrainingBudgetLedger`, `AuditLog`, `TrainingApprovalHistory`) soft-deletable or give them `IsActive`.
 
 ## Frontend conventions

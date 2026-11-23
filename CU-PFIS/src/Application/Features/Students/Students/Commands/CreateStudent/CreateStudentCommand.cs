@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Students.Students.Commands.CreateStudent;
 
-[RequirePermission(PermissionConstants.StudentsCv.Edit)]
+[RequirePermission(PermissionConstants.Students.Edit)]
 public sealed record CreateStudentCommand(
     string StudentCode,
     string FirstNameTh,

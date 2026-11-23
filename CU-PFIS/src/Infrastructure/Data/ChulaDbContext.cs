@@ -6,6 +6,7 @@ using Chula.Domain.Entities.Integration;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Security;
 using Chula.Domain.Entities.Students;
+using Chula.Domain.Entities.Training;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Infrastructure.Data;
@@ -48,6 +49,16 @@ public sealed class ChulaDbContext : DbContext, IChulaDbContext
     public DbSet<ImportBatch> ImportBatches => Set<ImportBatch>();
 
     public DbSet<DataConflictQueueItem> DataConflictQueueItems => Set<DataConflictQueueItem>();
+
+    public DbSet<TrainingBudgetPolicy> TrainingBudgetPolicies => Set<TrainingBudgetPolicy>();
+
+    public DbSet<FacultyTrainingBudgetAllocation> FacultyTrainingBudgetAllocations => Set<FacultyTrainingBudgetAllocation>();
+
+    public DbSet<TrainingRequest> TrainingRequests => Set<TrainingRequest>();
+
+    public DbSet<TrainingApprovalHistory> TrainingApprovalHistories => Set<TrainingApprovalHistory>();
+
+    public DbSet<TrainingBudgetLedgerEntry> TrainingBudgetLedgerEntries => Set<TrainingBudgetLedgerEntry>();
 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 

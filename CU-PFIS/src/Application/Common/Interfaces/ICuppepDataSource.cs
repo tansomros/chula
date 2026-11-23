@@ -1,8 +1,9 @@
 namespace Chula.Application.Common.Interfaces;
 
 /// <summary>
-/// Port for pulling incremental student records from the separate .NET 10 CU-PPEP Integration API (Decision D11).
-/// CU-PFIS never queries raw MS SQL Server tables directly.
+/// Port for pulling incremental student records (including advisor &amp; internship rotations)
+/// from CU-PPEP MS SQL Server (chula_pps) via a read-only adapter (Decision D11 — Option 1B).
+/// Keeps Application/Domain layers completely decoupled from MS SQL Server details.
 /// </summary>
 public interface ICuppepDataSource
 {
@@ -19,6 +20,14 @@ public sealed record CuppepHealthStatus(
     string BaseUrl,
     string? Message = null);
 
+public sealed record CuppepInternshipSnapshot(
+    string SourceRecordId,
+    string SiteTh,
+    string? SiteEn,
+    string RotationTypeTh,
+    string? RotationTypeEn,
+    string PeriodLabel);
+
 public sealed record CuppepStudentSnapshot(
     string SourceRecordId,
     string StudentCode,
@@ -31,4 +40,9 @@ public sealed record CuppepStudentSnapshot(
     string MajorCode,
     string? HighSchoolTh,
     string? HighSchoolEn,
-    DateTimeOffset UpdatedAt);
+    DateTimeOffset UpdatedAt,
+    string? AcademicAdvisorNameTh = null,
+    string? AcademicAdvisorFirstNameTh = null,
+    string? AcademicAdvisorLastNameTh = null,
+    string? AcademicAdvisorEmail = null,
+    IReadOnlyList<CuppepInternshipSnapshot>? Internships = null);

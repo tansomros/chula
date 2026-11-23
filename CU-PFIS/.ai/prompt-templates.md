@@ -19,7 +19,7 @@ Before making any change:
 2. Read .ai/coding-rules.md and .ai/ai-agent-guide.md — these are binding
    conventions, not suggestions. Follow them exactly.
 3. Check .ai/domain.md for established bilingual domain terms and workflows
-   (Faculty CV, Training 4 types & budget ledger, Student CV, Achievements,
+   (Faculty, Training 4 types & budget ledger, Students, Achievements,
    Graduate Employment, Employer Evaluation, License Exam CC1/CC2/IP1/IP2/PC1/PC2,
    Senior Project PDF & Page 3 Abstract compilation).
 4. If a requirements/{Context}/{feature}.md file is referenced below, read

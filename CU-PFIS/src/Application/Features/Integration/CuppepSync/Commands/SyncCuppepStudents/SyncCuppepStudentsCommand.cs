@@ -2,6 +2,7 @@ using System.Text.Json;
 using Chula.Application.Common.Interfaces;
 using Chula.Application.Common.Security;
 using Chula.Domain.Common;
+using Chula.Domain.Entities.Faculty;
 using Chula.Domain.Entities.Integration;
 using Chula.Domain.Entities.ReferenceData;
 using Chula.Domain.Entities.Students;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Integration.CuppepSync.Commands.SyncCuppepStudents;
 
-[RequirePermission(PermissionConstants.StudentsCv.Edit)]
+[RequirePermission(PermissionConstants.Students.Edit)]
 public sealed record SyncCuppepStudentsCommand(
     DateTimeOffset? UpdatedSince = null,
     int? MaxRecords = null) : IRequest<ImportBatchDto>;
@@ -43,7 +44,8 @@ public sealed record StudentSyncPayloadSnapshot(
     int StudyYear,
     string MajorCode,
     string? HighSchoolTh,
-    string? HighSchoolEn);
+    string? HighSchoolEn,
+    string? AcademicAdvisorNameTh = null);
 
 public sealed class SyncCuppepStudentsCommandHandler
     : IRequestHandler<SyncCuppepStudentsCommand, ImportBatchDto>
@@ -94,7 +96,7 @@ public sealed class SyncCuppepStudentsCommandHandler
         {
             batch.Fail(ex.Message, _timeProvider.GetUtcNow());
             await _context.SaveChangesAsync(cancellationToken);
-            throw new DomainException($"Failed to pull students from CU-PPEP API: {ex.Message}");
+            throw new DomainException($"Failed to pull students from CU-PPEP data source: {ex.Message}");
         }
 
         // Load reference lookup maps
@@ -113,6 +115,20 @@ public sealed class SyncCuppepStudentsCommandHandler
         var academicYearsByBe = await _context.AcademicYears
             .ToDictionaryAsync(x => x.YearBe, cancellationToken);
 
+        // Load FacultyMembers for automatic AcademicAdvisorId matching (by Email or Thai Name)
+        var facultyList = await _context.FacultyMembers
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var facultyByEmail = facultyList
+            .Where(f => !string.IsNullOrWhiteSpace(f.Email))
+            .GroupBy(f => f.Email.Trim(), StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
+
+        var facultyByThaiName = facultyList
+            .GroupBy(f => $"{f.FirstNameTh.Trim()}|{f.LastNameTh.Trim()}", StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
+
         // Deduplicate incoming batch by StudentCode (keep latest UpdatedAt if source returns duplicates)
         var dedupedSnapshots = pulled
             .Where(s => !string.IsNullOrWhiteSpace(s.StudentCode))
@@ -127,6 +143,8 @@ public sealed class SyncCuppepStudentsCommandHandler
         var existingStudents = await _context.Students
             .Include(x => x.Major)
             .Include(x => x.CohortAcademicYear)
+            .Include(x => x.AcademicAdvisor)
+            .Include(x => x.Internships)
             .Where(x => incomingCodes.Contains(x.StudentCode))
             .ToDictionaryAsync(x => x.StudentCode, StringComparer.OrdinalIgnoreCase, cancellationToken);
 
@@ -178,6 +196,10 @@ public sealed class SyncCuppepStudentsCommandHandler
             var firstNameEn = string.IsNullOrWhiteSpace(snap.FirstNameEn) ? firstNameTh : snap.FirstNameEn.Trim();
             var lastNameEn = string.IsNullOrWhiteSpace(snap.LastNameEn) ? lastNameTh : snap.LastNameEn.Trim();
 
+            var matchedAdvisor = ResolveFacultyAdvisor(snap, facultyByEmail, facultyByThaiName);
+            var matchedAdvisorId = matchedAdvisor?.Id;
+            var incomingAdvisorNameTh = snap.AcademicAdvisorNameTh;
+
             if (!existingStudents.TryGetValue(code, out var student))
             {
                 if (!academicYearsByBe.TryGetValue(snap.CohortYearBe, out var cohortYear))
@@ -196,18 +218,24 @@ public sealed class SyncCuppepStudentsCommandHandler
                     major.Id,
                     departmentId: null,
                     admissionRoundId: null,
-                    academicAdvisorId: null,
+                    academicAdvisorId: matchedAdvisorId,
                     highSchoolTh: snap.HighSchoolTh,
                     highSchoolEn: snap.HighSchoolEn,
                     sourceSystem: "CUPPEP",
                     sourceRecordId: snap.SourceRecordId,
-                    importedAt: now);
+                    importedAt: now,
+                    academicAdvisorNameTh: matchedAdvisorId.HasValue ? null : incomingAdvisorNameTh);
+
+                UpsertInternships(newStudent, snap.Internships);
 
                 _context.Students.Add(newStudent);
                 existingStudents[code] = newStudent;
                 created++;
                 continue;
             }
+
+            // Always sync CUPPEP internship rotations idempotently by stable SourceRecordId
+            var internshipsChanged = UpsertInternships(student, snap.Internships);
 
             var diffs = student.GetExternalSyncDifferences(
                 firstNameTh,
@@ -217,11 +245,21 @@ public sealed class SyncCuppepStudentsCommandHandler
                 studyYear,
                 major.Id,
                 snap.HighSchoolTh,
-                snap.HighSchoolEn);
+                snap.HighSchoolEn,
+                matchedAdvisorId,
+                matchedAdvisorId.HasValue ? null : incomingAdvisorNameTh);
 
             if (diffs.Count == 0)
             {
-                skipped++;
+                if (internshipsChanged)
+                {
+                    updated++;
+                }
+                else
+                {
+                    skipped++;
+                }
+
                 continue;
             }
 
@@ -237,12 +275,18 @@ public sealed class SyncCuppepStudentsCommandHandler
                     snap.HighSchoolTh,
                     snap.HighSchoolEn,
                     snap.SourceRecordId,
-                    now);
+                    now,
+                    matchedAdvisorId,
+                    matchedAdvisorId.HasValue ? null : incomingAdvisorNameTh);
                 updated++;
             }
             else
             {
                 // P01 Non-destructive rule: NEVER silently overwrite staff-verified student data!
+                var currentAdvisorDisplay = student.AcademicAdvisor is not null
+                    ? $"{student.AcademicAdvisor.ProfessionalTitleTh}{student.AcademicAdvisor.FirstNameTh} {student.AcademicAdvisor.LastNameTh}".Trim()
+                    : student.AcademicAdvisorNameTh;
+
                 var currentPayload = new StudentSyncPayloadSnapshot(
                     student.SourceRecordId ?? student.StudentCode,
                     student.StudentCode,
@@ -254,7 +298,8 @@ public sealed class SyncCuppepStudentsCommandHandler
                     student.StudyYear,
                     student.Major.Code,
                     student.HighSchoolTh,
-                    student.HighSchoolEn);
+                    student.HighSchoolEn,
+                    currentAdvisorDisplay);
 
                 var incomingPayload = new StudentSyncPayloadSnapshot(
                     snap.SourceRecordId,
@@ -267,7 +312,8 @@ public sealed class SyncCuppepStudentsCommandHandler
                     studyYear,
                     major.Code,
                     snap.HighSchoolTh,
-                    snap.HighSchoolEn);
+                    snap.HighSchoolEn,
+                    incomingAdvisorNameTh);
 
                 var currentJson = JsonSerializer.Serialize(currentPayload, JsonOptions);
                 var incomingJson = JsonSerializer.Serialize(incomingPayload, JsonOptions);
@@ -308,6 +354,62 @@ public sealed class SyncCuppepStudentsCommandHandler
         await _context.SaveChangesAsync(cancellationToken);
 
         return MapBatchDto(batch);
+    }
+
+    private static FacultyMember? ResolveFacultyAdvisor(
+        CuppepStudentSnapshot snap,
+        Dictionary<string, FacultyMember> byEmail,
+        Dictionary<string, FacultyMember> byThaiName)
+    {
+        if (!string.IsNullOrWhiteSpace(snap.AcademicAdvisorEmail) &&
+            byEmail.TryGetValue(snap.AcademicAdvisorEmail.Trim(), out var matchedByEmail))
+        {
+            return matchedByEmail;
+        }
+
+        if (!string.IsNullOrWhiteSpace(snap.AcademicAdvisorFirstNameTh) &&
+            !string.IsNullOrWhiteSpace(snap.AcademicAdvisorLastNameTh))
+        {
+            var key = $"{snap.AcademicAdvisorFirstNameTh.Trim()}|{snap.AcademicAdvisorLastNameTh.Trim()}";
+            if (byThaiName.TryGetValue(key, out var matchedByName))
+            {
+                return matchedByName;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool UpsertInternships(
+        Student student,
+        IReadOnlyList<CuppepInternshipSnapshot>? internships)
+    {
+        if (internships is null || internships.Count == 0)
+        {
+            return false;
+        }
+
+        var changed = false;
+        foreach (var rot in internships)
+        {
+            if (string.IsNullOrWhiteSpace(rot.SourceRecordId) || string.IsNullOrWhiteSpace(rot.SiteTh))
+            {
+                continue;
+            }
+
+            if (student.UpsertExternalInternship(
+                rot.SourceRecordId,
+                rot.SiteTh,
+                rot.RotationTypeTh,
+                rot.PeriodLabel,
+                rot.SiteEn,
+                rot.RotationTypeEn))
+            {
+                changed = true;
+            }
+        }
+
+        return changed;
     }
 
     internal static ImportBatchDto MapBatchDto(ImportBatch batch) => new(

@@ -69,7 +69,7 @@ watch([() => route.params.id, () => authStore.personaKey], loadStudent)
           data-testid="student-export-pdf-btn"
           @click="printCurrentView"
         >
-          {{ t('common.printCv') }}
+          {{ t('common.printProfile') }}
         </v-btn>
         <v-btn
           color="secondary"
@@ -81,7 +81,7 @@ watch([() => route.params.id, () => authStore.personaKey], loadStudent)
       </div>
     </div>
 
-    <!-- Print-ready 11-section Student CV Sheet -->
+    <!-- Print-ready 11-section Student Profile Sheet -->
     <div class="cu-cv-sheet pa-6 pa-md-8">
       <!-- Header -->
       <div class="d-flex flex-wrap justify-space-between align-start pb-5 mb-6 border-b">

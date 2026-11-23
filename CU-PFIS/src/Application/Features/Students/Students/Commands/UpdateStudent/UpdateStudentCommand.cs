@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Students.Students.Commands.UpdateStudent;
 
-[RequirePermission(PermissionConstants.StudentsCv.Edit)]
+[RequirePermission(PermissionConstants.Students.Edit)]
 public sealed record UpdateStudentCommand(
     Guid ExternalId,
     string FirstNameTh,

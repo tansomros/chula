@@ -72,7 +72,7 @@ export const httpClient = {
   getAdmissionRounds: (activeOnly = true) =>
     request(`/admission-rounds${buildQuery({ activeOnly })}`),
 
-  // Faculty CV (Phase 1)
+  // Faculty (Phase 1)
   getFacultyMembers: (filters = {}) =>
     request(`/faculty-members${buildQuery(filters)}`),
   getFacultyMember: (externalId) =>
@@ -97,7 +97,7 @@ export const httpClient = {
       }),
     }),
 
-  // Student CV (Phase 1)
+  // Students (Phase 1)
   getStudents: (filters = {}) =>
     request(`/students${buildQuery(filters)}`),
   getStudent: (externalId) =>
@@ -129,5 +129,71 @@ export const httpClient = {
     request(`/integrations/cuppep/conflicts/${externalId}/resolve`, {
       method: 'POST',
       body: JSON.stringify({ action, note }),
+    }),
+
+  // Training & Fiscal-Year Budget Ledger (Phase 2 — A04, A05, A06)
+  getTrainingBudgetPolicies: () =>
+    request('/training-budget-policies'),
+  upsertTrainingBudgetPolicy: (fiscalYearBe, payload) =>
+    request(`/training-budget-policies/${fiscalYearBe}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+  upsertFacultyBudgetAllocation: (fiscalYearBe, facultyMemberExternalId, payload) =>
+    request(`/training-budget-policies/${fiscalYearBe}/allocations/${facultyMemberExternalId}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+  deleteFacultyBudgetAllocation: (fiscalYearBe, facultyMemberExternalId) =>
+    request(`/training-budget-policies/${fiscalYearBe}/allocations/${facultyMemberExternalId}`, {
+      method: 'DELETE',
+    }),
+  getTrainingRequests: (filters = {}) =>
+    request(`/training-requests${buildQuery(filters)}`),
+  getTrainingRequest: (externalId) =>
+    request(`/training-requests/${externalId}`),
+  getFacultyBudgetSummaries: (fiscalYearBe = null) =>
+    request(`/training-requests/faculty-budgets${buildQuery({ fiscalYearBe })}`),
+  getTrainingEventSummaries: (fiscalYearBe = null) =>
+    request(`/training-requests/event-summaries${buildQuery({ fiscalYearBe })}`),
+  createTrainingRequest: (payload) =>
+    request('/training-requests', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  updateTrainingRequest: (externalId, payload) =>
+    request(`/training-requests/${externalId}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+  submitTrainingRequest: (externalId, note = null) =>
+    request(`/training-requests/${externalId}/submit`, {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    }),
+  verifyTrainingRequest: (externalId, note = null) =>
+    request(`/training-requests/${externalId}/verify`, {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    }),
+  requestTrainingRevision: (externalId, reason) =>
+    request(`/training-requests/${externalId}/request-revision`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    }),
+  approveTrainingRequest: (externalId, approvedAmount = null, note = null) =>
+    request(`/training-requests/${externalId}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ approvedAmount, note }),
+    }),
+  cancelTrainingRequest: (externalId, note = null) =>
+    request(`/training-requests/${externalId}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    }),
+  importHistoricalTrainings: (items, deductFromBudgetLedger = true, sourceSystem = 'HistoricalCsv') =>
+    request('/training-requests/import-historical', {
+      method: 'POST',
+      body: JSON.stringify({ items, deductFromBudgetLedger, sourceSystem }),
     }),
 }

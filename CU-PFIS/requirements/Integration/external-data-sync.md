@@ -90,7 +90,7 @@
 
 ## 12. เกี่ยวข้องกับ/ขึ้นกับ feature อื่น (Dependencies)
 
-- `requirements/Students/student-cv.md`
+- `requirements/Students/student-profile.md`
 - `requirements/Students/student-achievement.md`
 - `requirements/Students/graduate-employment.md`
 - `requirements/Students/employer-evaluation.md`

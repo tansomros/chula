@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Integration.CuppepSync.Queries.GetImportBatches;
 
-[RequirePermission(PermissionConstants.StudentsCv.View)]
+[RequirePermission(PermissionConstants.Students.View)]
 public sealed record GetImportBatchesQuery(int Take = 20) : IRequest<IReadOnlyList<ImportBatchDto>>;
 
 public sealed class GetImportBatchesQueryHandler

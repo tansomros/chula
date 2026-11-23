@@ -123,7 +123,7 @@ function handleScopusCsvFile(event) {
           data-testid="faculty-export-pdf-btn"
           @click="printCurrentView"
         >
-          {{ t('common.printCv') }}
+          {{ t('common.printProfile') }}
         </v-btn>
         <v-btn
           color="primary"
@@ -135,7 +135,7 @@ function handleScopusCsvFile(event) {
       </div>
     </div>
 
-    <!-- Print-ready 8-section Faculty CV Sheet -->
+    <!-- Print-ready 8-section Faculty Profile Sheet -->
     <div class="cu-cv-sheet pa-6 pa-md-8">
       <!-- Header Banner -->
       <div class="d-flex flex-wrap justify-space-between align-start pb-5 mb-6 border-b">
@@ -253,7 +253,7 @@ function handleScopusCsvFile(event) {
           {{ t('faculty.sec8Training') }}
         </div>
         <v-alert type="info" variant="tonal" density="compact" class="mb-3 no-print">
-          {{ t('faculty.autoLinkedTrainingNote') }} — {{ t('faculty.phase2TrainingNote') }}
+          {{ t('faculty.autoLinkedTrainingNote') }}
         </v-alert>
 
         <v-table density="comfortable" class="border rounded-lg">
@@ -266,8 +266,23 @@ function handleScopusCsvFile(event) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colspan="4" class="text-center cu-muted py-4">{{ t('faculty.phase2TrainingNote') }}</td>
+            <tr v-if="!member.approvedTrainings?.length">
+              <td colspan="4" class="text-center cu-muted py-4">{{ t('common.none') }}</td>
+            </tr>
+            <tr v-for="tr in member.approvedTrainings" :key="tr.externalId">
+              <td>
+                <router-link :to="`/trainings/view/${tr.externalId}`" class="font-weight-medium text-primary text-decoration-none">
+                  {{ pick(tr.titleTh, tr.titleEn) }}
+                </router-link>
+                <div class="text-caption cu-muted">{{ pick(tr.organizerAndVenueTh, tr.organizerAndVenueEn) }}</div>
+              </td>
+              <td>{{ t(`training.workType.${tr.workType}`) }}</td>
+              <td>
+                <v-chip size="x-small" color="secondary" variant="tonal">
+                  {{ t(`training.category.${tr.category}`) }}
+                </v-chip>
+              </td>
+              <td class="text-no-wrap">{{ tr.startDate }} – {{ tr.endDate }}</td>
             </tr>
           </tbody>
         </v-table>

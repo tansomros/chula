@@ -1,5 +1,22 @@
+@font-face {
+  font-family: 'CHULALONGKORN';
+  src: url('../assets/fonts/CHULALONGKORNReg.otf') format('opentype');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CHULALONGKORN';
+  src: url('../assets/fonts/CHULALONGKORNBold.otf') format('opentype');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --cu-font-sans: 'Sarabun', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --cu-font-heading: 'CHULALONGKORN', 'Sarabun', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 html,
@@ -7,6 +24,27 @@ body,
 .v-application {
   font-family: var(--cu-font-sans) !important;
   color: #1f2430;
+}
+
+/* CHULALONGKORN display font for headings */
+.v-application h1,
+.v-application h2,
+.v-application h3,
+.v-application h4,
+.v-application h5,
+.v-application h6,
+.v-application .text-h1,
+.v-application .text-h2,
+.v-application .text-h3,
+.v-application .text-h4,
+.v-application .text-h5,
+.v-application .text-h6 {
+  font-family: var(--cu-font-heading) !important;
+}
+
+.cu-section-title,
+.cu-heading-font {
+  font-family: var(--cu-font-sans) !important;
 }
 
 .cu-page-header {
@@ -35,6 +73,16 @@ body,
 
 .cu-muted {
   color: #63687a;
+}
+
+/* Compact submenu indent in sidebar navigation */
+.cu-sidebar-nav .v-list-group {
+  --v-list-group-prepend: 16px;
+  --v-list-indent: 8px;
+}
+
+.cu-sidebar-nav .v-list-group__items {
+  --v-list-prepend-gap: 12px;
 }
 
 @media print {

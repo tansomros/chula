@@ -25,7 +25,7 @@ Shared vocabulary for **CU-PFIS** (**Chula Pharmacy Faculty Information System**
 
 ### Faculty Profile (`Faculty`)
 - **FacultyMember (อาจารย์)** — academic staff member of the faculty. Identified by a stable personnel/staff code (`PersonnelCode`), with bilingual name (`NameTh`, `NameEn`), academic position (`AcademicPosition` / ตำแหน่งทางวิชาการ), and contact info.
-- **FacultyCv (ประวัติอาจารย์ / CV อาจารย์)** — composite profile of a `FacultyMember` comprising personal details, academic positions, education history (`FacultyEducation`), publications (`FacultyPublication`), and completed/approved trainings (`TrainingRequest`). Supports individual and bulk PDF export and periodic update reminders.
+- **FacultyProfile (ข้อมูลอาจารย์)** — composite profile of a `FacultyMember` comprising personal details, academic positions, education history (`FacultyEducation`), publications (`FacultyPublication`), and completed/approved trainings (`TrainingRequest`). Supports individual and bulk PDF export and periodic update reminders.
 - **FacultyPublication (ผลงานตีพิมพ์)** — research papers/publications linked to a `FacultyMember`. May be entered manually/imported or synced from **Scopus** (pending API/credential confirmation).
 
 ### Training & Academic Budget (`Training`)
@@ -44,8 +44,8 @@ Shared vocabulary for **CU-PFIS** (**Chula Pharmacy Faculty Information System**
 
 ### Student Profile, Achievements & Graduate Tracking (`Students`)
 - **Student (นิสิต / บัณฑิต)** — pharmacy student or graduate, identified by `StudentCode` (รหัสนิสิต) and cohort/admission year (`CohortYear` / รุ่นปีที่เข้าศึกษา).
-- **StudentCv (CV นิสิต)** — comprehensive student profile combining general info, academic advisor (`Advisor`), project advisor (`ProjectAdvisor`), high school education, professional practice rotations (การฝึกงานจาก CUPPEP), admission round (`AdmissionRound` / รอบรับเข้า), senior project, verified achievements (`StudentAchievement`), license exam results (`LicenseExamResult`), graduate employment (`GraduateEmployment`), and employer evaluation (`EmployerEvaluation`).
-- **StudentAchievement (ผลงานและรางวัลนิสิต)** — student awards, competitions, or scholarships submitted via CUPPEP and verified by faculty staff in this system before appearing on the `StudentCv`.
+- **StudentProfile (นิสิต)** — comprehensive student profile combining general info, academic advisor (`Advisor`), project advisor (`ProjectAdvisor`), high school education, professional practice rotations (การฝึกงานจาก CUPPEP), admission round (`AdmissionRound` / รอบรับเข้า), senior project, verified achievements (`StudentAchievement`), license exam results (`LicenseExamResult`), graduate employment (`GraduateEmployment`), and employer evaluation (`EmployerEvaluation`).
+- **StudentAchievement (ผลงานและรางวัลนิสิต)** — student awards, competitions, or scholarships submitted via CUPPEP and verified by faculty staff in this system before appearing on the `Students`.
 - **GraduateEmployment (ข้อมูลการได้งานทำ)** — graduate employment status tracked across two sources:
   1. **Faculty Round (ข้อมูลรอบคณะ)** — initial survey submitted via CUPPEP.
   2. **Chula Final Dataset (ข้อมูลชุด Final จากจุฬาฯ)** — central university employment survey, treated as the **authoritative baseline (ยึดข้อมูลจุฬาฯ เป็นหลัก)** and verified/reconciled by staff.
@@ -75,14 +75,14 @@ Shared vocabulary for **CU-PFIS** (**Chula Pharmacy Faculty Information System**
   1. Faculty fills training request in the system (`Draft` → `Submitted`).
   2. System notifies staff → Staff reviews and either **Requests Revision (ขอแก้ไข)** or **Marks Verified (รับข้อมูลถูกต้อง / กำลังดำเนินการ)**.
   3. System generates the official PDF memo and emails it (bilingual TH/EN) to the faculty member to print/submit for the Dean's physical/external signature. (Before Dean approval, request/reservation can still be cancelled.)
-  4. Once signed by the Dean outside the system, staff records **Approved (อนุมัติ)** in the system → **Budget is deducted (`Consume`) in `TrainingBudgetLedger`** (`A05`), applying **Future Fiscal-Year Quota Borrowing** if exceeding current fiscal-year balance (`A06`), system notifies the faculty member, and reflects the training on the `FacultyCv`.
+  4. Once signed by the Dean outside the system, staff records **Approved (อนุมัติ)** in the system → **Budget is deducted (`Consume`) in `TrainingBudgetLedger`** (`A05`), applying **Future Fiscal-Year Quota Borrowing** if exceeding current fiscal-year balance (`A06`), system notifies the faculty member, and reflects the training on the `Faculty`.
 - Note: `FacultyOrganized` (ประเภทที่ 3) and `ShortTermOrOverseas` (ประเภทที่ 4) do **not** require the approval request workflow above.
 
 ### 2.2 Student Achievement Verification (`Students` — `A02`, `A08`)
 ```text
 Student self-confirms in CUPPEP (no file attachment required)  →  Synced to CU-PFIS (Pending Review)
   →  Staff reviews  →  [Request Revision] OR [Approve/Verify (ตกลง)]
-  →  Displayed on Student CV
+  →  Displayed on Students
 ```
 
 ### 2.3 Graduate Employment Reconciliation (`Students` — `A07`)
@@ -118,17 +118,17 @@ Student self-confirms in CUPPEP (no file attachment required)  →  Synced to CU
 - **Chula Central Employment Data (ข้อมูลการได้งานทำชุด Final จากจุฬาฯ):**
   - Imported to reconcile and serve as the primary truth for graduate employment.
 - **Scopus:**
-  - Proposed optional source for pulling `FacultyPublication` records into `FacultyCv` (subject to API key/institutional access confirmation `Q16`).
+  - Proposed optional source for pulling `FacultyPublication` records into `Faculty` (subject to API key/institutional access confirmation `Q16`).
 
 ### 3.1 Cross-System Data Ownership & Integration Matrix
 
 | ชุดข้อมูล (Dataset) | แหล่งข้อมูลตาม Scope (`req071169.pdf`) | หน้าที่ของระบบหลัก (`CU-PFIS`) | ขอบเขตฝั่ง `CUPPEP` / ภายนอกที่ต้องยืนยัน |
 | --- | --- | --- | --- |
-| ข้อมูลทั่วไปนิสิต / อาจารย์ที่ปรึกษา / การศึกษามัธยม / การฝึกงาน | `CUPPEP` (มีอยู่เดิม) | ดึงข้อมูลและเชื่อมโยงแสดงใน `StudentCv` | ตรวจสอบโครงสร้างฟิลด์ ช่องทางเชื่อมต่อ และรหัสจับคู่ (`StudentCode`) |
-| รอบรับเข้า (`AdmissionRound`) / ข้อมูลโครงการเบื้องต้น | เสนอให้เพิ่มใน `CUPPEP` | ดูแลข้อมูลหลักและแสดงใน `StudentCv` | ยืนยันว่าจะเพิ่มหน้ากรอกใน `CUPPEP` หรือกรอกใน `CU-PFIS` (`Q02`) |
-| ผลงานและรางวัลนิสิต (`StudentAchievement`) | เสนอให้นิสิตกรอกผ่าน `CUPPEP` | เจ้าหน้าที่ตรวจสอบ ขอแก้ไข หรือรับรอง (`Verified`) ก่อนแสดงใน `StudentCv` | ยืนยันเมนูที่ต้องเพิ่มใน `CUPPEP` และการส่งสถานะ/ความเห็นขอแก้ไขกลับ (`Q02`, `Q08`) |
+| ข้อมูลทั่วไปนิสิต / อาจารย์ที่ปรึกษา / การศึกษามัธยม / การฝึกงาน | `CUPPEP` (มีอยู่เดิม) | ดึงข้อมูลและเชื่อมโยงแสดงใน `Students` | ตรวจสอบโครงสร้างฟิลด์ ช่องทางเชื่อมต่อ และรหัสจับคู่ (`StudentCode`) |
+| รอบรับเข้า (`AdmissionRound`) / ข้อมูลโครงการเบื้องต้น | เสนอให้เพิ่มใน `CUPPEP` | ดูแลข้อมูลหลักและแสดงใน `Students` | ยืนยันว่าจะเพิ่มหน้ากรอกใน `CUPPEP` หรือกรอกใน `CU-PFIS` (`Q02`) |
+| ผลงานและรางวัลนิสิต (`StudentAchievement`) | เสนอให้นิสิตกรอกผ่าน `CUPPEP` | เจ้าหน้าที่ตรวจสอบ ขอแก้ไข หรือรับรอง (`Verified`) ก่อนแสดงใน `Students` | ยืนยันเมนูที่ต้องเพิ่มใน `CUPPEP` และการส่งสถานะ/ความเห็นขอแก้ไขกลับ (`Q02`, `Q08`) |
 | การได้งานทำ (`GraduateEmployment`) | รอบแรกจาก `CUPPEP` + รอบสองชุด Final จากจุฬาฯ | จับคู่ด้วย `StudentCode` เทียบข้อมูลโดยยึดชุด Final จุฬาฯ เป็นหลัก เจ้าหน้าที่ปรับปรุง/รับรองโดยไม่ถูกเขียนทับเมื่อนำเข้าซ้ำ | ยืนยันฟิลด์หน้ากรอกรอบแรกใน `CUPPEP` และรูปแบบไฟล์ชุด Final จากจุฬาฯ (`Q07`) |
 | ผลสอบใบประกอบวิชาชีพ (`LicenseExamResult`) | เสนอให้นิสิตกรอกใน `CUPPEP` (`CC1/CC2`, `IP1/IP2`, `PC1/PC2`) | รวบรวม แสดงรายชื่อ และคำนวณจำนวน/ร้อยละผู้สอบผ่านตามรุ่น | ยืนยันหน้ากรอกใน `CUPPEP` หลักฐานผลสอบ และสูตรตัวหารร้อยละ (`Q08`, `Q09`) |
-| การอบรมและงบประมาณ (`TrainingRequest`) | ทางเลือก A (`Google Form/Sheet`) หรือ ทางเลือก B (กรอกใน `CU-PFIS`) | ตรวจความถูกต้อง ออก PDF แจ้งอนุมัติหลังคณบดีลงนาม คุมงบผ่าน `TrainingBudgetLedger` และแสดงใน `FacultyCv` | ยืนยันการเลือกทางเลือก B หรือการใช้คู่กันช่วงเปลี่ยนผ่าน (`Q04`, `Q05`, `Q06`) |
+| การอบรมและงบประมาณ (`TrainingRequest`) | ทางเลือก A (`Google Form/Sheet`) หรือ ทางเลือก B (กรอกใน `CU-PFIS`) | ตรวจความถูกต้อง ออก PDF แจ้งอนุมัติหลังคณบดีลงนาม คุมงบผ่าน `TrainingBudgetLedger` และแสดงใน `Faculty` | ยืนยันการเลือกทางเลือก B หรือการใช้คู่กันช่วงเปลี่ยนผ่าน (`Q04`, `Q05`, `Q06`) |
 | ข้อมูลผู้ใช้บัณฑิต (`EmployerEvaluation`) | ผู้บังคับบัญชาตอบผ่าน `Google Form/Sheet` | นำเข้า จับคู่กับบัณฑิต ค้นหา เรียงลำดับ และส่งออกรายงาน | ขอตัวอย่าง Sheet จริงและกำหนดคีย์อ้างอิงที่ไม่พึ่งเลขแถว (`Q18`) |
 | โครงงานนิสิตและการใช้ประโยชน์ (`SeniorProject`) | เจ้าหน้าที่และอาจารย์บันทึกใน `CU-PFIS` | จัดเก็บไฟล์ PDF จริง กำหนดสถานะเผยแพร่ รวมเล่ม Abstract หน้าที่ 3 รายปี และแจ้งเตือนการใช้ประโยชน์ปีที่ 1–3 | ยืนยันสิทธิ์การดูไฟล์ที่เผยแพร่ และทดสอบโครงสร้างหน้า 3 จากไฟล์ PDF ตัวอย่างจริง (`Q10`, `Q11`, `Q12`) |

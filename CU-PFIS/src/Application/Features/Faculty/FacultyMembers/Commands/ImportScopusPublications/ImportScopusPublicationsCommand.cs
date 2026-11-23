@@ -53,10 +53,10 @@ public sealed class ImportScopusPublicationsCommandHandler
             ?? throw new NotFoundException(nameof(Domain.Entities.Faculty.FacultyMember), request.FacultyMemberExternalId);
 
         var isAuthorized = _currentUserService.IsInRole(RoleConstants.Admin) ||
-            (_currentUserService.HasPermission(PermissionConstants.FacultyCv.EditAll) &&
+            (_currentUserService.HasPermission(PermissionConstants.Faculty.EditAll) &&
              (!_currentUserService.DepartmentExternalId.HasValue ||
               _currentUserService.DepartmentExternalId.Value == member.Department.ExternalId)) ||
-            (_currentUserService.HasPermission(PermissionConstants.FacultyCv.EditOwn) &&
+            (_currentUserService.HasPermission(PermissionConstants.Faculty.EditOwn) &&
              _currentUserService.FacultyMemberExternalId == member.ExternalId);
 
         if (!isAuthorized)

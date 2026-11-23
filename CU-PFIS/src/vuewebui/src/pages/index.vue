@@ -14,7 +14,7 @@ const facultyStore = useFacultyMembersStore()
 const studentsStore = useStudentsStore()
 const refStore = useReferenceDataStore()
 
-const canViewStudents = computed(() => can('view', 'students-cv'))
+const canViewStudents = computed(() => can('view', 'students'))
 const isLoading = computed(() => facultyStore.loading || studentsStore.loading || refStore.loading)
 
 async function loadDashboard() {
@@ -50,7 +50,7 @@ watch(() => authStore.personaKey, loadDashboard)
             to="/faculty-members/list"
             data-testid="home-open-faculty"
           >
-            {{ t('nav.facultyCv') }}
+            {{ t('nav.faculty') }}
           </v-btn>
           <v-btn
             v-if="canViewStudents"
@@ -59,7 +59,7 @@ watch(() => authStore.personaKey, loadDashboard)
             to="/students/list"
             data-testid="home-open-students"
           >
-            {{ t('nav.studentCv') }}
+            {{ t('nav.students') }}
           </v-btn>
         </div>
       </div>
@@ -118,7 +118,7 @@ watch(() => authStore.personaKey, loadDashboard)
             </v-avatar>
             <v-chip size="x-small" color="success" variant="tonal">{{ t('home.phase1Ready') }}</v-chip>
           </div>
-          <h2 class="text-h6 font-weight-bold mb-2">{{ t('nav.facultyCv') }}</h2>
+          <h2 class="text-h6 font-weight-bold mb-2">{{ t('nav.faculty') }}</h2>
           <p class="text-body-2 cu-muted flex-grow-1">{{ t('home.facultyCardDesc') }}</p>
           <v-btn color="primary" variant="tonal" to="/faculty-members/list" block>
             {{ t('home.openModule') }}
@@ -134,7 +134,7 @@ watch(() => authStore.personaKey, loadDashboard)
             </v-avatar>
             <v-chip size="x-small" color="success" variant="tonal">{{ t('home.phase1Ready') }}</v-chip>
           </div>
-          <h2 class="text-h6 font-weight-bold mb-2">{{ t('nav.studentCv') }}</h2>
+          <h2 class="text-h6 font-weight-bold mb-2">{{ t('nav.students') }}</h2>
           <p class="text-body-2 cu-muted flex-grow-1">{{ t('home.studentCardDesc') }}</p>
           <v-btn
             color="secondary"
@@ -143,7 +143,7 @@ watch(() => authStore.personaKey, loadDashboard)
             :disabled="!canViewStudents"
             block
           >
-            {{ canViewStudents ? t('home.openModule') : t('common.ownCvOnlyNotice') }}
+            {{ canViewStudents ? t('home.openModule') : t('common.ownProfileOnlyNotice') }}
           </v-btn>
         </v-card>
       </v-col>

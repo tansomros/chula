@@ -4,40 +4,39 @@
 
 **CU-PFIS** (**Chula Pharmacy Faculty Information System** / **ระบบสารสนเทศคณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย**) is the core web application for the **Faculty of Pharmaceutical Sciences, Chulalongkorn University**. It serves as the **Master System (ระบบหลักในการดูแลข้อมูล)** for managing:
 
-- **Faculty CV (`Faculty`)** — academic profiles, positions, education history, publications (with optional Scopus integration), and training history.
+- **Faculty (`Faculty`)** — academic profiles, positions, education history, publications (with optional Scopus integration), and training history.
 - **Training & Academic Budget (`Training`)** — 4 training categories, annual per-person budget tracking (e.g., 10,000 THB/person/year configurable rule), staff verification vs. Dean approval workflows, PDF document generation, and email notifications.
-- **Student Profile, Achievements, Employment & Employer Evaluation (`Students`)** — student CVs, verified student achievements/awards, graduate employment reconciliation (comparing faculty round from CUPPEP against Chula's central Final dataset), and employer evaluations (ผู้ใช้บัณฑิต).
+- **Student Profile, Achievements, Employment & Employer Evaluation (`Students`)** — student profiles, verified student achievements/awards, graduate employment reconciliation (comparing faculty round from CUPPEP against Chula's central Final dataset), and employer evaluations (ผู้ใช้บัณฑิต).
 - **Professional License (`ProfessionalLicense`)** — tracking pharmacy license examination results (`CC1`, `CC2`, `IP1`, `IP2`, `PC1`, `PC2`) by cohort/academic year.
 - **Senior Projects & Utilization (`SeniorProjects`)** — individual/group senior projects, actual PDF storage, publication control, automated annual Abstract Book compilation (extracting page 3 of project PDFs), and 1-to-3-year post-completion utilization reminders.
 - **Reporting & Dashboard (`Reporting`)** — bilingual (TH/EN) support, at least 10 years of historical data by academic year, KPI dashboards, and template-based PDF/Word/Excel exports.
 
 **CU-PFIS** operates alongside **CUPPEP** (the existing pharmacy professional practice system) and external sources (**Google Form/Sheet/Drive**, **Scopus**). Data accuracy, source traceability, conflict protection (never silently overwriting staff-verified data on re-import), budget integrity, and PDPA/privacy protection are the top design priorities — see the "Non-negotiable" section of [roadmap.md](roadmap.md).
 
-## Repository & Two-API Integration Architecture (`D:\Projects\Chula`)
+## Repository & Single-API Integration Architecture (`D:\Projects\Chula`)
 
 The parent repository `D:\Projects\Chula` groups three Faculty of Pharmaceutical Sciences projects:
 
 - `CU-BCP/` — Existing Pharmacy Board Certification website (**strictly out of scope — DO NOT MODIFY**).
-- `CU-PFIS/` — This Master System (`.NET 10` Clean Architecture + PostgreSQL + Vue 3).
-- `CU-PPEP/` — Existing legacy web app (`.NET Framework` + MS SQL Server) where students log in and fill new/existing student input screens (`A02`), paired with a **separate `.NET 10` Clean Architecture `CU-PPEP Integration API`** (Decision `D11`).
+- `CU-PFIS/` — This Master System (`.NET 10` Clean Architecture + PostgreSQL + Vue 3), serving as the **single REST API** for the server.
+- `CU-PPEP/Chula-PPS/` — Existing legacy web app (`.NET Framework` WebForms + MS SQL Server `chula_pps`) continuing to connect via its own SQL Server connection string, where students log in and fill new/existing student input screens (`A02`).
 
-### CU-PPEP ↔ CU-PFIS Data Flow (Option A — Confirmed)
+### CU-PPEP ↔ CU-PFIS Data Flow (Option 1B — Confirmed Single API, Same Server / 2 Domains)
 ```text
-[CU-PPEP Legacy Web (.NET Framework)] ──writes──► [CU-PPEP MS SQL Server]
-                                                        │ (Read-only SQL Views: vw_pfis_*)
-                                                        ▼
-                                     [CU-PPEP Integration API (.NET 10 Clean Architecture)]
-                                                        ▲
-                                                        │ HTTPS + API Key / Service Token
-                                                        │ One-Way Pull + Incremental Sync (?updatedSince=...)
-                                                        │ (Scheduled Job + Manual Staff Sync)
-[CU-PFIS API (.NET 10 Clean Arch)] ◄──ICuppepDataSource─┘
-       │
-       ▼ (ImportBatch → StagingRecord → DataConflictQueue)
-[CU-PFIS PostgreSQL]
+[Domain 1: CU-PPEP Legacy Web (.NET Framework)] ──Connection String──► [MS SQL Server: chula_pps]
+                                                                                  │
+                                                          (Read-Only Connection String:
+                                                           SqlCuppepDataSource via SqlClient + Dapper;
+                                                           dbo.Students or dbo.vw_pfis_students)
+                                                                                  ▼
+[Domain 2: CU-PFIS Web (Vue 3)] ──► [CU-PFIS API (.NET 10 Clean Arch)] ◄── ICuppepDataSource
+                                              │
+                                              ▼ (ImportBatch → DataConflictQueue)
+                                      [PostgreSQL: cupharm]
 ```
-- **Contract isolation:** `CU-PFIS` never connects directly to raw MS SQL Server tables; it consumes `CU-PPEP Integration API` via `ICuppepDataSource`.
-- **Safe future extensibility:** If pushing confirmed statuses back to `CU-PPEP` (e.g., achievement revision notes or confirmed employment per `A07`) is later approved, dedicated write endpoints can be added cleanly to `CU-PPEP Integration API`.
+- **Contract isolation:** Application and Domain layers never touch SQL Server directly; they depend only on `ICuppepDataSource`, implemented in Infrastructure by `SqlCuppepDataSource` (`Microsoft.Data.SqlClient` + Dapper).
+- **Single EF Core DbContext:** `ChulaDbContext` remains strictly PostgreSQL-only (no dual-DbContext migration friction).
+- **Non-destructive sync:** Incoming pulls never overwrite staff-verified student records; conflicts are routed to `DataConflictQueue` (`P01`).
 
 ## Stack (Baseline Template Convention)
 
@@ -69,9 +68,9 @@ API             → Application, Infrastructure
 `Domain/Entities`, `Application/Features`, `Infrastructure/Data/Configurations`, and `requirements/` are organized by the following bounded contexts:
 
 - `ReferenceData/` — `AcademicYear` (ปีการศึกษา), `Department` (ภาควิชา/หน่วยงาน), `AcademicPosition` (ตำแหน่งทางวิชาการ), `AdmissionRound` (รอบรับเข้า), `DocumentTemplate` (แม่แบบรายงาน/เอกสาร), and lookup tables.
-- `Faculty/` — `FacultyMember` (ข้อมูลอาจารย์), `FacultyEducation` (วุฒิการศึกษา), `FacultyPublication` (ผลงานตีพิมพ์ / Scopus sync), `FacultyCvExport` (การส่งออก CV อาจารย์และแจ้งเตือนอัปเดต).
+- `Faculty/` — `FacultyMember` (ข้อมูลอาจารย์), `FacultyEducation` (วุฒิการศึกษา), `FacultyPublication` (ผลงานตีพิมพ์ / Scopus sync), `FacultyProfileExport` (การส่งออก อาจารย์และแจ้งเตือนอัปเดต).
 - `Training/` — `TrainingRequest` (คำขอ/ประวัติการอบรม 4 ประเภท), `TrainingParticipant` (ผู้เข้าร่วมอบรม), `TrainingBudgetPolicy` (วงเงินงบประจำปี เช่น 10,000 บาท/คน/ปี), `TrainingBudgetLedger` (append-only ledger สำหรับกันงบ/ตัดงบ/คืนงบ), `TrainingApprovalHistory` (ประวัติการตรวจความถูกต้องของเจ้าหน้าที่และการแจ้งอนุมัติหลังคณบดีลงนาม).
-- `Students/` — `Student` (ข้อมูลนิสิตและ CV นิสิต), `StudentAchievement` (ผลงานและรางวัลนิสิต พร้อมสถานะตรวจรับรอง), `GraduateEmployment` (ข้อมูลการได้งานทำรอบคณะเทียบกับชุด Final จุฬาฯ), `EmployerEvaluation` (ข้อมูลผู้ใช้บัณฑิตจาก Google Form/Sheet).
+- `Students/` — `Student` (ข้อมูลนิสิตและ นิสิต), `StudentAchievement` (ผลงานและรางวัลนิสิต พร้อมสถานะตรวจรับรอง), `GraduateEmployment` (ข้อมูลการได้งานทำรอบคณะเทียบกับชุด Final จุฬาฯ), `EmployerEvaluation` (ข้อมูลผู้ใช้บัณฑิตจาก Google Form/Sheet).
 - `ProfessionalLicense/` — `LicenseExamResult` (ผลสอบใบประกอบวิชาชีพ `CC1`, `CC2`, `IP1`, `IP2`, `PC1`, `PC2` รายบุคคลและสรุปร้อยละตามรุ่น).
 - `SeniorProjects/` — `SeniorProject` (โครงงานนิสิตรายบุคคล/กลุ่ม), `SeniorProjectMember`, `SeniorProjectAdvisor`, `SeniorProjectFile` (metadata ของไฟล์ PDF โครงงานจริงและสถานะเผยแพร่), `AbstractCompilation` (การรวมเล่มหน้า Abstract รายปี), `ProjectUtilization` (การติดตามการใช้ประโยชน์และการแจ้งเตือนปีที่ 1–3).
 - `Integration/` — `ImportBatch`, `StagingRecord`, `DataConflictQueue` (พักข้อมูลที่นำเข้าจาก CUPPEP / Google Sheet / ไฟล์จุฬาฯ ที่ขัดแย้งกับข้อมูลที่เจ้าหน้าที่แก้ไขแล้วในระบบหลัก เพื่อรอการตรวจสอบและตัดสินใจ ไม่เขียนทับอัตโนมัติ).

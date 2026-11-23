@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Students.Students.Queries.GetStudentById;
 
-[RequirePermission(PermissionConstants.StudentsCv.View)]
+[RequirePermission(PermissionConstants.Students.View)]
 public sealed record GetStudentByIdQuery(Guid ExternalId) : IRequest<StudentDetailDto>;
 
 public sealed record StudentDetailDto(
@@ -108,10 +108,10 @@ public sealed class GetStudentByIdQueryHandler : IRequestHandler<GetStudentByIdQ
             student.AdmissionRound?.NameEn,
             student.AcademicAdvisor?.ExternalId,
             student.AcademicAdvisor is null
-                ? null
+                ? student.AcademicAdvisorNameTh
                 : $"{student.AcademicAdvisor.ProfessionalTitleTh}{student.AcademicAdvisor.FirstNameTh} {student.AcademicAdvisor.LastNameTh}".Trim(),
             student.AcademicAdvisor is null
-                ? null
+                ? student.AcademicAdvisorNameEn ?? student.AcademicAdvisorNameTh
                 : $"{student.AcademicAdvisor.ProfessionalTitleEn} {student.AcademicAdvisor.FirstNameEn} {student.AcademicAdvisor.LastNameEn}".Trim(),
             student.HighSchoolTh,
             student.HighSchoolEn,

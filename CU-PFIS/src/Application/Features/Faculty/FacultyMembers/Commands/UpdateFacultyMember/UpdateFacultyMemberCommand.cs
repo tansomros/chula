@@ -118,7 +118,7 @@ public sealed class UpdateFacultyMemberCommandHandler : IRequestHandler<UpdateFa
             return;
         }
 
-        if (_currentUserService.HasPermission(PermissionConstants.FacultyCv.EditAll))
+        if (_currentUserService.HasPermission(PermissionConstants.Faculty.EditAll))
         {
             if (_currentUserService.DepartmentExternalId.HasValue &&
                 _currentUserService.DepartmentExternalId.Value != departmentExternalId)
@@ -129,12 +129,12 @@ public sealed class UpdateFacultyMemberCommandHandler : IRequestHandler<UpdateFa
             return;
         }
 
-        if (_currentUserService.HasPermission(PermissionConstants.FacultyCv.EditOwn) &&
+        if (_currentUserService.HasPermission(PermissionConstants.Faculty.EditOwn) &&
             _currentUserService.FacultyMemberExternalId == memberExternalId)
         {
             return;
         }
 
-        throw new ForbiddenAccessException("You do not have permission to edit this Faculty CV.");
+        throw new ForbiddenAccessException("You do not have permission to edit this Faculty profile.");
     }
 }

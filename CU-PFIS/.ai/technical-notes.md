@@ -208,7 +208,7 @@ Accept: application/json
 
 #### แนวทางที่ 3: Scopus CSV / BibTeX Import (Fallback ใน Phase 1)
 1. บนหน้าเว็บ Scopus ของอาจารย์ เลือกผลงานทั้งหมด → กด **Export** → เลือกรูปแบบ **CSV** (ติ๊ก `Citation information`: Authors, Title, Year, EID, Source title, DOI)
-2. อัปโหลดไฟล์ `.csv` ในหน้า CV อาจารย์ของ `CU-PFIS`
+2. อัปโหลดไฟล์ `.csv` ในหน้า อาจารย์ของ `CU-PFIS`
 3. ฝั่ง .NET ใช้ไลบรารี `CsvHelper` อ่านคอลัมน์ `EID`, `DOI`, `Title`, `Source title`, `Year` แล้ว Upsert เข้า `FacultyPublication` โดยข้ามรายการที่มี `EID` หรือ `DOI` ซ้ำอยู่แล้ว
 
 ---

@@ -1,6 +1,6 @@
 <!--
   วิธีใช้ไฟล์นี้: คัดลอกไปวางในโฟลเดอร์ bounded context ที่เกี่ยวข้อง (ดู requirements/README.md)
-  แล้วเปลี่ยนชื่อไฟล์เป็นภาษาอังกฤษ kebab-case เช่น faculty-cv.md, training-request.md
+  แล้วเปลี่ยนชื่อไฟล์เป็นภาษาอังกฤษ kebab-case เช่น faculty-profile.md, training-request.md
   ลบบรรทัดคำแนะนำ (ขึ้นต้นด้วย >) ออกได้หลังจากกรอกเสร็จ หรือจะเก็บไว้ก็ได้ไม่มีผลอะไร
 -->
 

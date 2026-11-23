@@ -18,7 +18,7 @@ This file is intentionally short. Detailed project context, rules, and specifica
 ## Then, as needed
 
 - **[.ai/architecture.md](.ai/architecture.md)** — Clean Architecture layering, stack, bounded-context folder map (`ReferenceData`, `Faculty`, `Training`, `Students`, `ProfessionalLicense`, `SeniorProjects`, `Integration`, `Reporting`, `Security`), and data/sync conventions.
-- **[.ai/domain.md](.ai/domain.md)** — bilingual domain glossary and core workflows (Faculty CV, 4 Training categories & budget ledger, Student CV & achievements, Graduate employment reconciliation, License exams `CC1/CC2/IP1/IP2/PC1/PC2`, Senior Project PDF & page-3 Abstract compilation).
+- **[.ai/domain.md](.ai/domain.md)** — bilingual domain glossary and core workflows (Faculty, 4 Training categories & budget ledger, Students & achievements, Graduate employment reconciliation, License exams `CC1/CC2/IP1/IP2/PC1/PC2`, Senior Project PDF & page-3 Abstract compilation).
 - **[.ai/coding-rules.md](.ai/coding-rules.md)** — naming conventions and binding technical rules (append-only `TrainingBudgetLedger`, non-destructive external sync, optimistic concurrency `xmin`, `AuditLog`, permissions, PDPA protection).
 - **[.ai/dev-workflow.md](.ai/dev-workflow.md)** — install/run/test/build/migrate commands and hybrid AI workflow.
 - **[.ai/prompt-templates.md](.ai/prompt-templates.md)** — copy-paste AI session starters for each stage of feature work (entity → EF config → CQRS feature → unit test → functional test → frontend → e2e).

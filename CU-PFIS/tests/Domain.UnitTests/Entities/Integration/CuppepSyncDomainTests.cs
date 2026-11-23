@@ -145,4 +145,46 @@ public sealed class CuppepSyncDomainTests
         student.HighSchoolTh.ShouldBe("โรงเรียนใหม่");
         student.IsStaffVerifiedEdit.ShouldBeTrue();
     }
+
+    [Test]
+    public void Student_UpsertExternalInternship_IsIdempotentAndUpdatesOnChange()
+    {
+        var student = new Student(
+            "6633009935",
+            "พิมพา",
+            "ฝึกงานดี",
+            "Pimpa",
+            "InternGood",
+            cohortAcademicYearId: 1,
+            studyYear: 6,
+            majorId: 1);
+
+        student.UpsertExternalInternship(
+            "CUPPEP-ROT-101",
+            "บริษัท สยามเภสัช จำกัด",
+            "การปฏิบัติงานวิชาชีพ 1",
+            "ผลัด 1 · พ.ค. 2569",
+            rotationTypeEn: "Professional Practice I").ShouldBeTrue();
+
+        // Exact same payload -> idempotent (false)
+        student.UpsertExternalInternship(
+            "CUPPEP-ROT-101",
+            "บริษัท สยามเภสัช จำกัด",
+            "การปฏิบัติงานวิชาชีพ 1",
+            "ผลัด 1 · พ.ค. 2569",
+            rotationTypeEn: "Professional Practice I").ShouldBeFalse();
+
+        student.Internships.Count.ShouldBe(1);
+
+        // Updated period -> updates in place without duplicating
+        student.UpsertExternalInternship(
+            "CUPPEP-ROT-101",
+            "บริษัท สยามเภสัช จำกัด",
+            "การปฏิบัติงานวิชาชีพ 1",
+            "ผลัด 2 · มิ.ย. 2569",
+            rotationTypeEn: "Professional Practice I").ShouldBeTrue();
+
+        student.Internships.Count.ShouldBe(1);
+        student.Internships.First().PeriodLabel.ShouldBe("ผลัด 2 · มิ.ย. 2569");
+    }
 }

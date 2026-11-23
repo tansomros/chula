@@ -1535,6 +1535,16 @@ namespace Chula.Infrastructure.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("academic_advisor_id");
 
+                    b.Property<string>("AcademicAdvisorNameEn")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("academic_advisor_name_en");
+
+                    b.Property<string>("AcademicAdvisorNameTh")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("academic_advisor_name_th");
+
                     b.Property<int?>("AdmissionRoundId")
                         .HasColumnType("integer")
                         .HasColumnName("admission_round_id");
@@ -1784,6 +1794,557 @@ namespace Chula.Infrastructure.Data.Migrations
                     b.ToTable("student_internships", (string)null);
                 });
 
+            modelBuilder.Entity("Chula.Domain.Entities.Training.FacultyTrainingBudgetAllocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AnnualQuotaAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("annual_quota_amount");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<int>("FacultyMemberId")
+                        .HasColumnType("integer")
+                        .HasColumnName("faculty_member_id");
+
+                    b.Property<int>("FiscalYearBe")
+                        .HasColumnType("integer")
+                        .HasColumnName("fiscal_year_be");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<decimal?>("MaxBorrowAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("max_borrow_amount");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_faculty_training_budget_allocations");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_faculty_training_budget_allocations_external_id");
+
+                    b.HasIndex("FacultyMemberId", "FiscalYearBe")
+                        .IsUnique()
+                        .HasDatabaseName("ix_faculty_training_budget_allocations_faculty_member_id_fisca");
+
+                    b.ToTable("faculty_training_budget_allocations", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_faculty_budget_alloc_borrow_nonneg", "max_borrow_amount IS NULL OR max_borrow_amount >= 0");
+
+                            t.HasCheckConstraint("ck_faculty_budget_alloc_quota_nonneg", "annual_quota_amount >= 0");
+                        });
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingApprovalHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("ActionAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("action_at");
+
+                    b.Property<string>("ActorLogin")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("actor_login");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<string>("FromStatus")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("from_status");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("note");
+
+                    b.Property<string>("ToStatus")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("to_status");
+
+                    b.Property<int>("TrainingRequestId")
+                        .HasColumnType("integer")
+                        .HasColumnName("training_request_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_training_approval_histories");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_training_approval_histories_external_id");
+
+                    b.HasIndex("TrainingRequestId", "ActionAt")
+                        .HasDatabaseName("ix_training_approval_histories_training_request_id_action_at");
+
+                    b.ToTable("training_approval_histories", (string)null);
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingBudgetLedgerEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTimeOffset>("EffectiveAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("effective_at");
+
+                    b.Property<string>("EntryType")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("entry_type");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<int>("FacultyMemberId")
+                        .HasColumnType("integer")
+                        .HasColumnName("faculty_member_id");
+
+                    b.Property<int>("FiscalYearBe")
+                        .HasColumnType("integer")
+                        .HasColumnName("fiscal_year_be");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<string>("RecordedBy")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<int?>("SourceFiscalYearBe")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_fiscal_year_be");
+
+                    b.Property<int?>("TrainingRequestId")
+                        .HasColumnType("integer")
+                        .HasColumnName("training_request_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_training_budget_ledger_entries");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_training_budget_ledger_entries_external_id");
+
+                    b.HasIndex("TrainingRequestId")
+                        .HasDatabaseName("ix_training_budget_ledger_entries_training_request_id");
+
+                    b.HasIndex("FacultyMemberId", "FiscalYearBe")
+                        .HasDatabaseName("ix_training_budget_ledger_entries_faculty_member_id_fiscal_yea");
+
+                    b.ToTable("training_budget_ledger_entries", (string)null);
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingBudgetPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("AllowFutureQuotaBorrowing")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("allow_future_quota_borrowing");
+
+                    b.Property<decimal>("AnnualQuotaAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("annual_quota_amount");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date")
+                        .HasColumnName("end_date");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<int>("FiscalYearBe")
+                        .HasColumnType("integer")
+                        .HasColumnName("fiscal_year_be");
+
+                    b.Property<int>("FiscalYearCe")
+                        .HasColumnType("integer")
+                        .HasColumnName("fiscal_year_ce");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<decimal>("MaxBorrowAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("max_borrow_amount");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date")
+                        .HasColumnName("start_date");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_training_budget_policies");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_training_budget_policies_external_id");
+
+                    b.HasIndex("FiscalYearBe")
+                        .IsUnique()
+                        .HasDatabaseName("ix_training_budget_policies_fiscal_year_be");
+
+                    b.ToTable("training_budget_policies", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_training_budget_policies_borrow_nonneg", "max_borrow_amount >= 0");
+
+                            t.HasCheckConstraint("ck_training_budget_policies_quota_nonneg", "annual_quota_amount >= 0");
+                        });
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ApprovedAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("approved_amount");
+
+                    b.Property<DateTimeOffset?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_at");
+
+                    b.Property<string>("BankAccountHolderName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("bank_account_holder_name");
+
+                    b.Property<string>("BankAccountNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("bank_account_number");
+
+                    b.Property<string>("BankName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("bank_name");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("category");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("deleted_by");
+
+                    b.Property<DateTimeOffset?>("DeletedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_on");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date")
+                        .HasColumnName("end_date");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("external_id");
+
+                    b.Property<int>("FacultyMemberId")
+                        .HasColumnType("integer")
+                        .HasColumnName("faculty_member_id");
+
+                    b.Property<int>("FiscalYearBe")
+                        .HasColumnType("integer")
+                        .HasColumnName("fiscal_year_be");
+
+                    b.Property<DateTimeOffset?>("ImportedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("imported_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modified");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("last_modified_by");
+
+                    b.Property<string>("OrganizerAndVenueEn")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("organizer_and_venue_en");
+
+                    b.Property<string>("OrganizerAndVenueTh")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("organizer_and_venue_th");
+
+                    b.Property<decimal>("RequestedAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("requested_amount");
+
+                    b.Property<string>("RevisionNote")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("revision_note");
+
+                    b.Property<string>("SessionTopicEn")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("session_topic_en");
+
+                    b.Property<string>("SessionTopicTh")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("session_topic_th");
+
+                    b.Property<string>("SourceRecordId")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("source_record_id");
+
+                    b.Property<string>("SourceSystem")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("source_system");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date")
+                        .HasColumnName("start_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTimeOffset?>("SubmittedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("submitted_at");
+
+                    b.Property<string>("TitleEn")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("title_en");
+
+                    b.Property<string>("TitleTh")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("title_th");
+
+                    b.Property<DateTimeOffset?>("VerifiedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("verified_at");
+
+                    b.Property<string>("WorkType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("work_type");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_training_requests");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_training_requests_external_id");
+
+                    b.HasIndex("SourceRecordId")
+                        .HasDatabaseName("ix_training_requests_source_record_id");
+
+                    b.HasIndex("FacultyMemberId", "FiscalYearBe")
+                        .HasDatabaseName("ix_training_requests_faculty_member_id_fiscal_year_be");
+
+                    b.HasIndex("FiscalYearBe", "Status")
+                        .HasDatabaseName("ix_training_requests_fiscal_year_be_status");
+
+                    b.ToTable("training_requests", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_training_requests_approved_nonneg", "approved_amount >= 0");
+
+                            t.HasCheckConstraint("ck_training_requests_date_range", "end_date >= start_date");
+
+                            t.HasCheckConstraint("ck_training_requests_requested_nonneg", "requested_amount >= 0");
+                        });
+                });
+
             modelBuilder.Entity("Chula.Domain.Entities.Faculty.FacultyEducation", b =>
                 {
                     b.HasOne("Chula.Domain.Entities.Faculty.FacultyMember", "FacultyMember")
@@ -1921,6 +2482,62 @@ namespace Chula.Infrastructure.Data.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("Chula.Domain.Entities.Training.FacultyTrainingBudgetAllocation", b =>
+                {
+                    b.HasOne("Chula.Domain.Entities.Faculty.FacultyMember", "FacultyMember")
+                        .WithMany()
+                        .HasForeignKey("FacultyMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_faculty_training_budget_allocations_faculty_members_faculty");
+
+                    b.Navigation("FacultyMember");
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingApprovalHistory", b =>
+                {
+                    b.HasOne("Chula.Domain.Entities.Training.TrainingRequest", "TrainingRequest")
+                        .WithMany("ApprovalHistory")
+                        .HasForeignKey("TrainingRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_training_approval_histories_training_requests_training_requ");
+
+                    b.Navigation("TrainingRequest");
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingBudgetLedgerEntry", b =>
+                {
+                    b.HasOne("Chula.Domain.Entities.Faculty.FacultyMember", "FacultyMember")
+                        .WithMany()
+                        .HasForeignKey("FacultyMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_training_budget_ledger_entries_faculty_members_faculty_memb");
+
+                    b.HasOne("Chula.Domain.Entities.Training.TrainingRequest", "TrainingRequest")
+                        .WithMany("BudgetLedgerEntries")
+                        .HasForeignKey("TrainingRequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_training_budget_ledger_entries_training_requests_training_r");
+
+                    b.Navigation("FacultyMember");
+
+                    b.Navigation("TrainingRequest");
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingRequest", b =>
+                {
+                    b.HasOne("Chula.Domain.Entities.Faculty.FacultyMember", "FacultyMember")
+                        .WithMany()
+                        .HasForeignKey("FacultyMemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_training_requests_faculty_members_faculty_member_id");
+
+                    b.Navigation("FacultyMember");
+                });
+
             modelBuilder.Entity("Chula.Domain.Entities.Faculty.FacultyMember", b =>
                 {
                     b.Navigation("Educations");
@@ -1946,6 +2563,13 @@ namespace Chula.Infrastructure.Data.Migrations
             modelBuilder.Entity("Chula.Domain.Entities.Students.Student", b =>
                 {
                     b.Navigation("Internships");
+                });
+
+            modelBuilder.Entity("Chula.Domain.Entities.Training.TrainingRequest", b =>
+                {
+                    b.Navigation("ApprovalHistory");
+
+                    b.Navigation("BudgetLedgerEntries");
                 });
 #pragma warning restore 612, 618
         }

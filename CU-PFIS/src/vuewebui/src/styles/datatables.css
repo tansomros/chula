@@ -1,0 +1,279 @@
+@import 'datatables.net-dt/css/dataTables.dataTables.css';
+
+.cu-datatable-wrap {
+  --dt-header_border: 1px solid #e4e1ea;
+  --dt-header_padding: 12px 14px;
+  --dt-body_border: 1px solid #eeebf3;
+  --dt-body_padding: 10px 14px;
+  --dt-row_background-hover: 200, 75, 122;
+  --dt-row_alpha-hover: 0.04;
+  --dt-row_background-stripe: 31, 36, 48;
+  --dt-row_alpha-stripe: 0.015;
+  --dt-column-ordering_background: 200, 75, 122;
+  --dt-column-ordering_alpha: 0.025;
+  --dt-order-arrow_color: #63687a;
+  --dt-order-arrow_color-current: #c84b7a;
+  --dt-order-arrow_opacity: 0.3;
+  --dt-order-arrow_opacity-current: 1;
+  --dt-order-header_outline-hover: none;
+  --dt-control_color: #1f2430;
+  --dt-input_border: 1px solid #d5d1de;
+  --dt-input_border-radius: 8px;
+  --dt-input_padding: 6px 12px;
+  --dt-input_background: #ffffff;
+  --dt-input_color: #1f2430;
+  --dt-paging-button_padding: 6px 12px;
+  --dt-paging-button_margin-left: 4px;
+  --dt-paging-button_border-radius: 8px;
+  --dt-paging-button_color: #374151;
+  --dt-paging-button_border: 1px solid #e4e1ea;
+  --dt-paging-button_background: #ffffff;
+  --dt-paging-button_color-hover: #c84b7a;
+  --dt-paging-button_border-hover: 1px solid #c84b7a;
+  --dt-paging-button_background-hover: #fdf2f6;
+  --dt-paging-button_color-current: #ffffff;
+  --dt-paging-button_border-current: 1px solid #c84b7a;
+  --dt-paging-button_background-current: #c84b7a;
+  --dt-paging-button_color-current-hover: #ffffff;
+  --dt-paging-button_border-current-hover: 1px solid #a13760;
+  --dt-paging-button_background-current-hover: #a13760;
+  --dt-paging-button_color-disabled: #b0b4c0;
+  --dt-paging-button_border-disabled: 1px solid #eeebf3;
+  --dt-paging-button_background-disabled: #faf9fc;
+  padding: 16px;
+}
+
+.cu-datatable-wrap div.dt-container {
+  font-family: var(--cu-font-sans);
+  font-size: 0.9rem;
+  color: #1f2430;
+}
+
+.cu-datatable-wrap div.dt-container div.dt-layout-row:first-child {
+  margin-top: 0;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.cu-datatable-wrap div.dt-container div.dt-layout-row:last-child {
+  margin-top: 14px;
+  margin-bottom: 0;
+  gap: 12px;
+}
+
+.cu-datatable-wrap div.dt-container div.dt-layout-table {
+  overflow-x: auto;
+  margin: 0;
+}
+
+.cu-datatable-wrap div.dt-container .dt-length,
+.cu-datatable-wrap div.dt-container .dt-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cu-datatable-wrap div.dt-container .dt-length label,
+.cu-datatable-wrap div.dt-container .dt-search label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: #4b5060;
+  font-weight: 500;
+  margin: 0;
+}
+
+.cu-datatable-wrap div.dt-container .dt-length select.dt-input {
+  min-width: 76px;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+.cu-datatable-wrap div.dt-container .dt-search input.dt-input {
+  min-width: 240px;
+  margin-left: 0;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cu-datatable-wrap div.dt-container .dt-input:focus {
+  outline: none;
+  border-color: #c84b7a;
+  box-shadow: 0 0 0 3px rgba(200, 75, 122, 0.14);
+}
+
+.cu-datatable-wrap table.dataTable {
+  border-collapse: collapse;
+  width: 100% !important;
+}
+
+.cu-datatable-wrap table.dataTable > thead > tr > th {
+  background-color: #f8f6fa;
+  color: #374151;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.cu-datatable-wrap table.dataTable > thead > tr > th.dt-orderable-asc:hover,
+.cu-datatable-wrap table.dataTable > thead > tr > th.dt-orderable-desc:hover {
+  background-color: #f1ecf5;
+}
+
+.cu-datatable-wrap table.dataTable > thead > tr > th.dt-ordering-asc,
+.cu-datatable-wrap table.dataTable > thead > tr > th.dt-ordering-desc {
+  color: #a13760;
+}
+
+.cu-datatable-wrap table.dataTable > tbody > tr > td {
+  vertical-align: middle;
+  font-size: 0.875rem;
+}
+
+.cu-datatable-wrap table.dataTable > tbody > tr > td.dt-empty {
+  padding: 32px 16px;
+  color: #63687a;
+}
+
+.cu-datatable-wrap div.dt-container .dt-info {
+  font-size: 0.85rem;
+  color: #63687a;
+}
+
+.cu-datatable-wrap div.dt-container .dt-paging {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.cu-datatable-wrap div.dt-container .dt-paging .dt-paging-button {
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.25;
+  transition: all 0.15s ease;
+}
+
+/* Reusable cell UI primitives (Vuetify-matched, no appContext dependency inside DataTables renderers) */
+.cu-dt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.cu-dt-chip--xs {
+  padding: 1px 7px;
+  font-size: 0.7rem;
+}
+
+.cu-dt-chip--primary {
+  background-color: rgba(200, 75, 122, 0.12);
+  color: #a13760;
+}
+
+.cu-dt-chip--secondary {
+  background-color: rgba(38, 106, 90, 0.12);
+  color: #1b4e42;
+}
+
+.cu-dt-chip--success {
+  background-color: rgba(21, 128, 61, 0.12);
+  color: #15803d;
+}
+
+.cu-dt-chip--info {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+}
+
+.cu-dt-chip--warning {
+  background-color: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+
+.cu-dt-chip--error {
+  background-color: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+}
+
+.cu-dt-chip--default {
+  background-color: rgba(100, 116, 139, 0.14);
+  color: #475569;
+}
+
+.cu-dt-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.cu-dt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-family: var(--cu-font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.cu-dt-btn--tonal-primary {
+  border: 1px solid transparent;
+  background-color: rgba(200, 75, 122, 0.12);
+  color: #a13760;
+}
+
+.cu-dt-btn--tonal-primary:hover {
+  background-color: rgba(200, 75, 122, 0.22);
+}
+
+.cu-dt-btn--tonal-secondary {
+  border: 1px solid transparent;
+  background-color: rgba(38, 106, 90, 0.12);
+  color: #266a5a;
+}
+
+.cu-dt-btn--tonal-secondary:hover {
+  background-color: rgba(38, 106, 90, 0.22);
+}
+
+.cu-dt-btn--outlined {
+  border: 1px solid #c9c4d4;
+  background-color: #ffffff;
+  color: #1f2430;
+}
+
+.cu-dt-btn--outlined:hover {
+  border-color: #c84b7a;
+  color: #c84b7a;
+  background-color: #fdf2f6;
+}
+
+@media print {
+  .cu-datatable-wrap {
+    padding: 0;
+  }
+
+  .cu-datatable-wrap div.dt-container .dt-length,
+  .cu-datatable-wrap div.dt-container .dt-search,
+  .cu-datatable-wrap div.dt-container .dt-paging,
+  .cu-datatable-wrap table.dataTable .dt-column-order {
+    display: none !important;
+  }
+}

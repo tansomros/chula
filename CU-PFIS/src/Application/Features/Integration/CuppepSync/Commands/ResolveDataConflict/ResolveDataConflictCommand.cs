@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Integration.CuppepSync.Commands.ResolveDataConflict;
 
-[RequirePermission(PermissionConstants.StudentsCv.Edit)]
+[RequirePermission(PermissionConstants.Students.Edit)]
 public sealed record ResolveDataConflictCommand(
     Guid ConflictExternalId,
     string Action,
@@ -74,7 +74,8 @@ public sealed class ResolveDataConflictCommandHandler : IRequestHandler<ResolveD
                 incoming.HighSchoolTh,
                 incoming.HighSchoolEn,
                 incoming.SourceRecordId,
-                now);
+                now,
+                academicAdvisorNameTh: incoming.AcademicAdvisorNameTh);
 
             conflict.ResolveAcceptIncoming(resolvedBy, now, request.Note);
             await _context.SaveChangesAsync(cancellationToken);

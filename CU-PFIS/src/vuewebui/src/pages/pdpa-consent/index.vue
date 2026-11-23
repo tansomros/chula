@@ -53,7 +53,7 @@ async function handleAccept() {
             <v-icon icon="mdi-shield-account-outline" color="white" size="28" />
           </v-avatar>
           <div>
-            <div class="text-caption font-weight-bold text-primary">
+            <div class="text-caption font-weight-bold text-primary cu-heading-font">
               {{ t('pdpa.subtitle') }}
             </div>
             <h1 class="text-h6 font-weight-bold">{{ t('pdpa.title') }}</h1>

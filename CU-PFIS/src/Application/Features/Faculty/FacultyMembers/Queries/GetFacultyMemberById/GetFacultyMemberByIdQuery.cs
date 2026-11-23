@@ -1,6 +1,7 @@
 using Chula.Application.Common.Exceptions;
 using Chula.Application.Common.Interfaces;
 using Chula.Application.Common.Security;
+using Chula.Domain.Enums.Training;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +33,20 @@ public sealed record FacultyMemberDetailDto(
     DateTimeOffset? LastCvConfirmedAt,
     DateTimeOffset LastUpdatedAt,
     IReadOnlyList<FacultyEducationDto> Educations,
-    IReadOnlyList<FacultyPublicationDto> Publications);
+    IReadOnlyList<FacultyPublicationDto> Publications,
+    IReadOnlyList<FacultyApprovedTrainingDto> ApprovedTrainings);
+
+public sealed record FacultyApprovedTrainingDto(
+    Guid ExternalId,
+    int FiscalYearBe,
+    string Category,
+    string WorkType,
+    string TitleTh,
+    string? TitleEn,
+    string OrganizerAndVenueTh,
+    string? OrganizerAndVenueEn,
+    DateOnly StartDate,
+    DateOnly EndDate);
 
 public sealed record FacultyEducationDto(
     Guid ExternalId,
@@ -90,6 +104,24 @@ public sealed class GetFacultyMemberByIdQueryHandler
 
         EnsureCanView(member.ExternalId, member.Department.ExternalId);
 
+        // Auto-link Section 8 (Training History) directly from Approved TrainingRequests (A05)
+        var approvedTrainings = await _context.TrainingRequests
+            .AsNoTracking()
+            .Where(t => t.FacultyMemberId == member.Id && t.Status == TrainingRequestStatus.Approved)
+            .OrderByDescending(t => t.StartDate)
+            .Select(t => new FacultyApprovedTrainingDto(
+                t.ExternalId,
+                t.FiscalYearBe,
+                t.Category.ToString(),
+                t.WorkType.ToString(),
+                t.TitleTh,
+                t.TitleEn,
+                t.OrganizerAndVenueTh,
+                t.OrganizerAndVenueEn,
+                t.StartDate,
+                t.EndDate))
+            .ToListAsync(cancellationToken);
+
         return new FacultyMemberDetailDto(
             member.ExternalId,
             member.PersonnelCode,
@@ -136,7 +168,8 @@ public sealed class GetFacultyMemberByIdQueryHandler
                     p.Doi,
                     p.ScopusId,
                     p.SourceSystem))
-                .ToList());
+                .ToList(),
+            approvedTrainings);
     }
 
     private void EnsureCanView(Guid memberExternalId, Guid departmentExternalId)
@@ -146,7 +179,7 @@ public sealed class GetFacultyMemberByIdQueryHandler
             return;
         }
 
-        if (_currentUserService.HasPermission(PermissionConstants.FacultyCv.ViewAll))
+        if (_currentUserService.HasPermission(PermissionConstants.Faculty.ViewAll))
         {
             if (_currentUserService.DepartmentExternalId.HasValue &&
                 _currentUserService.DepartmentExternalId.Value != departmentExternalId)
@@ -157,12 +190,12 @@ public sealed class GetFacultyMemberByIdQueryHandler
             return;
         }
 
-        if (_currentUserService.HasPermission(PermissionConstants.FacultyCv.ViewOwn) &&
+        if (_currentUserService.HasPermission(PermissionConstants.Faculty.ViewOwn) &&
             _currentUserService.FacultyMemberExternalId == memberExternalId)
         {
             return;
         }
 
-        throw new ForbiddenAccessException("You do not have permission to view this Faculty CV.");
+        throw new ForbiddenAccessException("You do not have permission to view this Faculty profile.");
     }
 }

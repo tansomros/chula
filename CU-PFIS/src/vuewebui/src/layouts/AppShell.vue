@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useAbility } from '@casl/vue'
@@ -17,6 +17,16 @@ const { pick } = useLocalizedField()
 
 const drawer = ref(true)
 const switchingPersona = ref(false)
+const openGroups = ref(route.path.startsWith('/trainings') ? ['trainings'] : [])
+
+watch(
+  () => route.path,
+  (path) => {
+    if (path.startsWith('/trainings') && !openGroups.value.includes('trainings')) {
+      openGroups.value = [...openGroups.value, 'trainings']
+    }
+  },
+)
 
 const personaOptions = computed(() =>
   Object.values(DEMO_PERSONAS).map((persona) => ({
@@ -26,7 +36,7 @@ const personaOptions = computed(() =>
   })),
 )
 
-const canViewStudents = computed(() => can('view', 'students-cv'))
+const canViewStudents = computed(() => can('view', 'students'))
 const globalApiError = computed(() => authStore.apiError || refStore.error)
 
 function toggleLocale(nextLocale) {
@@ -70,7 +80,7 @@ async function retryApiConnection() {
           <v-icon icon="mdi-mortar-board" color="white" />
         </v-avatar>
         <div class="overflow-hidden">
-          <div class="text-subtitle-1 font-weight-bold text-primary line-height-tight">
+          <div class="text-subtitle-1 font-weight-bold text-primary line-height-tight cu-heading-font">
             {{ t('app.acronym') }}
           </div>
           <div class="text-caption cu-muted text-truncate">
@@ -84,7 +94,7 @@ async function retryApiConnection() {
       </v-chip>
     </div>
 
-    <v-list density="comfortable" nav class="pa-3">
+    <v-list v-model:opened="openGroups" density="comfortable" nav class="pa-3 cu-sidebar-nav">
       <v-list-item
         to="/"
         prepend-icon="mdi-view-dashboard-outline"
@@ -101,21 +111,59 @@ async function retryApiConnection() {
       <v-list-item
         to="/faculty-members/list"
         prepend-icon="mdi-account-tie-outline"
-        :title="t('nav.facultyCv')"
+        :title="t('nav.faculty')"
         color="primary"
         rounded="lg"
-        data-testid="nav-faculty-cv"
+        data-testid="nav-faculty"
       />
 
       <v-list-item
         v-if="canViewStudents"
         to="/students/list"
         prepend-icon="mdi-school-outline"
-        :title="t('nav.studentCv')"
+        :title="t('nav.students')"
         color="primary"
         rounded="lg"
-        data-testid="nav-student-cv"
+        data-testid="nav-students"
       />
+
+      <v-list-group value="trainings">
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="mdi-cash-multiple"
+            :title="t('nav.training')"
+            color="primary"
+            rounded="lg"
+            data-testid="nav-training"
+          />
+        </template>
+
+        <v-list-item
+          to="/trainings/list"
+          prepend-icon="mdi-format-list-bulleted"
+          :title="t('training.tabRequests')"
+          color="primary"
+          rounded="lg"
+          data-testid="nav-training-requests"
+        />
+        <v-list-item
+          to="/trainings/faculty-budgets"
+          prepend-icon="mdi-wallet-outline"
+          :title="t('training.tabFacultyBudgets')"
+          color="primary"
+          rounded="lg"
+          data-testid="nav-training-budgets"
+        />
+        <v-list-item
+          to="/trainings/events"
+          prepend-icon="mdi-calendar-star-outline"
+          :title="t('training.tabEvents')"
+          color="primary"
+          rounded="lg"
+          data-testid="nav-training-events"
+        />
+      </v-list-group>
 
       <v-list-item
         to="/pdpa-consent"
@@ -129,17 +177,6 @@ async function retryApiConnection() {
       <v-list-subheader class="mt-4 text-uppercase font-weight-bold">
         {{ t('nav.upcomingGroup') }}
       </v-list-subheader>
-
-      <v-list-item
-        disabled
-        prepend-icon="mdi-cash-multiple"
-        :title="t('nav.training')"
-        rounded="lg"
-      >
-        <template #append>
-          <v-chip size="x-small" variant="tonal">P2</v-chip>
-        </template>
-      </v-list-item>
 
       <v-list-item
         disabled
@@ -236,7 +273,7 @@ async function retryApiConnection() {
     <v-app-bar-nav-icon @click="drawer = !drawer" />
 
     <div class="d-none d-md-flex flex-column ml-2">
-      <span class="text-subtitle-2 font-weight-bold">{{ t('app.fullName') }}</span>
+      <span class="text-subtitle-1 font-weight-bold cu-heading-font">{{ t('app.fullName') }}</span>
     </div>
 
     <v-spacer />
@@ -263,7 +300,7 @@ async function retryApiConnection() {
       density="compact"
       color="primary"
       variant="outlined"
-      class="mr-4"
+      class="mr-4 mr-md-6"
       data-testid="locale-switcher"
       @update:model-value="toggleLocale"
     >
@@ -273,7 +310,7 @@ async function retryApiConnection() {
   </v-app-bar>
 
   <v-main class="bg-background">
-    <v-container fluid class="pa-6" style="max-width: 1400px">
+    <v-container fluid class="pa-4 pa-md-6">
       <v-alert
         v-if="globalApiError"
         type="error"

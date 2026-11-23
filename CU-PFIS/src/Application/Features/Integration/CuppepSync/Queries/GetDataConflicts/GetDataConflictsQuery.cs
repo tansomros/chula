@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chula.Application.Features.Integration.CuppepSync.Queries.GetDataConflicts;
 
-[RequirePermission(PermissionConstants.StudentsCv.View)]
+[RequirePermission(PermissionConstants.Students.View)]
 public sealed record GetDataConflictsQuery(string? Status = "Pending")
     : IRequest<IReadOnlyList<DataConflictQueueItemDto>>;
 
