@@ -23,10 +23,10 @@
                     <li><a href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ประวัติการฝึกปฏิบัติงานวิชาชีพ</span></a></li>  
                 <% End If%>           
     
-                <% If Request.QueryString("ActionType") = "mnuPracticeHistory" Then%>
-                  <li class="active"><a class="active" href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ผลงานนิสิต</span></a></li>
+                <% If Request("ActionType") = "port" Then%>
+                  <li class="active"><a class="active" href="StudentAchievement.aspx?ActionType=port"><i class="fa fa-trophy"></i> <span>ผลงานนิสิต</span></a></li>
                 <% Else%>
-                  <li><a href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ผลงานนิสิต</span></a></li>  
+                  <li><a href="StudentAchievement.aspx?ActionType=port"><i class="fa fa-trophy"></i> <span>ผลงานนิสิต</span></a></li>  
                 <% End If%>    
      
                 <% If Request.QueryString("ActionType") = "mnuPrintBio" Then%>

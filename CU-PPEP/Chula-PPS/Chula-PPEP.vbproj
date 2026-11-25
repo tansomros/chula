@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -288,6 +288,9 @@
     <Content Include="Student_Bio.aspx" />
     <Content Include="Person_Reg.aspx" />
     <Content Include="PracticeHistory.aspx" />
+    <Content Include="StudentAchievement.aspx" />
+    <Content Include="StudentAchievementModify.aspx" />
+    <Content Include="css\student-achievement.css" />
     <Content Include="Reports\printStudentBio.aspx" />
     <Content Include="ResultPage.aspx" />
     <Content Include="Teacher_Reg.aspx" />
@@ -1233,12 +1236,27 @@
       <DependentUpon>Person_Reg.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Controllers\StudentAchievementController.vb" />
     <Compile Include="PracticeHistory.aspx.designer.vb">
       <DependentUpon>PracticeHistory.aspx</DependentUpon>
     </Compile>
     <Compile Include="PracticeHistory.aspx.vb">
       <DependentUpon>PracticeHistory.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="StudentAchievement.aspx.designer.vb">
+      <DependentUpon>StudentAchievement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAchievement.aspx.vb">
+      <DependentUpon>StudentAchievement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StudentAchievementModify.aspx.designer.vb">
+      <DependentUpon>StudentAchievementModify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAchievementModify.aspx.vb">
+      <DependentUpon>StudentAchievementModify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\printStudentBio.aspx.designer.vb">
       <DependentUpon>printStudentBio.aspx</DependentUpon>

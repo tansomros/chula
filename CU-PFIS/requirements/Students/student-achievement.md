@@ -64,6 +64,7 @@
 
 - ผูกกับ `Student` ด้วย `StudentCode` และแสดงในหัวข้อที่ 8 ของ `Students` เมื่อ `Status == Verified`
 - เชื่อมโยงกับระบบ `CUPPEP`:
+  - นิสิตบันทึกข้อมูลผ่านหน้า `StudentAchievement.aspx` / `StudentAchievementModify.aspx` ลงตาราง `dbo.StudentAchievements` ในฐานข้อมูล `chula_pps` (ไม่ใส่ prefix `PFIS_`)
   - เก็บ `SourceSystem = "CUPPEP"`, `SourceRecordId` และ `ImportedAt`
   - หากรายการที่เจ้าหน้าที่กด **"ตกลง" (`Verified`)** หรือแก้ไขใน `CU-PFIS` แล้วมีการส่งข้อมูลซ้ำจาก `CUPPEP` ต้องตรวจเปรียบเทียบและนำเข้าคิวตรวจสอบ ไม่ทับสถานะที่รับรองแล้วโดยอัตโนมัติ
 

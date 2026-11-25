@@ -143,6 +143,7 @@ Chula-PPS/
 | `StudentPrintBio.aspx`, `StudentPrintCert.aspx` | Print bios & certificates |
 | `StudentCert.aspx` | Certificate management |
 | `StudentAsmStatus.aspx` | Assessment status overview |
+| `StudentAchievement.aspx`, `StudentAchievementModify.aspx` | Student achievements & awards list and self-entry (`dbo.StudentAchievements`) |
 | `COVIDScreening.aspx`, `COVIDList.aspx` | COVID-19 screening (pandemic feature) |
 
 ### 3. 🏥 Practice Location Management
@@ -242,6 +243,11 @@ ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.Text, SQL)
 
 > [!WARNING]
 > Several controllers contain **inline SQL with string concatenation**, which is vulnerable to SQL injection (e.g., `StudentController.GetStudentBio_ByID`, `UserController.GetUsers_ByUsername`, `UserController.User_GetEmail`).
+
+### Database Table Naming Convention (`chula_pps`)
+
+- New tables created in `chula_pps` **must NOT use a `PFIS_` prefix**.
+- Name new tables in clean `PascalCase` matching existing `chula_pps` domain tables (e.g., `dbo.StudentAchievements`, `dbo.StudentProfileExt`, `dbo.StudentLicenseResults`, `dbo.StudentEmploymentRound1`), and always use parameterized `SqlCommand` queries.
 
 ---
 

@@ -96,6 +96,7 @@ flowchart LR
 2. **ความปลอดภัยต่อฐานข้อมูลเดิม (`chula_pps`):**
    - `CU-PPEP` **ไม่มี WebAPI แยก** แต่ `CU-PFIS API` ทำหน้าที่เป็น Single API บนเซิร์ฟเวอร์เดียวกัน โดยดึงข้อมูลแบบ **Read-Only** จาก `chula_pps` ผ่าน Adapter เฉพาะทางในชั้น Infrastructure (`SqlCuppepDataSource : ICuppepDataSource` ด้วย `Microsoft.Data.SqlClient` + Dapper และ Connection String `ConnectionStrings:CuppepSqlServer`)
    - ชั้น `Domain` และ `Application` ไม่แตะ SQL Server โดยตรง และ `ChulaDbContext` (EF Core) ยังคงเชื่อมต่อเฉพาะ **PostgreSQL (`cupharm`)** เพียงฐานข้อมูลเดียว จึงไม่มีความเสี่ยงที่ Migration จะไปแก้ไขหรือลบตารางเดิมใน `chula_pps`
+   - **กฎการตั้งชื่อตารางใหม่ใน `chula_pps`:** ตารางที่สร้างเพิ่มใหม่ในฐานข้อมูล `chula_pps` ให้ตั้งชื่อแบบ `PascalCase` ตามโดเมนตรง ๆ ให้สอดคล้องกับตารางเดิม (เช่น `dbo.StudentAchievements`, `dbo.StudentProfileExt`, `dbo.StudentLicenseResults`, `dbo.StudentEmploymentRound1`) **โดยไม่ต้องใส่ prefix `PFIS_`**
 3. **Non-Destructive Sync (`ImportBatch` → `StagingRecord` → `DataConflictQueue`):**
    - ข้อมูลที่ดึงมาจาก `CU-PPEP` หรือแหล่งภายนอกจะเก็บแหล่งที่มา (`SourceSystem`, `SourceRecordId`, `ImportedAt`) เสมอ
    - หากรายการใดถูกเจ้าหน้าที่ตรวจสอบหรือแก้ไขรับรองใน `CU-PFIS` ไปแล้ว การดึงข้อมูลรอบถัดไปจะ **ไม่เขียนทับอัตโนมัติ** แต่จะส่งเข้าคิว `DataConflictQueue` ให้เจ้าหน้าที่พิจารณาตัดสินใจ

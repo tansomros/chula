@@ -38,6 +38,7 @@ Read this before making any change in the **CU-PFIS** (**Chula Pharmacy Faculty 
 
 - MUST NOT modify anything inside the sibling folder `../CU-BCP/` (an unrelated existing Faculty website residing in the same `D:\Projects\Chula` repository).
 - MUST NOT write to `CU-PPEP`'s MS SQL Server database (`chula_pps`) from `CU-PFIS`, and MUST NOT query SQL Server from `Domain`, `Application`, or `ChulaDbContext` (EF Core stays strictly PostgreSQL-only) — always pull read-only CUPPEP data via `ICuppepDataSource` (implemented in Infrastructure by `SqlCuppepDataSource` using `Microsoft.Data.SqlClient` + Dapper, per `D11 — Option 1B`).
+- MUST NOT prefix new tables created in `chula_pps` with `PFIS_` — always use clean `PascalCase` domain table names matching existing `chula_pps` conventions (e.g., `dbo.StudentAchievements`, `dbo.StudentProfileExt`, `dbo.StudentLicenseResults`, `dbo.StudentEmploymentRound1`).
 - MUST NOT silently overwrite staff-verified or staff-edited records in **CU-PFIS** when re-importing data from CUPPEP, Google Sheets, or external Excel/CSV files.
 - MUST NOT match imported records by person name alone or by Google Sheet row number — always use stable identifiers (`StudentCode`, `PersonnelCode`, `SourceRecordId`).
 - MUST NOT expose sensitive personal data (such as faculty bank account numbers or confidential employer evaluations) in unauthorized API responses, general exports, or plaintext logs.
