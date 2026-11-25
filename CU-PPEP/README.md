@@ -100,7 +100,7 @@ Chula-PPS/
 ├── Reports/                  # RDLC report files
 ├── css/                      # Stylesheets (AdminLTE, custom)
 ├── js/                       # JavaScript files
-├── components/               # Frontend packages (Bootstrap, jQuery, etc.)
+├── components/               # Frontend packages (Bootstrap, jQuery, etc.) — see *Local development*
 ├── plugins/                  # iCheck and other plugins
 ├── images/                   # Application images
 ├── imgStudent/               # Student photos
@@ -289,6 +289,135 @@ sequenceDiagram
 | `ReportServerURL` | `http://45.154.25.254/ReportServer` | SSRS endpoint |
 | `globalization` | `th-TH` | Thai locale |
 | `targetFramework` | `4.8` | .NET Framework version |
+
+---
+
+## Local development
+
+### สรุปภาษาไทย — รันในเครื่องและแก้หน้าเว็บไม่สวย (CSS เพี้ยน)
+
+**รันโปรเจกต์**
+
+1. เปิด `Chula-PPS/Chula-PPS.vbproj` ใน Visual Studio (.NET Framework 4.8)
+2. ตั้งค่า DB ใน `Web.config` (`ServerPath`, `DatabaseName`, `Username`, `Password`)
+3. กด F5 (IIS Express) — URL ดูใน `Chula-PPS.vbproj.user` เช่น `http://localhost:52396/`
+4. แอปต้องรันโดยมี root เป็นโฟลเดอร์ `Chula-PPS` เพื่อให้ path แบบ `components/...` ถูกต้อง
+
+**ทำไมหน้าตาไม่เหมือน production**
+
+- หน้าเว็บอ้าง CSS/JS จากโฟลเดอร์ **`components/.../dist/`** (Bootstrap, jQuery, Select2, FullCalendar)
+- ใน git มักมีแค่ **source ของ Bower** (เช่น `less/`, `src/`) **ไม่มีโฟลเดอร์ `dist`** ที่ build แล้ว
+- เซิร์ฟเวอร์จริงมีครบ แต่เครื่อง dev ที่ clone มาอาจขาด → browser โหลดไม่ได้ (404) → layout AdminLTE พัง ไม่มี sidebar/ไอคอน
+- โฟลเดอร์ `css/AdminLTE.min.css`, `plugins/`, `font-awesome` มักมีอยู่แล้ว ส่วนที่ขาดบ่อยคือ **`bootstrap`**, **`jquery`**, **`select2`**, **`fullcalendar`** ใต้ `dist/`
+- หน้า login บางหน้าโหลด Bootstrap จาก CDN ด้วย จึงอาจดู “ไม่พังทั้งหมด” แต่หลัง login ยังเพี้ยนได้ถ้า `dist/` หาย
+
+**วิธีเอาไฟล์กลับมา** (เลือกทางใดทางหนึ่ง)
+
+| ทาง | ทำอย่างไร |
+|---|---|
+| A | แตก `CHULAPPEP.zip` แล้วคัดลอก `components/{bootstrap,jquery,select2,fullcalendar}/dist/` มาวางใน `Chula-PPS/components/` |
+| B | ใช้ `robocopy` จากโฟลเดอร์สำรองที่มีครบ (เช่น `xChula\CHULAPPEP\Chula-PPS`) — ดูสคริปต์ PowerShell ในหัวข้อด้านล่าง |
+| C | คัดลอกโฟลเดอร์ `dist` เดียวกันจาก IIS บน server production (`chulappep.com`) |
+
+หลังคัดลอกแล้วกด **Ctrl+F5** หรือล้าง cache ก่อนเทียบกับ production
+
+**ตรวจสอบ**
+
+- เปิด DevTools → **Network** → กรอง CSS/JS → เปิด `Default.aspx` หรือ `Home.aspx`
+- ต้องไม่มี **404** ใต้ `components/.../dist/`
+
+**Master page กับ path AdminLTE**
+
+- `Site.Master` ใช้ `css/AdminLTE.min.css` และ `css/skins/_all-skins.min.css` (ถูกต้อง)
+- `SiteSimple.Master`, `Site000.Master` ต้องใช้ path เดียวกันในโฟลเดอร์ **`css/`** ไม่ใช่ `dist/css/...`
+- ถ้าเฉพาะบางหน้าเพี้ยน ให้ดูว่าใช้ master ไหนและ path ใน `<link>` ตรงกับไฟล์จริงหรือไม่
+
+**สำหรับทีม:** ถือว่า `components/{bootstrap,jquery,select2,fullcalendar}/dist` เป็น **ไฟล์ที่ต้องมีตอนรัน** เทียบเท่า `css/` และ `plugins/` — ควร commit ใน git หรือบังคับขั้นตอน restore หลัง clone ทุกครั้ง
+
+---
+
+### Run the application
+
+1. Open `Chula-PPS/Chula-PPS.vbproj` in Visual Studio (target **.NET Framework 4.8**).
+2. Set `Web.config` `appSettings` (`ServerPath`, `DatabaseName`, `Username`, `Password`) for a database you can reach.
+3. Press **F5** (IIS Express). The URL is stored in `Chula-PPS.vbproj.user` (e.g. `http://localhost:52396/`).
+4. The site root must be the `Chula-PPS` folder so relative paths such as `components/bootstrap/dist/...` resolve correctly.
+
+### Frontend static assets (`components/*/dist/`)
+
+Master pages and many `.aspx` files load CSS/JS from **built vendor paths**, for example:
+
+| Referenced in UI | Typical path |
+|---|---|
+| Bootstrap 3 | `components/bootstrap/dist/css/bootstrap.min.css`, `.../js/bootstrap.min.js` |
+| jQuery | `components/jquery/dist/jquery.min.js` |
+| Select2 | `components/select2/dist/css/select2.min.css`, `.../js/select2.full.min.js` |
+| FullCalendar | `components/fullcalendar/dist/fullcalendar.min.css` |
+| AdminLTE theme | `css/AdminLTE.min.css`, `css/skins/_all-skins.min.css` (not under `components/`) |
+
+The repository often contains **Bower source trees** under `components/` (`less/`, `src/`, etc.) **without** the corresponding `dist/` folders. Those `dist/` files exist on the production deploy but are easy to omit when copying or cloning the project. If they are missing, the app still runs but the browser returns **404** for Bootstrap/jQuery and the layout looks unstyled (broken AdminLTE sidebar, no icons, wrong login layout).
+
+`css/AdminLTE.min.css` and most files under `css/`, `plugins/`, and `components/font-awesome/` are usually present; the gaps are most often **`bootstrap`**, **`jquery`**, **`select2`**, and **`fullcalendar`** `dist/` trees.
+
+### Restore missing `dist/` files
+
+Use one of the following (pick whichever you have locally):
+
+**Option A — Full deployment archive**
+
+If you have `CHULAPPEP.zip` (deploy snapshot), extract only the vendor build outputs, for example:
+
+- `CHULAPPEP/Chula-PPS/components/bootstrap/dist/`
+- `CHULAPPEP/Chula-PPS/components/jquery/dist/`
+- `CHULAPPEP/Chula-PPS/components/select2/dist/`
+- `CHULAPPEP/Chula-PPS/components/fullcalendar/dist/`
+
+Copy those folders into the matching paths under `Chula-PPS/components/`.
+
+**Option B — Sync from an existing tree (PowerShell on Windows)**
+
+When another copy of the site on disk already has `dist/` (e.g. `xChula\CHULAPPEP\Chula-PPS`):
+
+```powershell
+$srcRoot = "D:\path\to\CHULAPPEP\Chula-PPS\components"
+$dstRoot = "D:\Projects\Chula\CU-PPEP\Chula-PPS\components"
+
+foreach ($name in @("bootstrap", "jquery", "select2", "fullcalendar")) {
+  $from = Join-Path $srcRoot "$name\dist"
+  $to   = Join-Path $dstRoot "$name\dist"
+  if (Test-Path $from) {
+    robocopy $from $to /E
+  }
+}
+```
+
+(`robocopy` exit codes **0–7** mean the copy succeeded; **8+** indicates errors.)
+
+**Option C — Production server**
+
+Copy the same `components/*/dist/` folders from the IIS site directory on the server that hosts `chulappep.com`.
+
+After restoring, hard-refresh the browser (**Ctrl+F5**) or clear cache before comparing layout to production.
+
+### Verify in the browser
+
+1. Open **Developer Tools → Network**, filter by **CSS** and **JS**.
+2. Load `Default.aspx` or `Home.aspx` after login.
+3. Confirm there are **no 404** responses for paths under `components/.../dist/`.
+
+Some public/login pages also load **Bootstrap or fonts from CDN** (`Default.aspx`). A page can look partly styled while logged-in AdminLTE pages still break if local `dist/` files are missing.
+
+### Master pages and AdminLTE paths
+
+| Master | AdminLTE / skins |
+|---|---|
+| `Site.Master` (main app) | `css/AdminLTE.min.css`, `css/skins/_all-skins.min.css` |
+| `SiteSimple.Master`, `Site000.Master` | Same `css/` paths (not `dist/css/...`) |
+
+If only some pages look wrong, check which master page they use and that its `<link>` / `<script>` paths match files that exist on disk.
+
+> [!TIP]
+> For team onboarding, treat `components/bootstrap/dist`, `components/jquery/dist`, `components/select2/dist`, and `components/fullcalendar/dist` as **required runtime assets** alongside `css/` and `plugins/`. Either commit them in git or document a mandatory restore step after clone.
 
 ---
 

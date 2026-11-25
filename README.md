@@ -8,8 +8,8 @@ Repository กลางสำหรับรวบรวมระบบสาร
 
 | โฟลเดอร์ | ชื่อระบบ | บทบาทและขอบเขตงาน | Tech Stack | ฐานข้อมูล |
 | --- | --- | --- | --- | --- |
-| [`CU-PFIS/`](CU-PFIS/) | **Chula Pharmacy Faculty Information System**<br>(ระบบสารสนเทศคณะเภสัชศาสตร์) | **ระบบหลัก (Master System)** ที่พัฒนาขึ้นใหม่ สำหรับบริหารข้อมูลอาจารย์ (CV), การอบรมและงบประมาณ, ข้อมูลนิสิต/ศิษย์เก่า, ผลงาน/รางวัล, การได้งานทำ, ผู้ใช้บัณฑิต, ผลสอบใบประกอบวิชาชีพ, โครงงานนิสิต และรายงานย้อนหลัง 10 ปี | **.NET 10** (Clean Architecture, CQRS/MediatR, EF Core) + **Vue 3 / Vuetify 3** (TH/EN) | PostgreSQL (`chula`) |
-| [`CU-PPEP/`](CU-PPEP/) | **Chula Pharmacy Professional Experience Practice**<br>(ระบบฝึกปฏิบัติงานวิชาชีพเภสัชกรรม) | ประกอบด้วย 2 ส่วน:<br>1. **`Chula-PPS/`**: เว็บเดิมที่ใช้งานอยู่จริง (`chulappep.com`) สำหรับบริหารการฝึกปฏิบัติงานวิชาชีพ และเป็นหน้าให้นิสิตกรอกข้อมูลพื้นฐาน/ผลงาน/ผลสอบ/การได้งานทำรอบแรก<br>2. **`WebAPI/`**: RESTful Integration API ใหม่สำหรับเปิดข้อมูลให้ `CU-PFIS` ดึงไปใช้งานอย่างปลอดภัย | 1. **ASP.NET Web Forms** (VB.NET, .NET Framework 4.8, DevExpress)<br>2. **.NET 10** (Clean Architecture, EF Core) | MS SQL Server (`chula_pps`) |
+| [`CU-PFIS/`](CU-PFIS/) | **Chula Pharmacy Faculty Information System**<br>(ระบบสารสนเทศคณะเภสัชศาสตร์) | **ระบบหลัก (Master System)** ที่พัฒนาขึ้นใหม่ สำหรับบริหารข้อมูลอาจารย์ (CV), การอบรมและงบประมาณ, ข้อมูลนิสิต/ศิษย์เก่า, ผลงาน/รางวัล, การได้งานทำ, ผู้ใช้บัณฑิต, ผลสอบใบประกอบวิชาชีพ, โครงงานนิสิต และรายงานย้อนหลัง 10 ปี | **.NET 10** (Clean Architecture, CQRS/MediatR, EF Core) + **Vue 3 / Vuetify 3** (TH/EN) | PostgreSQL (`cupharm`) |
+| [`CU-PPEP/`](CU-PPEP/) | **Chula Pharmacy Professional Experience Practice**<br>(ระบบฝึกปฏิบัติงานวิชาชีพเภสัชกรรม) | **`Chula-PPS/`**: เว็บเดิมที่ใช้งานอยู่จริง (`chulappep.com`) สำหรับบริหารการฝึกปฏิบัติงานวิชาชีพ และเป็นหน้าให้นิสิตกรอกข้อมูลพื้นฐาน/ผลงาน/ผลสอบ/การได้งานทำรอบแรก *(ไม่มี WebAPI แยก — `CU-PFIS API` ดึงข้อมูลแบบ Read-Only จากฐานข้อมูล `chula_pps` โดยตรงผ่าน `SqlCuppepDataSource`)* | **ASP.NET Web Forms** (VB.NET, .NET Framework 4.8, DevExpress) | MS SQL Server (`chula_pps`) |
 | [`CU-BCP/`](CU-BCP/) | **Chula BCP**<br>(ระบบเว็บไซต์และฐานข้อมูลหลักสูตรเภสัชกรประจำบ้าน) | ระบบเว็บไซต์ประชาสัมพันธ์ CMS และฐานข้อมูลหลักสูตรเภสัชกรประจำบ้านเดิม *(เก็บไว้รวมใน repo นี้เพื่อการจัดการโค้ดเท่านั้น — **อยู่นอกขอบเขตงาน CU-PFIS ห้ามแก้ไขโดยไม่ได้รับคำสั่ง**)* | **ASP.NET Web Forms** (VB.NET, .NET Framework 4.5, DevExpress) | MS SQL Server |
 
 ---
@@ -26,36 +26,26 @@ Chula/
 │   ├── AGENTS.md                      # จุดเริ่มต้นบริบทสำหรับ AI Agent
 │   ├── chula.sln                      # .NET 10 Solution
 │   ├── .doc/                          # เอกสาร Requirement ต้นฉบับจากลูกค้า (req071169.pdf ฯลฯ)
-│   ├── .ai/                           # บริบทสถาปัตยกรรม, Domain Glossary, Coding Rules, Roadmap (D01–D11, Q01–Q18)
+│   ├── .ai/                           # บริบทสถาปัตยกรรม, Domain Glossary, Coding Rules, Roadmap (D01–D12, Q01–Q18 / A01–A18)
 │   ├── requirements/                  # สเปกฟีเจอร์ภาษาไทยแยกตาม Bounded Context
 │   ├── src/
 │   │   ├── Domain/                    # Entities, Enums, Value Objects, Domain Events (Dual-key: Id + ExternalId)
-│   │   ├── Application/               # CQRS Commands/Queries (MediatR), Validators, Behaviours, Interfaces
-│   │   ├── Infrastructure/            # ChulaDbContext (PostgreSQL), Migrations, Interceptors, External Adapters
+│   │   ├── Application/               # CQRS Commands/Queries (MediatR), Validators, Behaviours, Interfaces (ICuppepDataSource)
+│   │   ├── Infrastructure/            # ChulaDbContext (PostgreSQL), Migrations, Interceptors, SqlCuppepDataSource (Read-Only Dapper)
 │   │   ├── API/                       # ASP.NET Core Web API (Thin Controllers + Swagger/OpenAPI)
 │   │   └── vuewebui/                  # Frontend (Vue 3 + Vuetify 3 + Pinia + vue-i18n TH/EN + CASL)
 │   └── tests/
 │       ├── Domain.UnitTests/          # Unit Tests สำหรับ Domain
-│       └── Application.FunctionalTests/ # Functional / Integration Tests (PostgreSQL chula-test)
+│       └── Application.FunctionalTests/ # Functional / Integration Tests (PostgreSQL cupharm-test)
 │
-├── CU-PPEP/                           # ระบบฝึกปฏิบัติงานวิชาชีพเภสัชกรรม (Legacy + Integration API)
+├── CU-PPEP/                           # ระบบฝึกปฏิบัติงานวิชาชีพเภสัชกรรม (Legacy Web Application)
 │   ├── README.md                      # เอกสารอธิบายสถาปัตยกรรมและโมดูลของ Chula-PPS
 │   ├── Chula-PPEP.sln                 # Solution ของเว็บเดิม (Web Forms)
-│   ├── Chula-PPS/                     # [Legacy Web] ASP.NET Web Forms (VB.NET / .NET Framework 4.8)
-│   │   ├── Controllers/               # Data Access Layer (SqlHelper / Stored Procedures)
-│   │   ├── Models/                    # DTOs และ Typed DataSets
-│   │   ├── Reports/                   # รายงาน RDLC / SSRS
-│   │   └── *.aspx / *.aspx.vb         # หน้าจอ Web Forms (130+ หน้า)
-│   └── WebAPI/                        # [Integration API] RESTful API (.NET 10 Clean Architecture)
-│       ├── README.md                  # เอกสาร Endpoint และ EF Core Migrations ของ CU-PPEP API
-│       ├── CuPpepApi.sln              # .NET 10 Solution
-│       ├── src/
-│       │   ├── Domain/                # Legacy Read-Only Views + Extension Entities
-│       │   ├── Application/           # CQRS Use Cases (MediatR) + ICuPpepDbContext
-│       │   ├── Infrastructure/        # CuPpepDbContext (MS SQL Server), Legacy ModelBuilder, Migrations
-│       │   └── API/                   # RESTful Endpoints + Swagger UI
-│       └── tests/
-│           └── Application.UnitTests/ # Unit / Integration API Tests
+│   └── Chula-PPS/                     # [Legacy Web] ASP.NET Web Forms (VB.NET / .NET Framework 4.8)
+│       ├── Controllers/               # Data Access Layer (SqlHelper / Stored Procedures)
+│       ├── Models/                    # DTOs และ Typed DataSets
+│       ├── Reports/                   # รายงาน RDLC / SSRS
+│       └── *.aspx / *.aspx.vb         # หน้าจอ Web Forms (130+ หน้า)
 │
 └── CU-BCP/                            # [Out of Scope / Reference Only] ระบบหลักสูตรเภสัชกรประจำบ้าน
     ├── README.md                      # ขอบเขตความสามารถของระบบ CU-BCP แบ่งตามเฟส (Phase 1–3)
@@ -67,16 +57,14 @@ Chula/
 
 ## 3. สถาปัตยกรรมการเชื่อมต่อระหว่างระบบ (Integration Architecture)
 
-ระบบถูกออกแบบตามแนวทาง **Two-API Integration Architecture** เพื่อให้ระบบใหม่ (`CU-PFIS`) แยกขาดจากโครงสร้างฐานข้อมูลเดิมของ `CU-PPEP` อย่างปลอดภัย และป้องกันไม่ให้ข้อมูลที่เจ้าหน้าที่ตรวจสอบรับรองแล้วถูกเขียนทับโดยอัตโนมัติ
+ระบบถูกออกแบบตามแนวทาง **Single-API Direct Read-Only Integration Architecture (`Option 1B` — Same Server / 2 Domains)** โดยไม่มีการสร้าง WebAPI แยกใน `CU-PPEP` เพื่อให้ดูแลรักษาง่าย ขณะที่ยังคงแยกขาดฐานข้อมูลเดิม (`chula_pps`) ออกจาก EF Core ของ `CU-PFIS` และป้องกันไม่ให้ข้อมูลที่เจ้าหน้าที่ตรวจสอบรับรองแล้วถูกเขียนทับโดยอัตโนมัติ
 
 ```mermaid
 flowchart LR
-    subgraph CUPPEP["CU-PPEP (ระบบฝึกปฏิบัติงานวิชาชีพ)"]
+    subgraph CUPPEP["CU-PPEP (Domain 1 — ระบบฝึกปฏิบัติงานวิชาชีพ)"]
         LEGACY["Chula-PPS WebForms\n(.NET Framework 4.8 / VB.NET)\nนิสิตกรอกข้อมูล & ฝึกงาน"]
-        MSSQL[("MS SQL Server\n(chula_pps)\nLegacy Tables + Extension Tables\n+ Read-only Views (vw_pfis_*)")]
-        PPEPAPI["CU-PPEP WebAPI\n(.NET 10 Clean Architecture)\nRESTful Integration API"]
-        LEGACY -->|Write / Read| MSSQL
-        MSSQL -->|Read Views + Extension CRUD| PPEPAPI
+        MSSQL[("MS SQL Server\n(chula_pps)\nLegacy Tables + Extension Tables\n+ Views")]
+        LEGACY -->|Connection String\nWrite / Read| MSSQL
     end
 
     subgraph EXTERNAL["แหล่งข้อมูลภายนอกอื่น ๆ"]
@@ -85,17 +73,17 @@ flowchart LR
         SCOPUS["Scopus / Excel Import\n(ผลงานตีพิมพ์ & ประวัติอบรม)"]
     end
 
-    subgraph CUPFIS["CU-PFIS (Master System — ระบบหลัก)"]
-        PFISAPI["CU-PFIS API\n(.NET 10 Clean Architecture)\nICuppepDataSource + Sync Engine"]
+    subgraph CUPFIS["CU-PFIS (Domain 2 — Master System / Single API)"]
+        PFISAPI["CU-PFIS API\n(.NET 10 Clean Architecture)\nSqlCuppepDataSource (SqlClient + Dapper)"]
         STAGING["ImportBatch → StagingRecord\n→ DataConflictQueue\n(Non-Destructive Sync)"]
-        PG[("PostgreSQL\n(chula)")]
+        PG[("PostgreSQL\n(cupharm)")]
         VUE["Vue 3 + Vuetify 3\n(Admin / Staff / Faculty)\nBilingual TH/EN"]
         PFISAPI --> STAGING
         STAGING --> PG
         VUE <-->|REST / OpenAPI| PFISAPI
     end
 
-    PPEPAPI -->|HTTPS One-Way Pull\nIncremental Sync| PFISAPI
+    MSSQL -->|Read-Only Connection String\nOne-Way Incremental Pull| PFISAPI
     GSHEET -->|Import| PFISAPI
     CHULA -->|Recheck & Confirm| PFISAPI
     SCOPUS -->|Import| PFISAPI
@@ -103,11 +91,11 @@ flowchart LR
 
 ### หลักการสำคัญของการแบ่งหน้าที่และเชื่อมต่อข้อมูล
 1. **การแบ่งหน้าที่ระหว่าง `CU-PPEP` กับ `CU-PFIS`:**
-   - **นิสิต** ใช้งานและกรอกข้อมูลตนเอง (ข้อมูลพื้นฐาน, รอบรับเข้า, ผลงาน/รางวัล, ผลสอบใบประกอบวิชาชีพ, การได้งานทำรอบแรก) ผ่าน **`CU-PPEP`** เพื่อลดความซ้ำซ้อนและไม่ให้เกิดการเขียนข้อมูลชนกัน
+   - **นิสิต** ใช้งานและกรอกข้อมูลตนเอง (ข้อมูลพื้นฐาน, รอบรับเข้า, ผลงาน/รางวัล, ผลสอบใบประกอบวิชาชีพ, การได้งานทำรอบแรก) ผ่าน **`CU-PPEP`** (`Chula-PPS`) เพื่อลดความซ้ำซ้อนและไม่ให้เกิดการเขียนข้อมูลชนกัน
    - **เจ้าหน้าที่ อาจารย์ และผู้ดูแลระบบ** ใช้งาน **`CU-PFIS`** เป็นระบบหลัก (Master System) สำหรับตรวจรับรองข้อมูล บริหารงบอบรม จัดการโครงงานนิสิต และออกรายงาน/Dashboard
 2. **ความปลอดภัยต่อฐานข้อมูลเดิม (`chula_pps`):**
-   - `CU-PFIS` **ไม่เชื่อมต่อตรง** เข้าไปที่ตารางของ MS SQL Server ของ `CU-PPEP` แต่ดึงข้อมูลผ่าน **`CU-PPEP/WebAPI`**
-   - `CU-PPEP/WebAPI` อ่านตารางเดิมผ่าน **Read-Only Views** (`vw_pfis_*`) โดย EF Core Migrations จะไม่แก้ไขหรือลบตารางเดิม ส่วนตารางใหม่ที่เพิ่มเพื่อรองรับฟีเจอร์ส่วนขยายจะแยกเป็น Code-First tables โดยเฉพาะ
+   - `CU-PPEP` **ไม่มี WebAPI แยก** แต่ `CU-PFIS API` ทำหน้าที่เป็น Single API บนเซิร์ฟเวอร์เดียวกัน โดยดึงข้อมูลแบบ **Read-Only** จาก `chula_pps` ผ่าน Adapter เฉพาะทางในชั้น Infrastructure (`SqlCuppepDataSource : ICuppepDataSource` ด้วย `Microsoft.Data.SqlClient` + Dapper และ Connection String `ConnectionStrings:CuppepSqlServer`)
+   - ชั้น `Domain` และ `Application` ไม่แตะ SQL Server โดยตรง และ `ChulaDbContext` (EF Core) ยังคงเชื่อมต่อเฉพาะ **PostgreSQL (`cupharm`)** เพียงฐานข้อมูลเดียว จึงไม่มีความเสี่ยงที่ Migration จะไปแก้ไขหรือลบตารางเดิมใน `chula_pps`
 3. **Non-Destructive Sync (`ImportBatch` → `StagingRecord` → `DataConflictQueue`):**
    - ข้อมูลที่ดึงมาจาก `CU-PPEP` หรือแหล่งภายนอกจะเก็บแหล่งที่มา (`SourceSystem`, `SourceRecordId`, `ImportedAt`) เสมอ
    - หากรายการใดถูกเจ้าหน้าที่ตรวจสอบหรือแก้ไขรับรองใน `CU-PFIS` ไปแล้ว การดึงข้อมูลรอบถัดไปจะ **ไม่เขียนทับอัตโนมัติ** แต่จะส่งเข้าคิว `DataConflictQueue` ให้เจ้าหน้าที่พิจารณาตัดสินใจ
@@ -130,8 +118,7 @@ flowchart LR
 - **เอกสารอ้างอิงเพิ่มเติม:** [`CU-PFIS/README.md`](CU-PFIS/README.md), [`CU-PFIS/.ai/architecture.md`](CU-PFIS/.ai/architecture.md), [`CU-PFIS/.ai/roadmap.md`](CU-PFIS/.ai/roadmap.md), [`CU-PFIS/.ai/domain.md`](CU-PFIS/.ai/domain.md)
 
 ### 4.2 `CU-PPEP` — ระบบฝึกปฏิบัติงานวิชาชีพเภสัชกรรม
-- **`Chula-PPS/` (Legacy Web Application):** ระบบ Web Forms (VB.NET / .NET Framework 4.8) จัดการการลงทะเบียนนิสิต แหล่งฝึก การจัดสรรแหล่งฝึก (PC2/Random/Manual) อาจารย์นิเทศก์ แหล่งฝึก การประเมินผล เกรด และใบรับรอง — ดูรายละเอียดที่ [`CU-PPEP/README.md`](CU-PPEP/README.md)
-- **`WebAPI/` (RESTful Integration API):** โปรเจ็ค `.NET 10` Clean Architecture ที่ใช้แนวทางเดียวกับ `CU-PFIS` (CQRS/MediatR, Dual-key `Id` + `ExternalId`, Soft Delete, Audit Interceptor, Swagger) สำหรับให้บริการ API ดึงข้อมูลนิสิต/อาจารย์จาก `chula_pps` และ CRUD ข้อมูลส่วนขยาย (`student-profiles`, `student-achievements`, `student-license-results`, `student-employments`) — ดูรายละเอียดที่ [`CU-PPEP/WebAPI/README.md`](CU-PPEP/WebAPI/README.md)
+- **`Chula-PPS/` (Legacy Web Application):** ระบบ Web Forms (VB.NET / .NET Framework 4.8) จัดการการลงทะเบียนนิสิต แหล่งฝึก การจัดสรรแหล่งฝึก (PC2/Random/Manual) อาจารย์นิเทศก์ แหล่งฝึก การประเมินผล เกรด และใบรับรอง รวมถึงเป็นช่องทางให้นิสิตกรอกข้อมูลส่วนขยายลง `chula_pps` เพื่อให้ `CU-PFIS` ดึงไปตรวจสอบแบบ Read-Only — ดูรายละเอียดที่ [`CU-PPEP/README.md`](CU-PPEP/README.md)
 
 ### 4.3 `CU-BCP` — ระบบหลักสูตรเภสัชกรประจำบ้าน
 - เว็บไซต์ประชาสัมพันธ์ (CMS), ฐานข้อมูลเภสัชกรประจำบ้าน/อาจารย์/แหล่งฝึก/คำร้อง และการจัดการเอกสารของหลักสูตร — ดูรายละเอียดขอบเขตเดิมที่ [`CU-BCP/README.md`](CU-BCP/README.md)
@@ -151,13 +138,6 @@ dotnet test CU-PFIS/chula.sln
 cd CU-PFIS/src/vuewebui
 npm install
 npm run dev
-```
-
-### รัน `CU-PPEP/WebAPI` (Integration API)
-```powershell
-dotnet build CU-PPEP/WebAPI/CuPpepApi.sln
-dotnet run --project CU-PPEP/WebAPI/src/API --launch-profile https
-dotnet test CU-PPEP/WebAPI/CuPpepApi.sln
 ```
 
 ### โปรเจ็ค Legacy (`CU-PPEP/Chula-PPS` และ `CU-BCP/ChulaBCP`)

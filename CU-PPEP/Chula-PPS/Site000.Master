@@ -92,8 +92,8 @@
  <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css"> 
   <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="components/Ionicons/css/ionicons.min.css">
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">  
+  <link rel="stylesheet" href="css/AdminLTE.min.css">
+  <link rel="stylesheet" href="css/skins/_all-skins.min.css">  
     <script type="text/javascript" src="css/jquery-1.6.3.min.js"></script>
 
 <body  class="hold-transition skin-blue sidebar-mini">

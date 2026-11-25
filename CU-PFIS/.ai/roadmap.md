@@ -4,7 +4,7 @@ Living document for **CU-PFIS** (**ระบบสารสนเทศคณะ
 
 ---
 
-## Confirmed Decisions & Proposals Register (`D01–D10`, `O01–O03`)
+## Confirmed Decisions & Proposals Register (`D01–D12`, `O01–O03`)
 
 - **D01 — Standalone Core Web Application (`CU-PFIS`):** Develop a new web application (**CU-PFIS**) for the Faculty of Pharmaceutical Sciences, Chulalongkorn University, separate from the existing **CUPPEP** system.
 - **D02 — Master Data Ownership & CUPPEP Input Split (`A02`):** **CU-PFIS** acts as the Master System for staff/faculty workflows, verification, and reporting. Students enter all their own data (CV details, achievements, license checklist, 1st-round employment) via new/existing input screens in **CUPPEP**, which **CU-PFIS** pulls to display and verify — minimizing concurrent write collisions.
@@ -72,7 +72,7 @@ This system underlies faculty profiles, academic training budgets, graduate empl
 - [x] Adapt `requirements/` structure (`README.md`, `_template.md`, bounded-context folders, and complete initial requirement specs across all 9 bounded contexts) and root `README.md`.
 - [x] Finalize official project name: **CU-PFIS** (**ระบบสารสนเทศคณะเภสัชศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย** / **Chula Pharmacy Faculty Information System**).
 - [x] **Stakeholder Q&A (`Q01–Q18` → `A01–A18`):** recorded confirmed answers across `.ai/` and `requirements/` (2026-11-21).
-- [ ] **Next Stakeholder Meeting:** finalize Dashboard KPIs & Word/PDF/Excel report templates (`A14`), confirm CUPPEP technical integration channel (`O01`), and confirm Scopus API credentials vs. import (`O03`).
+- [ ] **Next Stakeholder Meeting:** finalize Dashboard KPIs & Word/PDF/Excel report templates (`A14`), finalize CUPPEP extension screens/fields (`O01`), and confirm Scopus API credentials vs. import (`O03`).
 
 ---
 
@@ -174,4 +174,4 @@ This system underlies faculty profiles, academic training budgets, graduate empl
 2. **Google Form / Google Sheet:** โครงสร้างคอลัมน์จริงของแบบประเมินผู้ใช้บัณฑิตและข้อมูลการอบรมเดิม (ใช้ข้อมูลที่ปกปิดข้อมูลส่วนบุคคลแล้ว)
 3. **Sample Datasets:** ตัวอย่างข้อมูลนิสิต ผลงานนิสิต ข้อมูลการได้งานทำรอบคณะ และไฟล์ชุด Final จากจุฬาฯ
 4. **Sample Senior Project PDFs:** ไฟล์ PDF โครงงานนิสิตจริงจากหลายปีการศึกษา และตัวอย่างเล่มรวม Abstract เพื่อตรวจสอบโครงสร้างหน้าที่ 3
-5. **CUPPEP Technical Context:** โครงสร้างฐานข้อมูล/API ของระบบ CUPPEP ช่องทางการเชื่อมต่อ และรหัสบุคคลที่ใช้จับคู่ (`StudentCode`, `PersonnelCode`)
+5. **CUPPEP Technical Context:** โครงสร้างฐานข้อมูลและตารางส่วนขยายของระบบ CUPPEP (`chula_pps`) รวมถึงรหัสบุคคลที่ใช้จับคู่ (`StudentCode`, `PersonnelCode`)

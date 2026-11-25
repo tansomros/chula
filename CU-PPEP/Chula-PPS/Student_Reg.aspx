@@ -182,6 +182,31 @@
                                     <asp:TextBox ID="txtLevelClass" runat="server" CssClass="form-control text-center" Width="120px"></asp:TextBox>    
                                 </div>
                             </div>
+
+                              <div class="col-md-3">
+      <div class="form-group">
+          <label>รอบสมัครเข้าเรียน</label>
+                                      <asp:DropDownList ID="ddlAdmissionRound" runat="server"
+    CssClass="form-control select2">
+    <asp:ListItem Text="-- กรุณาเลือก --" Value="" />
+    <asp:ListItem Text="รอบ Portfolio" Value="" disabled="true" style="font-weight:bold" />
+    <asp:ListItem Text="  - Port โอลิมปิกวิชาการ" Value="1" />
+    <asp:ListItem Text="  - Port ภาษาอังกฤษ" Value="2" />
+    <asp:ListItem Text="รอบ Quota" Value="" disabled="true" style="font-weight:bold" />
+    <asp:ListItem Text="  - Quota สาธิตจุฬาฯ" Value="3" />
+    <asp:ListItem Text="  - Quota กีฬาชาติ" Value="4" />
+    <asp:ListItem Text="  - Quota จุฬาชนบท" Value="5" />
+    <asp:ListItem Text="  - Quota มหาดไทย" Value="6" />
+    <asp:ListItem Text="  - Quota กำเนิดวิทย์" Value="7" />
+    <asp:ListItem Text="รอบ กสพท." Value="8" style="font-weight:bold"/>
+    <asp:ListItem Text="อื่นๆ" Value="99" style="font-weight:bold"/>
+</asp:DropDownList>
+      </div>
+  </div>
+
+                          
+
+
                         </div>
                     </div>
                 </div>

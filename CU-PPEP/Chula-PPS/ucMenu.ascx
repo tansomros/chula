@@ -21,7 +21,13 @@
                     <li class="active"><a class="active" href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ประวัติการฝึกปฏิบัติงานวิชาชีพ</span></a></li>
                 <% Else%>
                     <li><a href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ประวัติการฝึกปฏิบัติงานวิชาชีพ</span></a></li>  
-                <% End If%>              
+                <% End If%>           
+    
+                <% If Request.QueryString("ActionType") = "mnuPracticeHistory" Then%>
+                  <li class="active"><a class="active" href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ผลงานนิสิต</span></a></li>
+                <% Else%>
+                  <li><a href="PracticeHistory.aspx?ActionType=mnuPracticeHistory"><i class="fa fa-history"></i> <span>ผลงานนิสิต</span></a></li>  
+                <% End If%>    
      
                 <% If Request.QueryString("ActionType") = "mnuPrintBio" Then%>
                     <li class="active"><a class="active" href="ReportViewerStudentBio.aspx?ActionType=mnuPrintBio" ><i class="fa fa-print"></i> <span>พิมพ์ประวัติ</span></a> </li>

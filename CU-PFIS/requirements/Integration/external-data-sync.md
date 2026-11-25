@@ -7,7 +7,7 @@
 | ผู้เขียน | ทีมวิเคราะห์ระบบ (อ้างอิง `.doc/req071169.pdf` หน้า 1–7, 10–11 และ `.ai/coding-rules.md`) |
 | วันที่เขียน | 2026-11-18 |
 | Roadmap Phase (ถ้ามี) | Phase 1–3 (CUPPEP Student Sync ใน Phase 1, Training Excel Import ใน Phase 2, Conflict Queue & Google Sheet ใน Phase 3) |
-| คำถามที่รอยืนยันจากลูกค้า (ถ้ามี) | ยืนยันแล้ว: `A02` (นิสิตกรอกที่ CUPPEP), `A04` (นำเข้าข้อมูลอบรมเก่าจาก Excel), `A07` (จนท. Recheck การได้งานทำเองใน CU-PFIS), `A13` (ข้อมูลย้อนหลัง 10 ปี จนท. กรอก/ตรวจแบบ Manual) — รอสรุป: ช่องทางเชื่อมต่อเทคนิค CUPPEP (`O01`) และช่องทาง Scopus (`O03` / `A16`) |
+| คำถามที่รอยืนยันจากลูกค้า (ถ้ามี) | ยืนยันแล้ว: `A02` (นิสิตกรอกที่ CUPPEP), `D11 / Option 1B` (ไม่มี WebAPI แยกใน CU-PPEP — CU-PFIS ดึงข้อมูลแบบ Read-Only จาก MS SQL Server `chula_pps` ผ่าน `SqlCuppepDataSource : ICuppepDataSource`), `A04` (นำเข้าข้อมูลอบรมเก่าจาก Excel), `A07` (จนท. Recheck การได้งานทำเองใน CU-PFIS), `A13` (ข้อมูลย้อนหลัง 10 ปี จนท. กรอก/ตรวจแบบ Manual) — รอสรุป: หน้าจอกรอกข้อมูลส่วนขยายใน `Chula-PPS` (`O01`) และช่องทาง Scopus (`O03` / `A16`) |
 
 ## 1. เป้าหมายและบริบท (Goal & Context)
 
